@@ -1,0 +1,35 @@
+product_index:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Product:index" }
+    methods:  GET
+
+
+product_test:
+    path:     /test
+    defaults: { _controller: "AppApplicationBundle:Product:test" }
+    methods:  GET
+    
+product_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppApplicationBundle:Product:show" }
+    methods:  GET
+    
+product_productList:
+    path:     /productList
+    defaults: { _controller: "AppApplicationBundle:Product:productList" }
+    methods:  GET
+    
+product_new:
+    path:     /new
+    defaults: { _controller: "AppApplicationBundle:Product:new" }
+    methods:  [GET, POST]
+
+product_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppApplicationBundle:Product:edit" }
+    methods:  [GET, POST]
+
+product_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppApplicationBundle:Product:delete" }
+    methods:  DELETE

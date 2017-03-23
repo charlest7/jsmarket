@@ -1,0 +1,22 @@
+Application\ApplicationBundle\Entity\Customer:
+    type: entity
+    table: null
+    repositoryClass: Application\ApplicationBundle\Repository\CustomerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        customerId:
+            type: string
+            length: '255'
+        customerName:
+            type: string
+            length: '255'
+        customerBirthdate:
+            type: datetime
+        customerJoinDate:
+            type: datetime
+    lifecycleCallbacks: {  }

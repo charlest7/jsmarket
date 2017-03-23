@@ -1,0 +1,11 @@
+cuctomer:
+    resource: "@CuctomerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app_application:
+    resource: "@AppApplicationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

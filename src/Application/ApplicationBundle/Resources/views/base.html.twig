@@ -1,0 +1,45 @@
+{% block stlyesheets %}
+		</head>
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+        	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+{% endblock %}
+
+{% block body %}
+  <div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li class="list-item-active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">Social</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Contact</a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+      <div id="header"><a id="fullPage" href="#">|||</a></div>
+      <div id="contentWrapper">
+        <article id="showCase">
+          <div class="article-header">Some of my other designs</div>
+          
+      </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+        <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
+	    <!-- DataTables -->
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+	    
+{% endblock %}

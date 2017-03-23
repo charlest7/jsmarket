@@ -1,0 +1,39 @@
+Application\ApplicationBundle\Entity\Product:
+    type: entity
+    table: null
+    repositoryClass: Application\ApplicationBundle\Repository\ProductRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '255'
+            unique: false
+        transactionId:
+            type: integer
+            length: '255'
+            unique: false
+        type:
+            type: string
+            length: '255'
+            unique: false
+        price:
+            type: integer
+            unique: false
+        date:
+            type: datetime
+            unique: false
+        details:
+            type: string
+            length: '255'
+            nullable: true
+            unique: false
+        customerid:
+            type: string
+            length: '255'
+            unique: false
+    lifecycleCallbacks: {  }

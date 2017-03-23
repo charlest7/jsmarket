@@ -1,0 +1,229 @@
+<?php
+
+namespace Application\ApplicationBundle\Entity;
+
+/**
+ * Product
+ */
+class Product
+{
+    /**
+     * @var int
+     */
+    private $id;
+    
+    
+    /**
+     * @var int
+     */
+    private $transactionId;
+    
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $type;
+
+    /**
+     * @var int
+     */
+    private $price;
+
+    /**
+     * @var \DateTime
+     */
+    private $date;
+
+    /**
+     * @var string
+     */
+    private $details;
+
+    /**
+     * @var string
+     */
+    private $customerid;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+     /**
+     * Set transactionId
+     *
+     * @param integer $transactionId
+     *
+     * @return Product
+     */
+    public function setTransactionId($transactionId)
+    {
+        $this->transactionId = $transactionId;
+
+        return $this;
+    }
+    
+    /**
+     * Get transactionId
+     *
+     * @return int
+     */
+    public function getTransactionId()
+    {
+    	return $this->transactionId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Product
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Product
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Product
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Product
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set details
+     *
+     * @param string $details
+     *
+     * @return Product
+     */
+    public function setDetails($details)
+    {
+        $this->details = $details;
+
+        return $this;
+    }
+
+    /**
+     * Get details
+     *
+     * @return string
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    /**
+     * Set customerid
+     *
+     * @param string $customerid
+     *
+     * @return Product
+     */
+    public function setCustomerid($customerid)
+    {
+        $this->customerid = $customerid;
+
+        return $this;
+    }
+
+    /**
+     * Get customerid
+     *
+     * @return string
+     */
+    public function getCustomerid()
+    {
+        return $this->customerid;
+    }
+}

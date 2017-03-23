@@ -1,0 +1,27 @@
+Application\ApplicationBundle\Entity\Transaction:
+    type: entity
+    table: null
+    repositoryClass: Application\ApplicationBundle\Repository\TransactionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        transactionId:
+            type: string
+            length: '255'
+            unique: true
+        transactionDate:
+            type: datetime
+        transactionTotalItem:
+            type: integer
+        transactionStoreId:
+            type: string
+            length: '255'
+            column: TransactionStoreId
+        transactionPaymentType:
+            type: string
+            length: '255'
+    lifecycleCallbacks: {  }

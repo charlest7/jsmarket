@@ -1,0 +1,3 @@
+cuctomer_homepage:
+    path:     /
+    defaults: { _controller: CuctomerBundle:Default:index }
