@@ -19,6 +19,11 @@ class Product
     private $transactionId;
     
     /**
+     * @var int
+     */
+    private $productId;
+    
+    /**
      * @var string
      */
     private $name;
@@ -27,12 +32,26 @@ class Product
      * @var string
      */
     private $type;
+    
+    /**
+     * @var int
+     */
+    private $capital;
 
     /**
      * @var int
      */
     private $price;
-
+    
+	
+    /**
+     * @var \DateTime
+     */
+    private $sellDate;
+    
+    /**
+     * 
+     */
     /**
      * @var \DateTime
      */
@@ -47,6 +66,11 @@ class Product
      * @var string
      */
     private $customerid;
+    
+    /**
+     * @var string
+     */
+    private $status;
 
 
     /**
@@ -81,6 +105,30 @@ class Product
     public function getTransactionId()
     {
     	return $this->transactionId;
+    }
+    
+    /**
+     * Set transactionId
+     *
+     * @param integer $productId
+     *
+     * @return Product
+     */
+    public function setProductId($productId)
+    {
+    	$this->productId = $productId;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get $productId
+     *
+     * @return int
+     */
+    public function getProductId()
+    {
+    	return $this->productId;
     }
 
     /**
@@ -130,6 +178,30 @@ class Product
     {
         return $this->type;
     }
+    
+    /**
+     * Set price
+     *
+     * @param integer $capital
+     *
+     * @return Capital
+     */
+    public function setCapital($capital)
+    {
+    	$this->capital = $capital;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get capital
+     *
+     * @return int
+     */
+    public function getCapital()
+    {
+    	return $this->capital;
+    }
 
     /**
      * Set price
@@ -153,6 +225,30 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+    
+    /**
+     * Set sellDate
+     *
+     * @param \DateTime $sellDate
+     *
+     * @return Product
+     */
+    public function setSellDate($sellDate)
+    {
+    	$this->sellDate = $sellDate;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getSellDate()
+    {
+    	return $this->sellDate;
     }
 
     /**
@@ -225,5 +321,29 @@ class Product
     public function getCustomerid()
     {
         return $this->customerid;
+    }
+    
+    /**
+     * Set customerid
+     *
+     * @param string $status
+     *
+     * @return Product
+     */
+    public function setStatus($status)
+    {
+    	$this->status = $status;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get customerid
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+    	return $this->status;
     }
 }

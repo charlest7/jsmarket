@@ -1,0 +1,145 @@
+{% extends 'AppApplicationBundle:product:base.html.twig'%}
+{% block stylesheets %}
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+  
+        	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <style>
+        .hidden-attr
+        {
+        	display:none;
+        }
+        </style>
+{% endblock %}
+
+{% block body %}
+
+ <h1>Products list</h1>
+      <div class="col-xs-12 content-container" style="margin-botom:50px">
+      	<div class="card">
+        	<div class="card-header" style="margin-top:20px;">
+         	 	Product List 
+        	</div>
+        	{{ form_start(form, { attr: {novalidate: 'novalidate'} }) }}
+             <div>
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.name,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_name">Username</label>
+ 				</div>
+             </div>
+             <div>
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.transactionId,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_transactionId">Transaction Id</label>
+ 				</div>
+             </div>
+             <div>
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.capital,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_capital">Capital</label>
+ 				</div>
+             </div>
+             <div class="hidden-attr" style="display:none;">
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.date,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_date">Date</label>
+ 				</div>
+             </div>
+             <div style="display:none;">
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.sellDate,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_sellDate">Transaction Date</label>
+ 				</div>
+             </div>
+             <div>
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.price,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_price">Price</label>
+ 				</div>
+             </div>
+             <div class="hidden-attr">
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.details,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_details">Details</label>
+ 				</div>
+             </div>
+             <div class="hidden-attr">
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.customerid,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_customerid">Customer Id</label>
+ 				</div>
+             </div>
+             <div>
+             	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+             	{{ form_widget( form.type,
+                                            { 'attr': {'class': 'mdl-textfield__input', 'type': 'text', } }
+                                        ) }}       
+                 <input class="mdl-textfield__input" id="country" name="form[type]"/>
+                   <label class="mdl-textfield__label" for="form[type]">Country</label>
+                           <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="country">
+                                 <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                                 <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                       		</ul>
+  				</div> 
+                 
+  				</div> 			 
+             </div>
+             <div>
+             	<div class="mdl-textfield mdl-js-textfield">
+             		{{ form_widget( form.status,
+                        { 'attr': {'class': 'mdl-textfield__input'} }
+                    ) }}
+                   <label class="mdl-textfield__label" for="application_applicationbundle_product_status">Status</label>
+ 				</div>
+             </div>
+             
+             <div style="margin-bottom:30px;">
+  			   			      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>submit</p></button>
+  			 
+  			 </div>
+  			 {{ form_end (form) }}
+      	  </div>
+
+	  </div>
+
+
+{% endblock %}
+{% block javascripts %}
+         <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
+	    <!-- DataTables -->
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+	    <script type="text/javascript">
+	    $(function () {
+        $('#example1').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+      </script>
+{% endblock %}

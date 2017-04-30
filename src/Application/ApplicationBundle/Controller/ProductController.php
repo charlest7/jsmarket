@@ -5,6 +5,7 @@ namespace Application\ApplicationBundle\Controller;
 use Application\ApplicationBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\Alias;
 
 /**
  * Product controller.
@@ -49,13 +50,69 @@ class ProductController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            
+            $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Product');
+            
+            $query = $entityRepository->createQueryBuilder('alias')
+            		->select('alias.productId')
+            		->setMaxResults(1)
+            		->orderBy('alias.productId','DESC')
+            		->getQuery();
+            $result = $query->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+            //set date
+            $currDate = date('Y-m-d H:i:s');
+            $product->setDate(new \DateTime($currDate));
+            
+            $lastIdProduct = implode(" ",$result);
+            $lastIndexProduct = substr($lastIdProduct, 4);
+            
+            echo $lastIdProduct." ";
+            $valIndexProduct = "";
+            for($x=0;$x<4;$x++){
+            	if($lastIndexProduct[$x] != 0 ){
+            		$valIndexProduct = $valIndexProduct.$lastIndexProduct[$x];
+            	}
+            }
+            echo $valIndexProduct.' ';
+            
+            $currIndexProductNull = "";
+            if( substr($currDate,5,2)  == substr($lastIdProduct,2,2)){  
+            	
+            	$currIndexProductPartial = $valIndexProduct+1;
+            	$currIndexProductNull;
+            	
+            	for($x=0;$x<4-strlen($currIndexProductPartial);$x++){
+            		$currIndexProductNull = $currIndexProductNull."0";
+            	}   
+            	
+            	$currIndexProduct = $currIndexProductNull.$currIndexProductPartial;
+            }else{
+            	$currIndexProduct = "0001";
+            }
+            
+            $newProductId = substr($currDate,2,2).substr($currDate,5,2)."1".$currIndexProduct;
+            
+            
+   
+            $product->setProductId($newProductId);
+            $product->setTransactionId("0");
+            
+           // echo substr($currDate,2,2);
+            //echo substr($currDate,5,2);
+          
+            //echo $product->getId();
+           
+            
+            
+            //$products = $em->getRepository('AppApplicationBundle:Product')->findOneBy(array('collaborateur'=>$collaborateur),array('id' => 'DESC'));
+            
             $em->persist($product);
             $em->flush($product);
 
             return $this->redirectToRoute('product_show', array('id' => $product->getId()));
         }
 
-        return $this->render('product/new.html.twig', array(
+        return $this->render('AppApplicationBundle:product:product_form.html.twig', array(
             'product' => $product,
             'form' => $form->createView(),
         ));
@@ -91,9 +148,9 @@ class ProductController extends Controller
             return $this->redirectToRoute('product_edit', array('id' => $product->getId()));
         }
 
-        return $this->render('product/edit.html.twig', array(
+        return $this->render('AppApplicationBundle:product:edit.html.twig', array(
             'product' => $product,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -135,6 +192,16 @@ class ProductController extends Controller
     public function testAction(Request $request)
     {
     	// replace this example code with whatever you need
+    	return $this->render('AppApplicationBundle:product:product_form.html.twig');
+    }
+    
+    /**
+     * Displays a form to edit an existing product entity.
+     *
+     */
+    public function productFormAction(Request $request)
+    {
+    	
     	return $this->render('AppApplicationBundle:product:base.html.twig');
     }
 }

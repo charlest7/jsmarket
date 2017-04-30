@@ -13,6 +13,10 @@ Application\ApplicationBundle\Entity\Product:
             type: string
             length: '255'
             unique: false
+        productId:
+            type: integer
+            length: '255'
+            unique: false
         transactionId:
             type: integer
             length: '255'
@@ -21,10 +25,16 @@ Application\ApplicationBundle\Entity\Product:
             type: string
             length: '255'
             unique: false
+        capital:
+            type: integer
+            unique: false    
         price:
             type: integer
             unique: false
         date:
+            type: datetime
+            unique: false
+        sellDate:
             type: datetime
             unique: false
         details:
@@ -33,6 +43,10 @@ Application\ApplicationBundle\Entity\Product:
             nullable: true
             unique: false
         customerid:
+            type: string
+            length: '255'
+            unique: false
+        status:
             type: string
             length: '255'
             unique: false

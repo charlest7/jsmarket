@@ -2,39 +2,43 @@
 {% block stylesheets %}
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        
         	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
         	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
         	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block body %}
     <h1>Products list</h1>
-      <div class="col-xs-12">
+      <div class="col-xs-12 content-container">
       	<div class="card">
-        	<div class="card-header">
-         	 	Datatable
+        	<div class="card-header" style="margin-top:20px;">
+         	 	Product List 
         	</div>
-        	<div class="card-body no-padding">
+        	<div class="card-body no-padding" style="margin-top:20px;">
           		<table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
+                        <th style="width:5%">Product Id</th>
+                        <th style="width:20%">Name</th>
+                        <th style="width:10%">Equity</th>
+                        <th style="width:10%">Price</th>
+                        <th style="width:20%">Date</th>
+                        <th style="width:10%">Status</th>
+                        <th style="width:25%"></th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for product in products %}
             			<tr>
-                			<td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
+                			<td><a href="{{ path('product_show', { 'id': product.productId }) }}">{{ product.productId }}</a></td>
                 			<td>{{ product.name }}</td>
-                			<td>{{ product.name }}</td>
+                			<td>{{ product.capital }}</td>
                 			<td>{{ product.price }}</td>
-                			<td>{% if product.date %}{{ product.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                			<td>{{ product.price }}</td>
+                			<td>{{ product.date|date('Y-m-d H:i:s') }}</td>
+                			<td><a href="{{ path('product_edit', { 'id': product.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a><i class="fa fa-trash-o" aria-hidden="true" style="margin-left:20px;"></i></td>
             			</tr>
         			 {% endfor %}
                     </tbody>

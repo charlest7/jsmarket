@@ -33,3 +33,11 @@ product_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppApplicationBundle:Product:delete" }
     methods:  DELETE
+product_form:
+    path:     /product_form
+    defaults: { _controller: "AppApplicationBundle:Product:productForm" }
+    methods:  [GET, POST]
+login_form:
+    path:     /login
+    defaults: { _controller: "AppApplicationBundle:Security:login" }
+    methods:  [GET, POST]
