@@ -1,0 +1,76 @@
+{% extends 'AppApplicationBundle:product:base.html.twig'%}
+{% block stylesheets %}
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block body %}
+    <h1>Products list</h1>
+      <div class="col-xs-12 content-container">
+      	<div class="card">
+        	<div class="card-header" style="margin-top:20px;">
+         	 	<h1>Sales list</h1> 
+        	</div>
+        	<div class="card-body no-padding" style="margin-top:20px;">
+          		<table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                <th>Transactionidsales</th>
+                <th>Productidsales</th>
+                <th>Price</th>
+                <th>Salepricesales</th>
+                <th>Daesales</th>
+                <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for sale in sales %}
+            			<tr>
+                			<td><a href="{{ path('sales_show', { 'id': sale.id }) }}">{{ sale.id }}</a></td>
+                    <td>{{ sale.transactionIdSales }}</td>
+                    <td>{{ sale.productIdSales }}</td>
+                    <td>{{ sale.price }}</td>
+                    <td>{{ sale.salePriceSales }}</td>
+                    <td>{% if sale.dateSales %}{{ sale.dateSales|date('Y-m-d H:i:s') }}{% endif %}</td>
+                			<td><a href="{{ path('sales_show', { 'id': sale.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a><i class="fa fa-trash-o" aria-hidden="true" style="margin-left:20px;"></i></td>
+            			</tr>
+        			 {% endfor %}
+                    </tbody>
+                 </table>
+             </div>
+      	  </div>
+		  <ul>
+        	<li>
+            	<a href="{{ path('sales_new') }}">Create a new sales</a>
+        	</li>
+    	  </ul>
+	  </div>
+
+
+{% endblock %}
+{% block javascripts %}
+        <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
+	    <!-- DataTables -->
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+	    <script type="text/javascript">
+	    $(function () {
+        $('#example1').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+      </script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sale</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sale.id }}</td>
+            </tr>
+            <tr>
+                <th>Transactionidsales</th>
+                <td>{{ sale.transactionIdSales }}</td>
+            </tr>
+            <tr>
+                <th>Productidsales</th>
+                <td>{{ sale.productIdSales }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ sale.price }}</td>
+            </tr>
+            <tr>
+                <th>Salepricesales</th>
+                <td>{{ sale.salePriceSales }}</td>
+            </tr>
+            <tr>
+                <th>Daesales</th>
+                <td>{% if sale.daeSales %}{{ sale.daeSales|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sales_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sales_edit', { 'id': sale.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

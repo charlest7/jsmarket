@@ -1,0 +1,30 @@
+Application\ApplicationBundle\Entity\Sales:
+    type: entity
+    table: null
+    repositoryClass: Application\ApplicationBundle\Repository\SalesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        transactionIdSales:
+            type: string
+            length: '255'
+            unique: true
+        productIdSales:
+            type: string
+            length: '255'
+        price:
+            type: string
+            length: '255'
+        salePriceSales:
+            type: string
+            length: '255'
+        profitSales:
+            type: string
+            length: '255'
+        dateSales:
+            type: datetime
+    lifecycleCallbacks: {  }

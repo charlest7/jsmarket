@@ -1,0 +1,24 @@
+sales_index:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Sales:index" }
+    methods:  GET
+
+sales_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppApplicationBundle:Sales:show" }
+    methods:  GET
+
+sales_new:
+    path:     /new
+    defaults: { _controller: "AppApplicationBundle:Sales:new" }
+    methods:  [GET, POST]
+
+sales_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppApplicationBundle:Sales:edit" }
+    methods:  [GET, POST]
+
+sales_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppApplicationBundle:Sales:delete" }
+    methods:  DELETE

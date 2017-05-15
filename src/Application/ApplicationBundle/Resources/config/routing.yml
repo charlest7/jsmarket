@@ -2,3 +2,6 @@ app_application_product:
     resource: "@AppApplicationBundle/Resources/config/routing/product.yml"
     prefix:   /product
         
+app_application_sales:
+    resource: "@AppApplicationBundle/Resources/config/routing/sales.yml"
+    prefix:   /sales
