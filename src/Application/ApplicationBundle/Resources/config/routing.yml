@@ -5,3 +5,13 @@ app_application_product:
 app_application_sales:
     resource: "@AppApplicationBundle/Resources/config/routing/sales.yml"
     prefix:   /sales
+
+app_application_user:
+    resource: "@AppApplicationBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+app_application_transaction:
+    resource: "@AppApplicationBundle/Resources/config/routing/transaction.yml"
+    prefix:   /transaction
+app_application_customer:
+    resource: "@AppApplicationBundle/Resources/config/routing/customer.yml"
+    prefix:   /customer

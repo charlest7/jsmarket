@@ -1,0 +1,36 @@
+transaction_index:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Transaction:index" }
+    methods:  GET
+
+transaction_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppApplicationBundle:Transaction:show" }
+    methods:  GET
+
+transaction_new:
+    path:     /new
+    defaults: { _controller: "AppApplicationBundle:Transaction:new" }
+    methods:  [GET, POST]
+
+transaction_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppApplicationBundle:Transaction:edit" }
+    methods:  [GET, POST]
+
+transaction_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppApplicationBundle:Transaction:delete" }
+    methods:  DELETE
+transaction_checkValueCustomerId:
+    path:     /checkValueCustomerId
+    defaults: { _controller: "AppApplicationBundle:Transaction:checkValueCustomerId" }
+    methods:  [GET]
+transaction_addProductToCart:
+    path:     /addProductToCart
+    defaults: { _controller: "AppApplicationBundle:Transaction:addProductToCart" }
+    methods:  [GET]
+transaction_completePurchase:
+    path:     /completePurchase
+    defaults: { _controller: "AppApplicationBundle:Transaction:completePurchase" }
+    methods:  [GET]

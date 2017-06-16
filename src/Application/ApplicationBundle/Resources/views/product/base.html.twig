@@ -1,5 +1,11 @@
 <html>
   {% block header %}
+  <script>
+	    function redirectTo()
+	    {
+		    window.location = "{{ path('user_redirect') }}";
+		}
+	    </script>
   			<script defer src="https://cdn.rawgit.com/CreativeIT/getmdl-select/master/getmdl-select.min.js"></script>
      		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
   			<link rel="stylesheet" href="https://cdn.rawgit.com/CreativeIT/getmdl-select/master/getmdl-select.min.css">
@@ -9,7 +15,7 @@
         	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
         	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
         	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('') }}" />
         {% block stylesheet %}
         	<style>
         		#leftWrapper{
@@ -19,6 +25,9 @@
         	
         {% endblock %}
  {% endblock %}
+ {% if app.session.get('username') is  empty %}
+   <script>redirectTo();</script>
+ {% endif %}
  <div id="wrapper">
   	<div id="leftWrapper">
       <div id="listView" class="list">
@@ -32,18 +41,19 @@
       </div>
     </div>
     <div id="rightWrapper">
-      <div id="header"><a id="fullPage" href="#">|||</a></div>
+      <div id="header"><a id="fullPage" href="#">|||</a>
+      <a href="{{ path('user_logout') }}" style="float: right;"><i class="fa fa-sign-out" aria-hidden="true" style="margin: 10px;font-size: 36px;"></i>
+</a></div>
       {% block body %} {% endblock %}
     </div>
 </div>
 {% block javascripts %}
+
         <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
 	    <!-- DataTables -->
 	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
-	    <script>
-	    console.log("Test");
-	    </script>
+	    
 {% endblock %}

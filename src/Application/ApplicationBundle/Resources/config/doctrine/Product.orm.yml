@@ -50,4 +50,8 @@ Application\ApplicationBundle\Entity\Product:
             type: string
             length: '255'
             unique: false
+        sellPrice:
+            type: string
+            length: '255'
+            unique: false
     lifecycleCallbacks: {  }

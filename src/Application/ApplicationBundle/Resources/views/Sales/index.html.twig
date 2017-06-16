@@ -25,6 +25,7 @@
                 <th>Productidsales</th>
                 <th>Price</th>
                 <th>Salepricesales</th>
+                <th>Profit</th>
                 <th>Daesales</th>
                 <th>Actions</th>
                       </tr>
@@ -32,12 +33,13 @@
                     <tbody>
                       {% for sale in sales %}
             			<tr>
-                			<td><a href="{{ path('sales_show', { 'id': sale.id }) }}">{{ sale.id }}</a></td>
-                    <td>{{ sale.transactionIdSales }}</td>
-                    <td>{{ sale.productIdSales }}</td>
-                    <td>{{ sale.price }}</td>
-                    <td>{{ sale.salePriceSales }}</td>
-                    <td>{% if sale.dateSales %}{{ sale.dateSales|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        	<td><a href="{{ path('sales_show', { 'id': sale.id }) }}">{{ sale.id }}</a></td>
+                            <td>{{ sale.transactionIdSales }}</td>
+                            <td>{{ sale.productIdSales }}</td>
+                            <td>{{ sale.price }}</td>
+                            <td>{{ sale.salePriceSales }}</td>
+                            <td>{{ sale.salePriceSales - sale.price }}</td>
+                            <td>{% if sale.dateSales %}{{ sale.dateSales|date('Y-m-d H:i:s') }}{% endif %}</td>
                 			<td><a href="{{ path('sales_show', { 'id': sale.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a><i class="fa fa-trash-o" aria-hidden="true" style="margin-left:20px;"></i></td>
             			</tr>
         			 {% endfor %}

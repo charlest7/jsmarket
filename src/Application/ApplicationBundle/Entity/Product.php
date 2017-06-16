@@ -21,7 +21,7 @@ class Product
     /**
      * @var int
      */
-    private $productId;
+    public $productId;
     
     /**
      * @var string
@@ -41,13 +41,13 @@ class Product
     /**
      * @var int
      */
-    private $price;
+    public $price;
     
 	
     /**
      * @var \DateTime
      */
-    private $sellDate;
+    public $sellDate;
     
     /**
      * 
@@ -70,8 +70,13 @@ class Product
     /**
      * @var string
      */
-    private $status;
+    public $status;
 
+    
+    /**
+     * @var string
+     */
+    public $sellPrice;
 
     /**
      * Get id
@@ -343,6 +348,30 @@ class Product
      * @return string
      */
     public function getStatus()
+    {
+    	return $this->status;
+    }
+    
+    /**
+     * Set sellPrice
+     *
+     * @param string $sellPrice
+     *
+     * @return Product
+     */
+    public function setSellPrice($sellPrice)
+    {
+    	$this->$sellPrice= $sellPrice;
+    	
+    	return $this;
+    }
+    
+    /**
+     * Get sellPrice
+     *
+     * @return string
+     */
+    public function getSellPrice()
     {
     	return $this->status;
     }

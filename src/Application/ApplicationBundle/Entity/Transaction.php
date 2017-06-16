@@ -36,6 +36,24 @@ class Transaction
      * @var string
      */
     private $transactionPaymentType;
+    
+    /**
+     * @var string
+     */
+    private $transactionTotalTransaction;
+    
+    /**
+     * @var string
+     */
+    private $transactionTotalPayment;
+    
+    /**
+     * @var string
+     */
+    private $transactionTotalChangeDue;
+    
+
+    
 
 
     /**
@@ -166,6 +184,78 @@ class Transaction
     public function getTransactionPaymentType()
     {
         return $this->transactionPaymentType;
+    }
+    
+    /**
+     * Set transactionTotalTransaction
+     *
+     * @param string $transactionTotalTransaction
+     *
+     * @return Transaction
+     */
+    public function setTransactionTotalTransaction($transactionTotalTransaction)
+    {
+    	$this->transactionTotalTransaction= $transactionTotalTransaction;
+    	
+    	return $this;
+    }
+    
+    /**
+     * Get transactionTotalTransaction
+     *
+     * @return string
+     */
+    public function getTransactionTotalTransaction()
+    {
+    	return $this->transactionTotalTransaction;
+    }
+    
+    /**
+     * Set transactionTotalPayment
+     *
+     * @param string $transactionTotalPayment
+     *
+     * @return Transaction
+     */
+    public function setTransactionTotalPayment($transactionTotalPayment)
+    {
+    	$this->transactionTotalPayment= $transactionTotalPayment;
+    	
+    	return $this;
+    }
+    
+    /**
+     * Get transactionTotalPayment
+     *
+     * @return string
+     */
+    public function getTransactionTotalPayment()
+    {
+    	return $this->transactionTotalPayment;
+    }
+    
+    /**
+     * Set transactionTotalChangeDue
+     *
+     * @param string $transactionTotalChangeDue
+     *
+     * @return Transaction
+     */
+    public function setTransactionTotalChangeDue($transactionTotalChangeDue)
+    {
+    	$this->transactionTotalChangeDue= $transactionTotalChangeDue;
+    	
+    	return $this;
+    }
+    
+    /**
+     * Get transactionTotalChangeDue
+     *
+     * @return string
+     */
+    public function getTransactionTotalChangeDue()
+    {
+    	return $this->transactionTotalChangeDue;
     }
 }
 

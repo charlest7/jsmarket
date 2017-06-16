@@ -6,6 +6,8 @@ use Application\ApplicationBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Application\ApplicationBundle\Entity\Customer;
 
 /**
  * Product controller.
@@ -59,6 +61,9 @@ class ProductController extends Controller
             		->orderBy('alias.productId','DESC')
             		->getQuery();
             $result = $query->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+            
+            $product->setCustomerid("000");
+            echo $product->getType()." ".$product->getStatus();
             //set date
             $currDate = date('Y-m-d H:i:s');
             $product->setDate(new \DateTime($currDate));
@@ -204,4 +209,25 @@ class ProductController extends Controller
     	
     	return $this->render('AppApplicationBundle:product:base.html.twig');
     }
+    
+    /**
+     * Displays a form to edit an existing product entity.
+     *
+     */
+    public function addProductToCartAction(Request $request)
+    {
+    	
+    	$customerId = $request->query->get('customerId');
+    	
+    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> '170410006'));
+    
+    	if(!empty($entityRepo)){
+    		return new JsonResponse(array('message' =>  $entityRepo), 200);
+    	}else{
+    		return new JsonResponse(array('message' =>  $entityRepo), 400);
+    	}
+    	
+    }
+    
+    
 }

@@ -1,7 +1,7 @@
 {% extends 'AppApplicationBundle:product:base.html.twig'%}
 {% block stylesheets %}
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>Product</title>
   
         	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
         	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
@@ -80,7 +80,7 @@
                    <label class="mdl-textfield__label" for="application_applicationbundle_product_details">Details</label>
  				</div>
              </div>
-             <div class="hidden-attr">
+             <div class="hidden-attr" style="display:none">
              	<div class="mdl-textfield mdl-js-textfield">
              		{{ form_widget( form.customerid,
                         { 'attr': {'class': 'mdl-textfield__input'} }
@@ -90,38 +90,41 @@
              </div>
              <div>
              	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-             	{{ form_widget( form.type,
-                                            { 'attr': {'class': 'mdl-textfield__input', 'type': 'text', } }
-                                        ) }}       
-                 <input class="mdl-textfield__input" id="country" name="form[type]"/>
-                   <label class="mdl-textfield__label" for="form[type]">Country</label>
-                           <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="country">
-                                 <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                                 <li class="mdl-menu__item" data-val="RUS">Russia</li>
-                       		</ul>
-  				</div> 
-                 
+                    {{ form_widget( form.type,
+                        { 'attr': {'class': 'mdl-textfield__input' ,'id' : 'application_applicationbundle_product_type' ,'name' : 'application_applicationbundle_product[type]', 'required' : 'required', 'maxlength' : '255'} }
+                    ) }}                     <label class="mdl-textfield__label" for="application_applicationbundle_product_type" class="required">Type</label>
+                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="application_applicationbundle_product_type">
+                              <li class="mdl-menu__item" data-val="Blus">Blus</li>
+                              <li class="mdl-menu__item" data-val="Dress">Dress</li>
+                              <li class="mdl-menu__item" data-val="Long Dress">Long Dress</li>
+                              <li class="mdl-menu__item" data-val="Pants">Pants</li>
+                       </ul>
   				</div> 			 
-             </div>
+             </div> 
              <div>
-             	<div class="mdl-textfield mdl-js-textfield">
-             		{{ form_widget( form.status,
-                        { 'attr': {'class': 'mdl-textfield__input'} }
+             	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+             	{{ form_widget( form.status,
+                        { 'attr': {'class': 'mdl-textfield__input' ,'id' : 'application_applicationbundle_product_status' ,'name' : 'application_applicationbundle_product[status]', 'required' : 'required', 'maxlength' : '255'} }
                     ) }}
-                   <label class="mdl-textfield__label" for="application_applicationbundle_product_status">Status</label>
- 				</div>
-             </div>
+                     <label class="mdl-textfield__label" for="application_applicationbundle_product_status">Status</label>
+                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="application_applicationbundle_product_status">
+                              <li class="mdl-menu__item" data-val="Available">Available</li>
+                              <li class="mdl-menu__item" data-val="Sell">Sell</li>
+                              <li class="mdl-menu__item" data-val="Not Available">Not Available</li>
+                       </ul>
+  				</div> 			 
+             </div> 
              
              <div style="margin-bottom:30px;">
   			   			      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>submit</p></button>
   			 
   			 </div>
+            
+             
   			 {{ form_end (form) }}
       	  </div>
 
 	  </div>
-
-
 {% endblock %}
 {% block javascripts %}
          <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>

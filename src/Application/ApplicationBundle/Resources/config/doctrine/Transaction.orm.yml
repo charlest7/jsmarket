@@ -24,4 +24,16 @@ Application\ApplicationBundle\Entity\Transaction:
         transactionPaymentType:
             type: string
             length: '255'
+        transactionTotalTransaction:
+            type: string
+            length: '255'
+            column: TransactionTotalTransaction
+        transactionTotalPayment:
+            type: string
+            length: '255'
+            column: TransactionTotalPayment
+        transactionTotalChangeDue:
+            type: string
+            length: '255'
+            column: TransactionTotalChangeDue
     lifecycleCallbacks: {  }

@@ -41,3 +41,7 @@ login_form:
     path:     /login
     defaults: { _controller: "AppApplicationBundle:Security:login" }
     methods:  [GET, POST]
+product_addProductToCart:
+    path:     /addProductToCart
+    defaults: { _controller: "AppApplicationBundle:Product:addProductToCart" }
+    methods:  [GET]

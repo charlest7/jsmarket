@@ -1,0 +1,384 @@
+
+{% extends 'AppApplicationBundle:product:base.html.twig'%}
+{% block stylesheets %}
+        <meta charset="UTF-8" />
+        <title>Product</title>
+  
+        	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
+        	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
+        	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <style>
+        .hidden-attr
+        {
+        	display:none;
+        }
+        </style>
+{% endblock %}
+
+{% block body %}
+
+ <h1>Products list</h1>
+      <div class="col-xs-12 content-container" style="margin-botom:50px">
+      	<div class="card">
+        	<div id="createNewTransactionLabel" class="card-header" style="margin-top:20px;"><h2>Create New Transaction</h2></div>
+        	<div id="addToCartLabel" class="card-header hidden" style="margin-top:20px;"><h2>Add Product To Cart</h2></div>
+        	<div id="reviewProductAndPaymentMethodLabel" class="card-header hidden" style="margin-top:20px;"><h2>Review Product and Payment Method</h2></div>
+        	<div id="invoicePageLabel" class="card-header hidden" style="margin-top:20px;"><h2>Invoice Page</h2></div>
+        	<div>
+        	<div style="margin-bottom:30px;">
+  			   			      <button id="newTransaction" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>Create New Transaction</p></button>
+  			 
+  			 </div>
+        	</div>
+        	 
+        	
+        	<!-- form payment method -->
+        	<div id="formPaymentMethod" class="hidden">
+        	    <div class="mdl-textfield mdl-js-textfield">
+                   <input type="text" class="mdl-textfield__input" name="customerId" >
+                   <label class="mdl-textfield__label" for="customerId">Customer Id</label>
+ 				</div>
+        	    <div>
+                     <select id="selectPaymentMethod" name="paymentMethod" class="form-control" style="width:300px;">
+                            <option value=""></option>
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit">Debit</option>
+                     </select>
+                 </div>
+                 <input type="text" id="testVal" />
+                 <div class="mdl-textfield mdl-js-textfield hidden" id="totalCash">
+                   <input type="text"  class="mdl-textfield__input" name="totalCash" />
+                   <label class="mdl-textfield__label" for="totalCash">Total Cash</label>
+ 				</div>             
+        	</div>
+        	<!-- end form payment method -->
+        	
+        	<!-- form select product  -->
+        	<div id="formAddProductPurchase" class="hidden">        	   
+                 <div>
+                     <select id="kota" name="kota" class="form-control" style="width:300px;">
+                      {% for listProduct in listProducts %}
+                            <option value=""></option>
+                            <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
+                           
+                      {% endfor %}
+                     </select>
+                 </div>
+             </div>
+             <!-- end form select product -->
+              
+             <!-- table list product in cart -->
+             <button style="margin-top:20px;margin-bottom:30px;"  id="addProductPurchaseForm" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored hidden" value="Create"><p>Add To Cart</p></button>
+             <div id="table-list-itemaddtocart" class="hidden">
+                 <div class="card-body no-padding" style="margin-top:20px;">
+              		<table id="addToCartTable" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th style="width:10%">Product Id</th>
+                            <th style="width:20%">Name</th>
+                            <th style="width:10%">Price</th>
+                            <th style="width:10%"></th>
+                          </tr>
+                        </thead>
+                        <tbody>                         
+                        </tbody>
+                     </table>
+                 </div>
+                 <div style="text-align:right;margin-right:10px;">
+                 	<div style="display:inline-block;">
+                 		<h2 style="text-align:left;">Total Item</h2>
+                 		<h2 style="text-align:left;">Total Amount</h2>
+                 		<h2 id="totalPayment" style="text-align:left;" class="hidden">Total Payment</h2>
+                 		<h2 id="totalChangeDue"  style="text-align:left;" class="hidden">Total Change Due</h2>
+                 	</div>
+                 	<div style="display:inline-block;">
+                 		<h2 id="totalItemPurchase"></h2>
+                 		<h2 id="totalItemAmount">= Rp.</h2>
+                 		<h2 id="totalItemPayment" class="hidden"> = Rp.<span id="valItemPayment"></span></h2>
+                 		<h2 id="totalItemChangeDue" class="hidden">= Rp. <span id="valItemChangeDue"></span></h2>
+                 	</div>             
+                 </div>
+                 <div id="buttonContinueToPayment" style="text-align:right;margin-right:10px;" class="hidden">
+                 	<button style="margin-top:20px;margin-bottom:30px;"  id="continueToPayment" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>Continue to Payment</p>
+                 	</button>
+                 </div>
+                </div>
+        	</div>
+        	<!-- end table list product in cart -->
+        	
+        	<!-- Button pay now -->
+        	<div id="buttonPayNow" style="text-align:right;margin-right:10px;" class="hidden"><button style="margin-top:20px;margin-bottom:30px;"  id="continueToPayment" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>Pay Now</p></button></div>
+        	<!-- pay now -->
+        	
+        	
+      	  </div>
+
+	  </div>
+{% endblock %}
+{% block javascripts %}
+         <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
+	    <!-- DataTables -->
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	    <script type="text/javascript">
+
+		purchaseDetails = [];
+        itemTransaction = [];
+        itemId = [];
+        totalItem = 0;
+        totalAmountPurchase = 0;
+        totalPayment = 0;
+        totalChangeDue = 0;
+        customerId = 0;
+        paymentType = "";
+      
+	    $(document).ready(function(){
+
+	    	$("#kota").select2({
+                placeholder: "Please Select"
+            });
+
+		    
+	    	$("#newTransaction").click(function(){
+	            $("#newTransaction").addClass("hidden");
+	            $("#createNewTransactionLabel").addClass("hidden");
+	            $("#addProductPurchaseForm").removeClass("hidden")
+	            $("#formAddProductPurchase").removeClass("hidden")
+	     	    $("#table-list-itemaddtocart").removeClass("hidden")
+	     	    $("#buttonContinueToPayment").removeClass("hidden")
+	     	    $("#addProductPurchaseForm").removeClass("hidden")
+	        });
+
+	    	$("#continueToPayment").click(function(){
+		    	if(itemTransaction.length == 0)
+			    {
+		    		bootbox.alert({
+	            	    message: "Please Add item before continue to payment",
+	            	    callback: function () {
+	            	        console.log('This was logged in the callback!');
+	            	    }
+	            	});
+			    }else{
+			    	$("#addToCartLabel").addClass("hidden")
+	    			$("#formAddProductPurchase").addClass("hidden")
+	 	            $("#buttonContinueToPayment").addClass("hidden")
+	 	            $("#addProductPurchaseForm").addClass("hidden")
+	 	            $("#formPaymentMethod").removeClass("hidden")
+	 	            $("#reviewProductAndPaymentMethodLabel").removeClass("hidden")
+	 	            $("#buttonPayNow").removeClass("hidden")
+				}
+    			
+ 	           
+ 	           
+    		});
+    		
+    		$("#selectPaymentMethod").change(function(){
+    			 paymentType = $("#selectPaymentMethod").val();
+    	        if($("#selectPaymentMethod").val() == "Cash")
+	    	    {		
+		    	     paymentType = $("#selectPaymentMethod").val();	    	    
+    	        	 $("#totalCash").removeClass("hidden")
+    	        	 $("#totalPayment").removeClass("hidden")
+    	        	 $("#totalChangeDue").removeClass("hidden")
+    	        	 $("#totalItemPayment").removeClass("hidden")
+    	        	 $("#totalItemChangeDue").removeClass("hidden")
+	    	    }
+    	    });
+
+    
+
+    		$('input[name=totalCash]').change(function(){
+    			totalPayment = $('input[name=totalCash]').val();
+    			totalChangeDue = totalPayment-totalAmountPurchase;
+    			convertToAmount(totalAmountPurchase)
+
+    			$("#valItemPayment").append(" "+convertToAmount(totalPayment))
+    			$("#valItemChangeDue").append(" "+ convertToAmount(totalChangeDue))
+
+    	    });
+
+    		$('input[name=totalCash]').focus(function(){
+    			 
+    			$("#valItemPayment").empty()
+    			$("#valItemChangeDue").empty()
+
+    	    });
+
+    		$("#buttonPayNow").click(function(){
+
+   			 	 purchaseDetails = [itemTransaction,customerId,totalItem,totalAmountPurchase,totalPayment, paymentType];
+   			 	$.ajax({
+	    			url: "{{ path('transaction_completePurchase') }}",
+	    		    async: true,
+	    		    type: "GET",
+	    		    data: { "purchaseDetails": purchaseDetails },	
+	    		    contentType: "application/json"               
+	                	                
+	            })
+	            .done(function (data) {
+		           console.log("Value back "+data);
+	            })
+	            .fail(function (jqXHR, textStatus, errorThrown) {
+	            	bootbox.alert({
+	            	    message: "This is an alert with a callback!",
+	            	    callback: function () {
+	            	        console.log('This was logged in the callback!');
+	            	    }
+	            	})
+	     
+	            });
+    		
+    	    });
+        
+
+	    	$("#customerIdForm").click(function(){
+	    		console.log($('#customerIdGet').val());
+	    		$.ajax({
+	    			url: "{{ path('transaction_checkValueCustomerId') }}",
+	    		    async: true,
+	    		    type: "GET",
+	    		    data: { "customerId": $('#customerIdGet').val() },	
+	    		    contentType: "application/json"               
+	                	                
+	            })
+	            .done(function (data) {
+		            console.log(data)
+	                if (typeof data.message !== 'undefined') {
+		                customerId = data.message.customerId;
+	                	$("#formCustomerId").addClass("hidden");
+	     	            $("#formAddProductPurchase").removeClass("hidden")
+	     	            $("#table-list-itemaddtocart").removeClass("hidden")
+	     	            $("#buttonContinueToPayment").removeClass("hidden")
+	     	            $("#addProductPurchaseForm").removeClass("hidden")
+	     	            
+	     	           
+	                }
+	            })
+	            .fail(function (jqXHR, textStatus, errorThrown) {
+	            	bootbox.alert({
+	            	    message: "This is an alert with a callback!",
+	            	    callback: function () {
+	            	        console.log('This was logged in the callback!');
+	            	    }
+	            	})
+	     
+	            });
+	    		
+	        });
+
+
+	    	$("#addProductPurchaseForm").click(function(){
+	    		console.log("IdNew "+ $('#kota').val());
+	    		valAvailProduct = checkAddToCartproductAvailability($('#kota').val(),itemId)
+	    		console.log(valAvailProduct)
+	    		if(valAvailProduct == false)
+		    	{
+	    			bootbox.alert({
+	            	    message: "You can not add to cart the same item in the cart",
+	            	    callback: function () {
+	            	    }
+	            	})
+		    	}else{
+		    		$.ajax({
+		    			url: "{{ path('transaction_addProductToCart') }}",
+		    		    async: true,
+		    		    type: "GET",
+		    		    data: { "productId": $('#kota').val() },	
+		    		    contentType: "application/json"               
+		                	                
+		            })
+		            .done(function (data) {
+			            totalItem++;
+			            totalAmountPurchase += data.message.price;
+			            currentAmmount = convertToAmount(totalAmountPurchase)
+			            item = [data.message.productId,data.message.price];
+			            itemTransaction.push(item);
+			            itemIdVal = [data.message.productId];
+			            itemId.push(itemIdVal);
+			            console.log(item);
+			            console.log("item Tran"+ itemTransaction);
+		                if (typeof data.message !== 'undefined') {
+			                console.log(data);
+			                $("tbody").append(" <tr onclick='myFunction(this)'><td>"+data.message.productId+"</td><td>"+data.message.name+"</td><td>"+data.message.price+"</td><td onclick='deleteitem()'>tes</td></tr>");
+			                $("#totalItemPurchase").empty();
+			                $("#totalItemAmount").empty();
+			                $("#totalItemPurchase").append("= "+totalItem);
+			                $("#totalItemAmount").append("=Rp. "+currentAmmount);
+			                
+		                }
+		            })
+		            .fail(function (jqXHR, textStatus, errorThrown) {
+		            	bootbox.alert({
+		            	    message: "This is an alert with a callback!",
+		            	    callback: function () {
+		            	        console.log('This was logged in the callback!');
+		            	    }
+		            	});
+		     
+		            });
+		    	}
+
+	    		
+	    	    
+
+	    	    
+	    	
+	        });
+
+	        function checkAddToCartproductAvailability(product, listProduct)
+	        {
+	        	for(i=0; i < listProduct.length; i++)
+		        {
+			        if(product == listProduct[i])
+				    {
+					    return false;
+					}
+		        }
+		        return true;
+		    }
+
+	        
+	        function convertToAmount(price)
+	        {
+	        	
+	        	
+	        	var	number_string = price.toString(),
+	        		sisa 	= number_string.length % 3,
+	        		rupiah 	= number_string.substr(0, sisa),
+	        		ribuan 	= number_string.substr(sisa).match(/\d{3}/g);
+	        			
+	        	if (ribuan) {
+	        		separator = sisa ? '.' : '';
+	        		rupiah += separator + ribuan.join('.');
+	        	}
+
+
+	   		    return rupiah;   	
+	        	
+		    }
+	    });
+
+	    function deleteitem()
+	    {
+		    console.log(rowIndex)
+	    }
+
+	    function myFunction(x) {
+		     
+    	    alert("Row index is: " + x.rowIndex);
+    	    window.rowIndex = x.rowIndex;
+    	    return x.rowIndex;
+    	}
+    	
+    	console.log(rowIndex);
+	    console.log(customerId);
+      </script>
+{% endblock %}

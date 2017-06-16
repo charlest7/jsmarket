@@ -15,12 +15,12 @@ class Customer
     /**
      * @var string
      */
-    private $customerId;
+    public $customerId;
 
     /**
      * @var string
      */
-    private $customerName;
+    public $customerName;
 
     /**
      * @var \DateTime
