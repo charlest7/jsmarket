@@ -6,6 +6,8 @@ use Application\ApplicationBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * User controller.
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class UserController extends Controller
 {
+	
     /**
      * Lists all user entities.
      *
@@ -48,6 +51,7 @@ class UserController extends Controller
         
         		$session = new Session();
         		$session->set('username', $entityRepo->getUsername());
+        		$session->set('timeout', time());
         		return $this->redirectToRoute('product_index');
         	}else{
         		return $this->render('user/new.html.twig', array(
@@ -148,11 +152,13 @@ class UserController extends Controller
     	$session = new Session();
     	
     	$usernameSession =  $session->get('username');
+    	echo $usernameSession;
     	
     	if(!empty($usernameSession))
     	{
     		$session->remove('username');
     		echo $session->get('username');
+    		
     		
     	}
     	return $this->render('user/new.html.twig');
@@ -166,9 +172,18 @@ class UserController extends Controller
       **/
       public function redirectAction(Request $request)
       {
-      
-      
+      	
+      	$session = new Session();
+      	
+      	$session->remove('username');
+      	$session->remove('timeout');
+      	
+      	echo $session->get('username');
+           
       	return $this->redirectToRoute('user_new');
       
       }
+      
+      
+     
 }

@@ -24,8 +24,9 @@ class TransactionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $transactions = $em->getRepository('AppApplicationBundle:Transaction')->findAll();
+        
 
-        return $this->render('transaction/index.html.twig', array(
+        return $this->render('AppApplicationBundle:Transaction:index.html.twig', array(
             'transactions' => $transactions,
         ));
     }
@@ -43,7 +44,13 @@ class TransactionController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         
-        $listProducts = $em->getRepository('AppApplicationBundle:Product')->findAll();
+        $listProducts = $em->getRepository('AppApplicationBundle:Product');
+        
+        $query = $listProducts->createQueryBuilder('p')
+        ->where('p.status != :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $listProductsVal = $query->getResult();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($transaction);
@@ -53,7 +60,7 @@ class TransactionController extends Controller
         }
 
         return $this->render('AppApplicationBundle:Transaction:new.html.twig', array(
-        	'listProducts' => $listProducts,
+        		'listProducts' => $listProductsVal,
             'transaction' => $transaction,
             'form' => $form->createView(),
         ));
@@ -153,7 +160,6 @@ class TransactionController extends Controller
     	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productId));
     	
     	
-    	
     	if(!empty($entityRepo)){
     		return new JsonResponse(array('message' =>  $entityRepo), 200);
     	}else{
@@ -168,8 +174,19 @@ class TransactionController extends Controller
     	$transactionDetails = $request->query->get('purchaseDetails');
     	
     	$entityProduct = $this->getDoctrine()->getManager();
+    	$productSell = [];
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$currDate = date('Y-m-d H:i:s');
     	
     	
+    	$paymentMethod = array("Cash"=>"CS","Debit"=>"DB","Credit card"=>"CC" );
+    	$lastTransactionId = $entityProduct->getRepository('AppApplicationBundle:Transaction')->findOneBy(array('transactionId'=> 'DESC'));
+    	$valTransactionId = substr($lastTransactionId->getTransactionId(),2);
+    	$newTransactionId = $paymentMethod[$transactionDetails[4]].$valTransactionId;
+    	
+    	
+    
     	
     	for($x=0;$x<count($transactionDetails[0]);$x++)
     	{
@@ -177,17 +194,46 @@ class TransactionController extends Controller
     		
     		
     		
+    		
+    		$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction[0]));
+    		
+    		$product->setTransactionId($newTransactionId);
+    		$product->setStatus("sell");
+    		$product->setSellDate(new \DateTime($currDate));
+    		$product->setSellPrice($productTransaction[1]); 
+    		
+    		$entityProduct->persist($product);
+    		$entityProduct->flush();    		
+    		
+    		
+    		
+    		array_push($productSell,$product->getStatus());
     	}
     	
-    	$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> '170410006'));
+    	$transaction = new Transaction();
     	
-    	$product->setStatus("sell");
-    	$entityProduct->persist($product);
-    	$entityProduct->flush();
-    	return new JsonResponse(array('message' =>  $product->getStatus()), 200);
+    	$transactionEntity = $entityProduct->getRepository('AppApplicationBundle:Transaction')->findOneBy(array('transactionId'=> 'DESC'));;
     	
-    	if(empty($transactionDetails)){
-    		
+    	$transaction->setTransactionId("13");
+    	$transaction->setTransactionDate(new \DateTime($currDate));
+    	$transaction->setTransactionStoreId("01");
+    	$transaction->setTransactionTotalItem($transactionDetails[2]);
+    	$transaction->setTransactionTotalTransaction($transactionDetails[3]);
+    	$transaction->setTransactionPaymentType($transactionDetails[4]);
+    	$transaction->setTransactionTotalPayment("N/a");
+    	$transaction->setTransactionTotalChangeDue("N/A");
+    	
+    	
+    	$em->persist($transaction);
+    	$em->flush();
+    	
+    	
+    	
+    
+    	
+    	
+    	if(!empty($productSell)){
+    		return new JsonResponse(array('message' =>  $lastTransactionId->getTransactionId()), 200);
     	}else{
     	}
     	

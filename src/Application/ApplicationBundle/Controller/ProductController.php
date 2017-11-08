@@ -65,7 +65,7 @@ class ProductController extends Controller
             $product->setCustomerid("000");
             echo $product->getType()." ".$product->getStatus();
             //set date
-            $currDate = date('Y-m-d H:i:s');
+            $currDate = date('Y-m-d');
             $product->setDate(new \DateTime($currDate));
             
             $lastIdProduct = implode(" ",$result);
@@ -101,6 +101,8 @@ class ProductController extends Controller
    
             $product->setProductId($newProductId);
             $product->setTransactionId("0");
+            $product->setTransId("0");
+            $product->setSellPrice("0");
             
            // echo substr($currDate,2,2);
             //echo substr($currDate,5,2);

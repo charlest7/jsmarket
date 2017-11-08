@@ -4,6 +4,7 @@ namespace Application\ApplicationBundle\Controller;
 
 use Application\ApplicationBundle\Entity\Sales;
 use Application\ApplicationBundle\Entity\Product;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,14 +21,96 @@ class SalesController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+		
+        $productRepository = $em->getRepository('AppApplicationBundle:Product');
+        
+        $query = $productRepository->createQueryBuilder('p')
+        ->where('p.status = :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $listSales = $query->getResult();
+        
+        $sumCapital = $productRepository->createQueryBuilder('CP')
+        ->select('sum(CP.capital) as totalCapitals')
+        ->where('CP.status = :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $totalCapital = $sumCapital->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        
+        $sumSellPrice = $productRepository->createQueryBuilder('SP')
+        ->select('sum(SP.sellPrice) as totalSellPrices')
+        ->where('SP.status = :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $totalSumSellPrice = $sumSellPrice->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
 
-        $sales = $em->getRepository('AppApplicationBundle:Sales')->findAll();
-
+        
+        $valTotalCapital = $totalCapital['totalCapitals'];
+        $valTotalSellPrice = $totalSumSellPrice['totalSellPrices'];
+        
+        $query = $productRepository->createQueryBuilder('p')
+        ->where('p.status != :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $listProductsVal = $query->getResult();
+       
         return $this->render('AppApplicationBundle:Sales:index.html.twig', array(
-            'sales' => $sales,
+        	'listProducts' => $listProductsVal,
+            'sales' => $listSales,
+        	'totalCapital' => $valTotalCapital,
+        	'totalSellPrice' => $valTotalSellPrice
         ));
     }
 
+    /**
+     * Lists all sale entities.
+     *
+     */
+    public function newIndexAction()
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$productRepository = $em->getRepository('AppApplicationBundle:Product');
+    	
+    	$query = $productRepository->createQueryBuilder('p')
+    	->where('p.status = :status')
+    	->setParameter('status', 'sell')
+    	->getQuery();
+    	$listSales = $query->getResult();
+    	
+    	$sumCapital = $productRepository->createQueryBuilder('CP')
+    	->select('sum(CP.capital) as totalCapitals')
+    	->where('CP.status = :status')
+    	->setParameter('status', 'sell')
+    	->getQuery();
+    	$totalCapital = $sumCapital->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    	
+    	$sumSellPrice = $productRepository->createQueryBuilder('SP')
+    	->select('sum(SP.sellPrice) as totalSellPrices')
+    	->where('SP.status = :status')
+    	->setParameter('status', 'sell')
+    	->getQuery();
+    	$totalSumSellPrice = $sumSellPrice->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    	
+    	$listProducts = $em->getRepository('AppApplicationBundle:Product');
+    	
+    	$query = $listProducts->createQueryBuilder('p')
+    	->where('p.status != :status')
+    	->setParameter('status', 'sell')
+    	->getQuery();
+    	$listProductsVal = $query->getResult();
+    	
+    	$valTotalCapital = $totalCapital['totalCapitals'];
+    	$valTotalSellPrice = $totalSumSellPrice['totalSellPrices'];
+    	
+    	return $this->render('AppApplicationBundle:Sales:new_index.html.twig', array(
+    			'listProducts' => $listProductsVal,
+    			'sales' => $listSales,
+    			'totalCapital' => $valTotalCapital,
+    			'totalSellPrice' => $valTotalSellPrice
+    	));
+    }
+    
     /**
      * Creates a new sale entity.
      *
@@ -85,7 +168,7 @@ class SalesController extends Controller
             return $this->redirectToRoute('sales_index', array('id' => $sale->getId()));
         }
 
-        return $this->render('AppApplicationBundle:Sales:new.html.twig', array(
+        return $this->render('', array(
             'sale' => $sale,
             'form' => $form->createView(),
         ));
@@ -160,5 +243,65 @@ class SalesController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    public function showListSalesByDateRangeAction(Request $request)
+    {
+    	$dateRange = $request->query->get('dateRange');
+    	
+    	$startDate = (new \DateTime(date("Y-m-d H:i:s", strtotime($dateRange[0]))))->format("Y-m-d H:i:s");
+    	$endDate = (new \DateTime(date("Y-m-d H:i:s", strtotime($dateRange[1]))))->format("Y-m-d H:i:s");
+    	
+    	
+    	$em = $this->getDoctrine()->getManager();
+    	$getCon = $em->getConnection();
+    	$statement = $getCon->prepare("SELECT * FROM `product` WHERE sell_date >= :start and sell_date <= :end ");
+    	$statement->bindValue('start', $startDate);
+    	$statement->bindValue('end', $endDate);
+    	$statement->execute();
+    	$results = $statement->fetchAll();
+    	
+    	$productRepository = $em->getRepository('AppApplicationBundle:Product');
+    	
+    	$query = $productRepository->createQueryBuilder('p')
+    	->where('p.sellDate >= :from')
+    	->andWhere('p.sellDate <= :to')
+    	->setParameter('from', $startDate)
+    	->setParameter('to', $endDate)
+    	->getQuery();
+    	$listSales = $query->getResult();
+    	
+    	$sumCapital = $productRepository->createQueryBuilder('CP')
+    	->select('sum(CP.capital) as totalCapitals')
+    	->where('CP.status = :status')
+    	->andwhere('CP.sellDate >= :from')
+    	->andWhere('CP.sellDate <= :to')
+    	->setParameter('from', $startDate)
+    	->setParameter('to', $endDate)
+    	->setParameter('status', 'sell')
+    	->getQuery();
+    	$totalCapital = $sumCapital->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    	
+    	$sumSellPrice = $productRepository->createQueryBuilder('SP')
+    	->select('sum(SP.sellPrice) as totalSellPrices')
+    	->where('SP.status = :status')
+    	->andwhere('SP.sellDate >= :from')
+    	->andWhere('SP.sellDate <= :to')
+    	->setParameter('from', $startDate)
+    	->setParameter('to', $endDate)
+    	->setParameter('status', 'sell')
+    	->getQuery();
+    	$totalSumSellPrice = $sumSellPrice->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    	
+    	$valTotalCapital = $totalCapital['totalCapitals'];
+    	$valTotalSellPrice = $totalSumSellPrice['totalSellPrices'];
+    	
+    	$totalSumSellPrice = $sumSellPrice->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    	
+    	if(!empty($results)){
+    		return new JsonResponse(array('message' =>  $results, 'totalCapital' => $valTotalCapital, 'totalSellPrice' => $valTotalSellPrice), 200);
+    	}else{
+    		return new JsonResponse(array('message' =>  $results), 400);
+    	}
     }
 }

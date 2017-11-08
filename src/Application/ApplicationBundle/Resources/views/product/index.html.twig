@@ -13,20 +13,21 @@
     <h1>Products list</h1>
       <div class="col-xs-12 content-container">
       	<div class="card">
+      	    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create" style="margin-top:20px;"><p>Create New Product</p></button>
         	<div class="card-header" style="margin-top:20px;">
-         	 	Product List 
+         	 	<h3>Product List</h3> 
         	</div>
         	<div class="card-body no-padding" style="margin-top:20px;">
           		<table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th style="width:5%">Product Id</th>
+                        <th style="width:15%">Product Id</th>
                         <th style="width:20%">Name</th>
-                        <th style="width:10%">Equity</th>
-                        <th style="width:10%">Price</th>
+                        <th style="width:13%">Equity</th>
+                        <th style="width:13%">Price</th>
                         <th style="width:20%">Date</th>
                         <th style="width:10%">Status</th>
-                        <th style="width:25%"></th>
+                        <th style="width:19%"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -34,11 +35,11 @@
             			<tr>
                 			<td><a href="{{ path('product_show', { 'id': product.productId }) }}">{{ product.productId }}</a></td>
                 			<td>{{ product.name }}</td>
-                			<td>{{ product.capital }}</td>
-                			<td>{{ product.price }}</td>
-                			<td>{{ product.price }}</td>
+                			<td>Rp. {{ product.capital|number_format }}</td>
+                			<td id="price">Rp. {{ product.price|number_format }}</script></td>
                 			<td>{{ product.date|date('Y-m-d H:i:s') }}</td>
-                			<td><a href="{{ path('product_edit', { 'id': product.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a><i class="fa fa-trash-o" aria-hidden="true" style="margin-left:20px;"></i></td>
+                			<td>{{ product.status }}</td>
+                			<td><a href="{{ path('product_edit', { 'id': product.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a ><a href="{{ path('product_delete', { 'id': product.id }) }}"><i class="fa fa-trash-o" aria-hidden="true" style="margin-left:20px;"></i></a></td>
             			</tr>
         			 {% endfor %}
                     </tbody>
@@ -62,15 +63,46 @@
 	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
 	    <script type="text/javascript">
-	    $(function () {
-        $('#example1').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false
-        });
+
+	    $(document).ready(function(){
+	    	$(function () {
+	            $('#example1').DataTable({
+	              "paging": true,
+	              "lengthChange": true,
+	              "searching": true,
+	              "ordering": true,
+	              "info": true,
+	              "autoWidth": false
+	            });
+
+
+	        function amountConvert(el, price)
+	        {
+		        valPrice = convertToAmount(price);
+		        document.getElementById("price").innerHTML = "fsdf";
+		    }
+
+	            
+	    	function convertToAmount(price)
+	        {
+	        	
+	        	
+	        	var	number_string = price.toString(),
+	        		sisa 	= number_string.length % 3,
+	        		rupiah 	= number_string.substr(0, sisa),
+	        		ribuan 	= number_string.substr(sisa).match(/\d{3}/g);
+	        			
+	        	if (ribuan) {
+	        		separator = sisa ? '.' : '';
+	        		rupiah += separator + ribuan.join('.');
+	        	}
+
+
+	   		    return rupiah;   	
+	        	
+		    }
+		});
+	    
       });
       </script>
 {% endblock %}

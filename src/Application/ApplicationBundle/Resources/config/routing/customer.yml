@@ -22,3 +22,11 @@ customer_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppApplicationBundle:Customer:delete" }
     methods:  DELETE
+customer_completePurchase:
+    path:     /completePurchase
+    defaults: { _controller: "AppApplicationBundle:Customer:completePurchase" }
+    methods:  [GET]
+user_login:
+    path:     /login
+    defaults: { _controller: "AppApplicationBundle:Customer:login" }
+    methods:  GET

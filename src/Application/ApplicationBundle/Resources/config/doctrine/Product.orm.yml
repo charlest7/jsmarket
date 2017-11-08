@@ -31,6 +31,9 @@ Application\ApplicationBundle\Entity\Product:
         price:
             type: integer
             unique: false
+        transId:
+            type: string
+            unique: false
         date:
             type: datetime
             unique: false

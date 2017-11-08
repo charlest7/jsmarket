@@ -2,6 +2,10 @@ sales_index:
     path:     /
     defaults: { _controller: "AppApplicationBundle:Sales:index" }
     methods:  GET
+sales_newindex:
+    path:     /new
+    defaults: { _controller: "AppApplicationBundle:Sales:newIndex" }
+    methods:  GET
 
 sales_show:
     path:     /{id}/show
@@ -22,3 +26,9 @@ sales_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppApplicationBundle:Sales:delete" }
     methods:  DELETE
+    
+sales_showListSalesByDateRange:
+    path:     /showListSalesByDateRange
+    defaults: { _controller: "AppApplicationBundle:Sales:showListSalesByDateRange" }
+    methods:  GET
+

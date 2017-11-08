@@ -1,0 +1,36 @@
+{% block stylesheets %}
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+		
+		 <!-- Include Required Prerequisites -->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+ 
+        <!-- Include Date Range Picker -->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+           
+       
+       
+          <!-- Javascript -->
+      <script>
+	  
+	    
+	    
+      </script>
+{% endblock %}
+
+{% block body %}
+    
+    		<div class="mdl-textfield mdl-js-textfield">
+                   <input type="text" class="mdl-textfield__input" name="startDate" >
+                   <label class="mdl-textfield__label" for="startDate"></label>
+ 			</div>
+ 			<div class="mdl-textfield mdl-js-textfield">
+                   <input type="text" class="mdl-textfield__input" name="endDate" >
+                   <label class="mdl-textfield__label" for="endDate"></label>
+ 			</div>
+ 			<button style="margin-top:20px;margin-bottom:30px;"  id="viewSales" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>Submit</p>
+ 			
+{% endblock %}

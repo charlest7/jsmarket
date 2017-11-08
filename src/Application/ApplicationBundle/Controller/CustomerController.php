@@ -5,6 +5,13 @@ namespace Application\ApplicationBundle\Controller;
 use Application\ApplicationBundle\Entity\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Application\ApplicationBundle\Entity\Product;
+use Application\ApplicationBundle\Entity\Transaction;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Application\ApplicationBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+
 
 /**
  * Customer controller.
@@ -120,5 +127,124 @@ class CustomerController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    public function completePurchaseAction(Request $request)
+    {
+    	
+    	$transactionDetails = $request->query->get('purchaseDetails');
+    	
+    	$entityProduct = $this->getDoctrine()->getManager();
+    	$productSell = [];
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$currDate = date('Y-m-d');
+    	
+    	
+    	$paymentMethod = array("Cash"=>"CS","Debit"=>"DB","Credit Card"=>"CC" );
+    	$entityTransaction = $entityProduct->getRepository('AppApplicationBundle:Transaction');
+    	$query = $entityTransaction->createQueryBuilder('alias')
+		    	->select('alias.id')
+		    	->setMaxResults(1)
+		    	->orderBy('alias.id','DESC')
+		    	->getQuery();
+    	$result = $query->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    	
+    	$lastEntityTransaction = $entityTransaction->findOneBy(array('id' => $result));
+    	$valTransactionId = substr($lastEntityTransaction->getTransactionId(),2)+1;
+    	$newTransactionId = $paymentMethod[$transactionDetails[4]].$valTransactionId;
+    	
+    	
+    	
+    	for($x=0;$x<count($transactionDetails[0]);$x++)
+    	{
+    		$productTransaction = $transactionDetails[0][$x];
+    		
+    		
+    		
+    		
+    		$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction[0]));
+    		
+    		
+    		$product->setTransId($newTransactionId);
+    		$product->setStatus("sell");
+    		$product->setSellDate(new \DateTime($currDate));
+    		
+    		if($productTransaction[1] == 0)
+    		{
+    			$product->setSellPrice($product->getPrice());
+    		}else{
+    			$product->setSellPrice($productTransaction[1]);
+    		}
+    		
+    		
+    		$entityProduct->persist($product);
+    		$entityProduct->flush();
+    		
+    		
+    		
+    		array_push($productSell,$product->getStatus());
+    	}
+    	
+    	$transaction = new Transaction();
+    	
+    	
+    	$transaction->setTransactionId($newTransactionId);
+    	$transaction->setTransactionDate(new \DateTime($currDate));
+    	$transaction->setTransactionStoreId("01");
+    	$transaction->setTransactionTotalItem($transactionDetails[2]);
+    	$transaction->setTransactionTotalTransaction($transactionDetails[3]);
+    	$transaction->setTransactionPaymentType($transactionDetails[4]);
+    	$transaction->setTransactionTotalPayment("N/a");
+    	$transaction->setTransactionTotalChangeDue("N/A");
+    	
+    	
+    	$em->persist($transaction);
+    	$em->flush();
+    	
+    	
+    	
+    	
+    	
+    	
+    	if(!empty($productSell)){
+    		return new JsonResponse(array('message' =>  $lastEntityTransaction->getTransactionId()), 200);
+    	}else{
+    	}
+    	
+    }
+    
+    /**
+     * login session
+     *
+     *
+     **/
+    public function loginAction(Request $request)
+    {
+    	
+    	$login = $request->query->get('userLogin');
+    	
+    	
+    	$user = $this->getValUser($login);
+    	
+    	
+    	if(!empty($user)){
+    		
+    		$session = new Session();
+    		$session->set('username', $user->getUsername());
+    		$session->set('timeout', time());
+    		
+    		return new JsonResponse(array('message' =>  $login), 200);
+    	}else{
+    		return new JsonResponse(array('message' =>  "dsafdsa"), 400);
+    	}
+    	
+    }
+    
+    public function getValUser($user)
+    {
+    	$user = $this->getDoctrine()->getRepository('AppApplicationBundle:User')->findOneBy(array('username'=> $user[0], 'password' => $user[1]));
+    	
+    	return $user;
     }
 }

@@ -1,69 +1,351 @@
 {% extends 'AppApplicationBundle:product:base.html.twig'%}
 {% block stylesheets %}
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        	<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
-        	<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
-        	<link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="UTF-8" />
+<title>{% block title %}Welcome!{% endblock %}</title>
+<link
+	href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}"
+	rel="stylesheet" />
+<link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}"
+	rel="stylesheet" />
+<link
+	href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}"
+	rel="stylesheet" />
+<link
+	href="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.css') }}"
+	rel="stylesheet" />
+<link href={{ asset('plugins/css/select2/select2-4.0.3.min.css') }}
+	" rel="stylesheet" />
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript"
+	src="{{ asset('plugins/jQuery/select2-4.0.3.js') }}"></script>
+{% block stylesheet %}
+<style>
+/* The Modal (background) */
+.modal-form {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0% !important;
+    width: 100% !important; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+	padding: 20px !important;
+    background-color: #e5e5e5;
+    color: white;
+}
+
+.modal-body {padding: 20px;}
+
+.modal-footer {
+    padding: 20px;
+    background-color: #e5e5e5;
+    color: white;
+}
+
+.modal-header > h2
+{
+	color:#000000;
+	
+}
+</style>
+{% endblock %}
+<!-- Javascript -->
+
 {% endblock %}
 
 {% block body %}
-    <h1>Products list</h1>
-      <div class="col-xs-12 content-container">
-      	<div class="card">
-        	<div class="card-header" style="margin-top:20px;">
-         	 	<h1>Sales list</h1> 
-        	</div>
-        	<div class="card-body no-padding" style="margin-top:20px;">
-          		<table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Id</th>
-                <th>Transactionidsales</th>
-                <th>Productidsales</th>
-                <th>Price</th>
-                <th>Salepricesales</th>
-                <th>Profit</th>
-                <th>Daesales</th>
-                <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for sale in sales %}
-            			<tr>
-                        	<td><a href="{{ path('sales_show', { 'id': sale.id }) }}">{{ sale.id }}</a></td>
-                            <td>{{ sale.transactionIdSales }}</td>
-                            <td>{{ sale.productIdSales }}</td>
-                            <td>{{ sale.price }}</td>
-                            <td>{{ sale.salePriceSales }}</td>
-                            <td>{{ sale.salePriceSales - sale.price }}</td>
-                            <td>{% if sale.dateSales %}{{ sale.dateSales|date('Y-m-d H:i:s') }}{% endif %}</td>
-                			<td><a href="{{ path('sales_show', { 'id': sale.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a><i class="fa fa-trash-o" aria-hidden="true" style="margin-left:20px;"></i></td>
-            			</tr>
-        			 {% endfor %}
-                    </tbody>
-                 </table>
-             </div>
-      	  </div>
-		  <ul>
-        	<li>
-            	<a href="{{ path('sales_new') }}">Create a new sales</a>
-        	</li>
-    	  </ul>
-	  </div>
+
+<div id="myModal" class="modal-form" >
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Add Sales</h2>
+    </div>
+    <div class="modal-body">
+                 <div class="mdl-textfield mdl-js-textfield">
+                   <input type="text" class="mdl-textfield__input" name="customerId" >
+                   <label class="mdl-textfield__label" for="customerId">Customer Id</label>
+ 				</div>
+                <div >
+                     <select id="kota" name="kota" class="form-control" style="width:300px;">
+                      {% for listProduct in listProducts %}
+                            <option value=""></option>
+                            <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
+                           
+                      {% endfor %}
+                     </select>
+                </div>
+        	    <div style="margin-top:10px">
+                     <select id="selectPaymentMethod" name="paymentMethod" class="form-control" style="width:300px;">
+                            <option value=""></option>
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit">Debit</option>
+                     </select>
+                 </div>
+                 <div class="mdl-textfield mdl-js-textfield hidden" id="totalCash">
+                   <input type="text"  class="mdl-textfield__input" name="totalCash" />
+                   <label class="mdl-textfield__label" for="totalCash">Total Cash</label>
+ 				 </div>
+ 				 <div style="text-align:right;margin-right:10px;">
+                 	<div style="display:inline-block;text-align:left;">
+                 		<h2 id="totalPayment" style="text-align:left;" class="hidden">Total Payment</h2>
+                 		<h2 style="text-align:left;">Total Amount</h2>
+                 		
+                 		<h2 id="totalChangeDue"  style="text-align:left;" class="hidden">Total Change Due</h2>
+                 	</div>
+                 	<div style="display:inline-block;text-align:left;">
+                 		<h2 id="totalItemAmount"  style="widt:150px;">= Rp.<span id="valItemAmount"></span></h2>
+						<h2 id="totalItemPayment" style="widt:150px;"> = Rp.<span id="valItemPayment"></span></h2>
+                 		
+                 		
+                 		<h2 id="totalItemChangeDue" style="widt:150px;">= Rp. <span id="valItemChangeDue"></span></h2>
+                 	</div>             
+                 </div>
+ 				 <div id="buttonPayNow" style="text-align:right;margin-right:10px;"><button style="margin-top:20px;margin-bottom:30px;"  id="continueToPayment" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>Pay Now</p></button></div>
+ 				 
+    </div>
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
+</div>
+
+<h1>Products list</h1>
+
+<div class="col-xs-12 content-container">
+	<div class="card">
+		<div class="card-header" style="margin-top: 20px;">
+			<h1>Sales list</h1>
+		</div>
+		<div>
+			<button style="margin-top: 20px; margin-bottom: 30px;" id="myBtn" data-modal-id="popup"
+				type="submit"
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+				value="Create">
+				<p>Add Sales</p>
+		</div>
+		<div class="form-content1" style="display: none;">
+			<form class="form" role="form">
+				<div class="form-group">
+					<label for="email">Email address</label> <input type="email"
+						class="form-control" id="email" name="email"
+						placeholder="Enter email"></input>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label> <input type="password"
+						class="form-control" id="password" name="password"
+						placeholder="Password">
+				</div>
+				<div class="checkbox">
+					<label> <input type="checkbox"> Check me out
+					</label>
+				</div>
+			</form>
+		</div>
+		<div class="form-content" style="display: none;">
+			<form class="form" role="form">
+
+				<div class="form-group">
+					<label for="password">Product Id</label> <input type="text"
+						class="form-control" id="productId" name="productId">
+				</div>
+				</select>
+				<div class="form-group">
+					<label for="password">Price</label> <input type="text"
+						class="form-control" id="price" name="price">
+				</div>
+				<div class="form-group">
+					<select id="paymentMethod" name="paymentMethod"
+						class="form-control" style="width: 300px;">
+						<option value=""></option>
+						<option value="Cash">Cash</option>
+						<option value="Credit Card">Credit Card</option>
+						<option value="Debit">Debit</option>
+					</select>
+				</div>
+
+				<div class="checkbox">
+					<label> <input type="checkbox"> Check me out
+					</label>
+				</div>
+			</form>
+		</div>
+
+
+		{% include 'AppApplicationBundle:sales:new_index.html.twig'%}
+
+	</div>
+	<div class="card-body no-padding" style="margin-top: 20px;">
+		<table id="example1" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Product Id</th>
+					<th>Transaction Id</th>
+					<th>Capital</th>
+					<th>Price</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for sale in sales %}
+				<tr>
+					<td><a href="{{ path('sales_show', { 'id': sale.id }) }}">{{ sale.productId }}</a></td>
+					<td>{{ sale.transId }}</td>
+					<td>{{ sale.capital }}</td>
+					<td>{{ sale.sellPrice }}</td>
+
+					<td><a href="{{ path('sales_show', { 'id': sale.id }) }}"><i
+							class="fa fa-pencil" aria-hidden="true"></i></a><i
+						class="fa fa-trash-o" aria-hidden="true"
+						style="margin-left: 20px;"></i></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<table id="byDateRange"
+			class="table table-bordered table-striped hidden">
+			<thead>
+				<tr>
+					<th>Product Id</th>
+					<th>Transaction Id</th>
+					<th>Capital</th>
+					<th>Price</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody id="bodyDateRange">
+
+
+			</tbody>
+		</table>
+	</div>
+	<div style="margin-bottom: 25px;">
+		<h3>
+			Total Modal : <span id="totalCapital"></span>
+		</h3>
+		<h3>
+			Total Sales Price : <span id="totalSellPrice"></span>
+		</h3>
+		<h3>
+			Total Profit : <span id="totalProfit"></span>
+		</h3>
+	</div>
+</div>
+
+</div>
 
 
 {% endblock %}
 {% block javascripts %}
-        <script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
-	    <!-- DataTables -->
-	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
-	    <script type="text/javascript">
+<script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('plugins/jQuery/commonTask.js') }}"></script>
+<script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
+<!-- DataTables -->
+<script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+<!-- Datepicker -->
+<script type="text/javascript" src="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('plugins/jQuery/bootbox-4-4.0.js') }}"></script>
+<script type="text/javascript" src="{{ asset('plugins/jQuery/select2-4.0.3.js') }}"></script>
+
+<script type="text/javascript">
+
+	    startDate = "";
+		endDate = "";
+		daterange = []
+		listSales = [];
+		i = 0;
+		flag = 0;
+		totalCapital = "{{ totalCapital }}"
+		totalSellPrice = "{{ totalSellPrice }}"
+	    itemTransaction = [];
+	    customerId = 0;
+	    totalItem = 1;
+	    totalPayment = 0;
+	    totalAmountPurchase = 0;
+	    paymentType = "";
+	    item = 0;
+	    purchaseDetails = [];
+	    productId = 0;
+
+
+	    var modal = document.getElementById('myModal');
+
+    	 // Get the button that opens the modal
+    	 var btn = document.getElementById("myBtn");
+    
+    	 // Get the <span> element that closes the modal
+    	 var span = document.getElementsByClassName("close")[0];
+    
+    	 // When the user clicks the button, open the modal 
+    	 btn.onclick = function() {
+    	     modal.style.display = "block";
+    	 }
+    
+    	 // When the user clicks on <span> (x), close the modal
+    	 span.onclick = function() {
+    	     modal.style.display = "none";
+    	 }
+	 	    
+		
 	    $(function () {
         $('#example1').DataTable({
           "paging": true,
@@ -74,5 +356,330 @@
           "autoWidth": false
         });
       });
-      </script>
+
+	    function purchaseAction(purchaseDetails){
+	    	$.ajax({
+    			url: "{{ path('customer_completePurchase') }}",
+    		    async: true,
+    		    type: "GET",
+    		    data: { "purchaseDetails": purchaseDetails },	
+    		    contentType: "application/json"               
+                	                
+            })
+            .done(function (data) {
+            	console.log("success")
+	           
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+           
+     		   console.log("failed")
+            });
+		}
+
+	    $(document).ready(function(){
+	    	$("#kota").select2({
+                placeholder: "Please Select"
+            });
+            
+		    $(".modal-backdrop").remove();
+	    	$("#totalCapital").append("Rp. "+convertToAmount(totalCapital));
+			$("#totalSellPrice").append("Rp. "+convertToAmount(totalSellPrice));
+			$("#totalProfit").append("Rp "+(convertToAmount(totalSellPrice-totalCapital)));
+
+			$("#listProduct").select2({
+                placeholder: "Please Select"
+            });
+
+			
+            
+
+			$("#buttonPayNow").click(function(){
+
+
+				
+				paymentType = $("#selectPaymentMethod").val();
+
+			
+				
+  			 	 purchaseDetails = [itemTransaction,customerId,totalItem,totalAmountPurchase, paymentType];
+
+  			 	 if(paymentType == "Cash" && totalCash == "")
+  	  			 {
+  			 		bootbox.alert({
+	            	    message: "!",
+	            	    callback: function () {
+	            	       
+	            	    }
+	            	})
+		        
+  	  	  		 }else if(paymentType == "Cash" && totalChangeDue != 0){
+
+  	  	  	  		console.log(totalPayment);
+  	  	  	  		console.log(paymentType)
+  	  	  	  		 
+					item = [$('#kota').val(),totalPayment];
+					itemTransaction.push(item);
+					totalItem = 1;
+					totalAmountPurchase = totalPayment;
+
+					purchaseDetails = [itemTransaction,customerId,totalItem,totalAmountPurchase, paymentType];
+
+					purchaseAction(purchaseDetails)
+					 		 
+  	  	  	  	 }else{
+  	  	  	  	  	 
+
+      	  	  	  	
+    				item = [$('#kota').val(),0];
+    				itemTransaction.push(item);
+    				totalItem = 1;
+    				totalAmountPurchase = 0;
+    				
+
+    				purchaseDetails = [itemTransaction,customerId,totalItem,totalAmountPurchase, paymentType];
+
+    				purchaseAction(purchaseDetails)
+  	  	  	  	 }
+
+  			 	  
+	    		
+  			 	
+   	    	});
+
+			$("#selectPaymentMethod").change(function(){
+   				paymentType = $("#selectPaymentMethod").val();
+   	        	if($("#selectPaymentMethod").val() == "Cash")
+	    	    {		
+		    	   	    	    
+   	        	 $("#totalCash").removeClass("hidden")
+   	        	 $("#totalPayment").removeClass("hidden")
+   	        	 $("#totalChangeDue").removeClass("hidden")
+   	        	 $("#totalItemPayment").removeClass("hidden")
+   	        	 $("#totalItemChangeDue").removeClass("hidden")
+	    	    }else{
+	    	    	$("#totalCash").addClass("hidden")
+	   	        	 $("#totalPayment").addClass("hidden")
+	   	        	 $("#totalChangeDue").addClass("hidden")
+	   	        	 $("#totalItemPayment").addClass("hidden")
+	   	        	 $("#totalItemChangeDue").addClass("hidden")
+		    	}
+   	       });
+
+			$('input[name=totalCash]').change(function(){
+				totalPayment = $('input[name=totalCash]').val();
+    			convertToAmount(totalAmountPurchase);
+
+				if($('#kota').val() != ""){
+					$.ajax({
+		    			url: "{{ path('transaction_addProductToCart') }}",
+		    		    async: true,
+		    		    type: "GET",
+		    		    data: { "productId": $('#kota').val() },	
+		    		    contentType: "application/json"               
+		                	                
+		            })
+		            .done(function (data) {
+
+			        	if(totalPayment < data.message.price){
+			        		bootbox.alert({
+			            	    message: "Total Cash should be more than total product price",
+			            	    callback: function () {
+			            	        console.log('Total Cash should be more than total product price');
+			            	    }
+			            	});
+				        }else{
+				        	totalChangeDue = totalPayment-data.message.price;
+
+			            	$("#valItemAmount").empty();
+			            	$("#valItemPayment").empty();
+			   	        	$("#valItemChangeDue").empty();
+			   	        	
+			            	$("#valItemAmount").append(totalPayment);
+			            	$("#valItemPayment").append(data.message.price);
+			   	        	$("#valItemChangeDue").append(totalChangeDue);
+					    }
+		   	        		            	
+		            })
+		            .fail(function (jqXHR, textStatus, errorThrown) {
+		            	console.log("fail");
+		     
+		            });
+				}
+				
+					
+				
+    			
+				
+
+				
+
+    	    });
+
+			
+	   	    
+			$(function() {
+			    $('input[name="startDate"]').daterangepicker({
+			        singleDatePicker: true,
+			        showDropdowns: true
+			    }, 
+			    
+			    function(start, end, label) {
+			        var years = moment().diff(start, 'years');
+		
+			    });
+			});
+
+		  $(function() {
+			    $('input[name="endDate"]').daterangepicker({
+			        singleDatePicker: true,
+			        showDropdowns: true
+			    }, 
+			    
+			    function(start, end, label) {
+			        var years = moment().diff(start, 'years');
+		
+			    });
+			});
+
+		   $('#exampleModal').on('show.bs.modal', function (event) {
+			  var button = $(event.relatedTarget) // Button that triggered the modal
+			  var recipient = button.data('whatever') // Extract info from data-* attributes
+			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+			  var modal = $(this)
+			  modal.find('.modal-title').text('New message to ' + recipient)
+			  modal.find('.modal-body input').val(recipient)
+			})
+
+
+			$("#addSales").click(function(){
+				
+			});
+
+		   $("#selectPaymentMethod").change(function(){
+  			 paymentType = $("#selectPaymentMethod").val();
+  	            if($("#selectPaymentMethod").val() == "Cash")
+	    	    {		
+		    	     paymentType = $("#selectPaymentMethod").val();	    	    
+  	        	 $("#totalCash").removeClass("hidden")
+  	        	 $("#totalPayment").removeClass("hidden")
+  	        	 $("#totalChangeDue").removeClass("hidden")
+  	        	 $("#totalItemPayment").removeClass("hidden")
+  	        	 $("#totalItemChangeDue").removeClass("hidden")
+	    	    }
+  	   	  });
+
+		   
+			$("#viewSales").click(function(){
+				$("#bodyDateRange").empty();
+				$("#totalCapital").empty();
+				$("#totalSellPrice").empty();
+				$("#totalProfit").empty();
+				startDate = $('input[name="startDate"]').val();
+				endDate = $('input[name="endDate"]').val();
+				console.log(startDate+" "+endDate)
+				dateRange = [startDate,endDate]
+				
+				$.ajax({
+		    			url: "{{ path('sales_showListSalesByDateRange') }}",
+		    		    async: true,
+		    		    type: "GET",
+		    		    data: { "dateRange": dateRange },	
+		    		    contentType: "application/json"               
+		                	                
+		            })
+		            .done(function (data) {
+			           listSales = data.message;
+			           console.log("Value back "+data.totalCapital);
+			           
+			           $("#example1").addClass("hidden")
+			           $("#byDateRange").removeClass("hidden")
+			           $("#totalCapital").append("Rp. "+convertToAmount(data.totalCapital));
+						$("#totalSellPrice").append("Rp. "+convertToAmount(data.totalSellPrice));
+						$("#totalProfit").append("Rp "+(convertToAmount(data.totalSellPrice-data.totalCapital)));
+			           for(i=0; i<listSales.length; i++)
+				       {
+			        	   $("#bodyDateRange").append("<tr><td>"+listSales[i].product_id+"</td><td>"+listSales[i].trans_id+"</td><td>"+listSales[i].capital+"</td><td>"+listSales[i].sell_price+"</td></tr>")
+				       }
+			         
+			           
+			           
+			           
+			        
+			           
+			           
+			           
+		            })
+		            .fail(function (jqXHR, textStatus, errorThrown) {
+		            	bootbox.alert({
+		            	    message: "This is an alert with a callback!",
+		            	    callback: function () {
+		            	        console.log('This was logged in the callback!');
+		            	    }
+		            	})
+		     
+		            });
+			});
+
+
+			//Variables
+			var overlay = $("#overlay"),
+			        fab = $(".fab"),
+			     cancel = $("#cancel"),
+			     submit = $("#submit");
+
+			//fab click
+			fab.on('click', openFAB);
+			overlay.on('click', closeFAB);
+			cancel.on('click', closeFAB);
+
+			
+
+			function openFAB(event) {
+			  if (event) event.preventDefault();
+			  fab.addClass('active');
+			  overlay.addClass('dark-overlay');
+
+			}
+
+			function closeFAB(event) {
+			  if (event) {
+			    event.preventDefault();
+			    event.stopImmediatePropagation();
+			  }
+
+			  fab.removeClass('active');
+			  overlay.removeClass('dark-overlay');
+			  
+			}
+
+		});
+
+
+		
+		
+	    function saveSales(salesData){
+
+	    	$.ajax({
+	   			url: "{{ path('customer_completePurchase') }}",
+			async : true,
+			type : "GET",
+			data : {
+				"purchaseDetails" : salesData
+			},
+			contentType : "application/json"
+
+		}).done(function(data) {
+
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			bootbox.alert({
+				message : "This is an alert with a callback!",
+				callback : function() {
+					console.log('This was logged in the callback!');
+				}
+			})
+
+		});
+	}
+</script>
 {% endblock %}

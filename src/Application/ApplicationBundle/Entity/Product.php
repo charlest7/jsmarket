@@ -16,7 +16,7 @@ class Product
     /**
      * @var int
      */
-    private $transactionId;
+    public $transactionId;
     
     /**
      * @var int
@@ -42,6 +42,11 @@ class Product
      * @var int
      */
     public $price;
+    
+    /**
+     * @var int
+     */
+    public $transId;
     
 	
     /**
@@ -88,18 +93,29 @@ class Product
         return $this->id;
     }
     
-     /**
-     * Set transactionId
+    /**
+     * Get $productId
      *
-     * @param integer $transactionId
+     * @return int
+     */
+    public function getProductId()
+    {
+    	return $this->productId;
+    }
+    
+     
+    /**
+     * Set productId
+     *
+     * @param integer $productId
      *
      * @return Product
      */
-    public function setTransactionId($transactionId)
+    public function setProductId($productId)
     {
-        $this->transactionId = $transactionId;
-
-        return $this;
+    	$this->productId = $productId;
+    
+    	return $this;
     }
     
     /**
@@ -115,27 +131,19 @@ class Product
     /**
      * Set transactionId
      *
-     * @param integer $productId
+     * @param integer $transactionId
      *
      * @return Product
      */
-    public function setProductId($productId)
+    public function setTransactionId($transactionId)
     {
-    	$this->productId = $productId;
-    
+    	$this->transactionId = $transactionId;
+    	
     	return $this;
     }
     
-    /**
-     * Get $productId
-     *
-     * @return int
-     */
-    public function getProductId()
-    {
-    	return $this->productId;
-    }
-
+   
+    
     /**
      * Set name
      *
@@ -221,7 +229,8 @@ class Product
 
         return $this;
     }
-
+    
+   
     /**
      * Get price
      *
@@ -230,6 +239,31 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+    
+    /**
+     * Set transId
+     *
+     * @param string $transId
+     *
+     * @return Product
+     */
+    public function setTransId($transId)
+    {
+    	$this->transId = $transId;
+    	
+    	return $this;
+    }
+    
+    
+    /**
+     * Get price
+     *
+     * @return int
+     */
+    public function getTransId()
+    {
+    	return $this->transId;
     }
     
     /**
@@ -361,7 +395,7 @@ class Product
      */
     public function setSellPrice($sellPrice)
     {
-    	$this->$sellPrice= $sellPrice;
+    	$this->sellPrice= $sellPrice;
     	
     	return $this;
     }
@@ -375,4 +409,6 @@ class Product
     {
     	return $this->status;
     }
+    
+
 }
