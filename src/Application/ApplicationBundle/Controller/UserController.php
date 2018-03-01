@@ -156,9 +156,7 @@ class UserController extends Controller
     	
     	if(!empty($usernameSession))
     	{
-    		$session->remove('username');
-    		echo $session->get('username');
-    		
+    		$session->remove('username');    		
     		
     	}
     	return $this->render('user/new.html.twig');
