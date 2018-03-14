@@ -1,0 +1,22 @@
+{% xlsdocument %}
+   {% xlssheet 'Test' %}
+        {% xlsrow %}
+            {% xlscell %}Product ID{% endxlscell %}
+            {% xlscell %}Name{% endxlscell %}
+            {% xlscell %}Equity{% endxlscell %}
+            {% xlscell %}Price{% endxlscell %}
+            {% xlscell %}Status{% endxlscell %}
+        {% endxlsrow %}
+          {% for product in products %}
+	        {% xlsrow %}
+	            {% xlscell %}{{ product.productId }}{% endxlscell %}
+	            {% xlscell %}{{ product.name }}{% endxlscell %}
+	            {% xlscell %}{{ product.capital|number_format }}{% endxlscell %}
+	            {% xlscell %}{{ product.date|date('Y-m-d H:i:s') }}{% endxlscell %}
+	            {% xlscell %}{{ product.status }}{% endxlscell %}
+	        {% endxlsrow %}
+	      {% endfor %}
+    {% endxlssheet %}
+{% endxlsdocument %}
+
+}

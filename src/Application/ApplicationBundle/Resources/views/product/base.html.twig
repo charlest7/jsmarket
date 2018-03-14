@@ -6,15 +6,15 @@
 	    {
 
 	    	var d = new Date();
-	        var n = d.getTime()/1000;
+	        var n = Math.floor((new Date).getTime()/1000)
+
 	        var timeout = "{{ app.session.get('timeout')}}";
+	        var user = "{{ app.session.get('username')}}";
 	        var valueTimeOut = timeout + 1 * 60;
 
-	        
-
-	        console.log(valueTimeOut);
+	        console.log(timeout);
 	        console.log(n);
-	        if ( valueTimeOut < n*10){
+	        if ( n-timeout > 960 && user == 'user'){
 		    	console.log("tes");
 	            // destroy session & logout
 	            window.location = "{{ path('user_redirect') }}";

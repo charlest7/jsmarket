@@ -45,3 +45,8 @@ product_addProductToCart:
     path:     /addProductToCart
     defaults: { _controller: "AppApplicationBundle:Product:addProductToCart" }
     methods:  [GET]
+product_exportDataProduct:
+    path:     /exportDataProduct
+    defaults: { _controller: "AppApplicationBundle:Product:exportDataProduct", _format: xlsx }
+    methods:  [GET]
+  

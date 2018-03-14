@@ -89,31 +89,36 @@
  				</div>
              </div>
              <div>
-             	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-                    {{ form_widget( form.type,
+             	<div class="mdl-textfield mdl-js-textfield getmdl-select">
+				     {{ form_widget( form.type,
                         { 'attr': {'class': 'mdl-textfield__input' ,'id' : 'application_applicationbundle_product_type' ,'name' : 'application_applicationbundle_product[type]', 'required' : 'required', 'maxlength' : '255'} }
-                    ) }}                     <label class="mdl-textfield__label" for="application_applicationbundle_product_type" class="required">Type</label>
-                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="application_applicationbundle_product_type">
-                              <li class="mdl-menu__item" data-val="Blus">Blus</li>
+                    ) }} 
+				      <input value="" type="hidden" name="type"/>
+			        <label class="mdl-textfield__label" for="type">Type</label>
+			      	<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="type">
+				        <li class="mdl-menu__item" data-val="Blus">Blus</li>
                               <li class="mdl-menu__item" data-val="Dress">Dress</li>
                               <li class="mdl-menu__item" data-val="Long Dress">Long Dress</li>
                               <li class="mdl-menu__item" data-val="Pants">Pants</li>
-                       </ul>
-  				</div> 			 
-             </div> 
+			        </ul>
+   				</div>
+             </div>
+ 
              <div>
-             	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-             	{{ form_widget( form.status,
-                        { 'attr': {'class': 'mdl-textfield__input' ,'id' : 'application_applicationbundle_product_status' ,'name' : 'application_applicationbundle_product[status]', 'required' : 'required', 'maxlength' : '255'} }
-                    ) }}
-                     <label class="mdl-textfield__label" for="application_applicationbundle_product_status">Status</label>
-                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="application_applicationbundle_product_status">
-                              <li class="mdl-menu__item" data-val="Available">Available</li>
-                              <li class="mdl-menu__item" data-val="Sell">Sell</li>
-                              <li class="mdl-menu__item" data-val="Not Available">Not Available</li>
-                       </ul>
-  				</div> 			 
-             </div> 
+             	<div class="mdl-textfield mdl-js-textfield getmdl-select">
+				     {{ form_widget( form.status,
+		                        { 'attr': {'class': 'mdl-textfield__input' ,'id' : 'application_applicationbundle_product_status' ,'name' : 'application_applicationbundle_product[status]', 'required' : 'required', 'maxlength' : '255'} }
+		                    ) }}
+				      <input value="" type="hidden" name="status"/>
+			        <label class="mdl-textfield__label" for="status">Status</label>
+			      	<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="status">
+				        <li class="mdl-menu__item" data-val="Available">Available</li>
+		                <li class="mdl-menu__item" data-val="Sell">Sell</li>
+	                    <li class="mdl-menu__item" data-val="Not Available">Not Available</li>
+			        </ul>
+   				</div>
+             </div>
+ 
              
              <div style="margin-bottom:30px;">
   			   			      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create"><p>submit</p></button>

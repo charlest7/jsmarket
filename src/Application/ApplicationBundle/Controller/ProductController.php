@@ -232,4 +232,21 @@ class ProductController extends Controller
     }
     
     
+    /**
+     * Displays a form to edit an existing product entity.
+     *
+     */
+    public function exportDataProductAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $products = $em->getRepository('AppApplicationBundle:Product')->findAll();
+        
+        
+        
+        return $this->render('AppApplicationBundle:product:exportProductData.xlsx.twig', [
+            'products' => $products,
+        ]);
+    }
+    
 }
