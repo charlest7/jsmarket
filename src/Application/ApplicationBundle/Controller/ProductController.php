@@ -28,7 +28,22 @@ class ProductController extends Controller
         return $this->render('AppApplicationBundle:Product:index.html.twig', array(
             'products' => $products,
         ));
-    }
+    } /**
+    * Lists all product entities.
+    *
+    */
+   public function indexNewAction()
+   {
+       $em = $this->getDoctrine()->getManager();
+
+       $products = $em->getRepository('AppApplicationBundle:Product')->findAll();
+       
+       return $this->render('AppApplicationBundle:Product:index_new.html.twig', array(
+           'products' => $products,
+       ));
+   }
+    
+
     
     /**
      *

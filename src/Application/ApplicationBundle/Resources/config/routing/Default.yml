@@ -1,0 +1,4 @@
+default_view:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Default:index" }
+    methods:  [GET, POST]

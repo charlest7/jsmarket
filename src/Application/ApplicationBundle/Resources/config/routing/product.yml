@@ -3,6 +3,11 @@ product_index:
     defaults: { _controller: "AppApplicationBundle:Product:index" }
     methods:  GET
 
+product_index_new:
+    path:     /new
+    defaults: { _controller: "AppApplicationBundle:Product:indexNew" }
+    methods:  GET
+
 
 product_test:
     path:     /test

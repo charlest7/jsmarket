@@ -1,38 +1,61 @@
 {% extends 'AppApplicationBundle:product:base.html.twig'%}
-{% block stylesheets %}
+
+{% block stylesheet %}	
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
         <link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet"/>
         <link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block body %}
     <h1>Products list</h1>
       <div class="col-xs-12 content-container">
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                Launch Default Modal
+              </button>
+      <div class="modal fade in" id="modal-default" style="display: block; padding-right: 17px;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Default Modal</h4>
+              </div>
+              <div class="modal-body">
+                <p>One fine body…</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
       	<div class="card">
       	<a href="{{ path('product_exportDataProduct') }}">
-      	    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create" style="margin-top:20px;"><p>Create New Product</p></button>
-      </a>
-        	<div class="card-header" style="margin-top:20px;">
-         	 	<h3>Product List</h3> 
-        	</div>
-        	<div class="card-body no-padding" style="margin-top:20px;">
-          		<table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th style="width:15%">Product Id</th>
-                        <th style="width:20%">Name</th>
-                        <th style="width:13%">Equity</th>
-                        <th style="width:13%">Price</th>
-                        <th style="width:20%">Date</th>
-                        <th style="width:10%">Status</th>
-                        <th style="width:19%"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
+      	   <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create" style="margin-top:20px;"><p>Create New Product</p></button>
+        </a>
+        <div class="card-header" style="margin-top:20px;">
+           <h3>Product List</h3> 
+        </div>
+        <div class="card-body no-padding" style="margin-top:20px;">
+          	<table id="example1" class="table table-bordered table-striped">
+               <thead>
+                   <tr>
+                      <th style="width:15%">Product Id</th>
+                      <th style="width:20%">Name</th>
+                      <th style="width:13%">Equity</th>
+                      <th style="width:13%">Price</th>
+                      <th style="width:20%">Date</th>
+                      <th style="width:10%">Status</th>
+                      <th style="width:19%"></th>
+                   </tr>
+                   </thead>
+                   <tbody>
                       {% for product in products %}
             			<tr>
                 			<td><a href="{{ path('product_show', { 'id': product.productId }) }}">{{ product.productId }}</a></td>
@@ -63,6 +86,8 @@
 	    <!-- DataTables -->
 	    <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 	    <script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+	    
+	    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
 	    <script type="text/javascript">
 
 	    $(document).ready(function(){
@@ -75,7 +100,38 @@
 	              "info": true,
 	              "autoWidth": false
 	            });
+	            
+	            
+	           $('#ext2').click(function(){
+	           	$('#ext1').css({'display':'block'})
+	           });
+			$('.modal-content').resizable({
+      //alsoResize: ".modal-dialog",
+      minHeight: 300,
+      minWidth: 300
+    });
+    $('.modal-dialog').draggable();
 
+    $('#myModal').on('show.bs.modal', function() {
+      $(this).find('.modal-body').css({
+        'max-height': '100%'
+      });
+    });
+    
+    $(function() {
+//----- OPEN
+$('[data-popup-open]').on('click', function(e) {
+var targeted_popup_class = jQuery(this).attr('data-popup-open');
+$('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+e.preventDefault();
+});
+//----- CLOSE
+$('[data-popup-close]').on('click', function(e) {
+var targeted_popup_class = jQuery(this).attr('data-popup-close');
+$('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+e.preventDefault();
+});
+});
 
 	        function amountConvert(el, price)
 	        {
