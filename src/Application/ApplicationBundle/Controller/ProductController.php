@@ -28,7 +28,10 @@ class ProductController extends Controller
         return $this->render('AppApplicationBundle:Product:index.html.twig', array(
             'products' => $products,
         ));
-    } /**
+    }
+    
+    
+    /**
     * Lists all product entities.
     *
     */
@@ -70,7 +73,7 @@ class ProductController extends Controller
             
             $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Product');
             
-            $query = $entityRepository->createQueryBuilder('alias')
+            $query = $entityRepository->createQuueryBuilder('alias')
             		->select('alias.productId')
             		->setMaxResults(1)
             		->orderBy('alias.productId','DESC')
@@ -112,8 +115,6 @@ class ProductController extends Controller
             
             $newProductId = substr($currDate,2,2).substr($currDate,5,2)."1".$currIndexProduct;
             
-            
-   
             $product->setProductId($newProductId);
             $product->setTransactionId("0");
             $product->setTransId("0");
@@ -139,6 +140,8 @@ class ProductController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+
 
     /**
      * Finds and displays a product entity.
@@ -211,11 +214,7 @@ class ProductController extends Controller
         ;
     }
     
-    public function testAction(Request $request)
-    {
-    	// replace this example code with whatever you need
-    	return $this->render('AppApplicationBundle:product:product_form.html.twig');
-    }
+
     
     /**
      * Displays a form to edit an existing product entity.
@@ -263,5 +262,130 @@ class ProductController extends Controller
             'products' => $products,
         ]);
     }
+
+    //product new js
+
+    /**
+     * Displays a form to edit an existing product entity.
+     *
+     */
+    public function addNewProductJSAction(Request $request)
+    {
+        //get string from product form json
+        $productString = $request->query->get('purchaseDetails');
+        $product = new Product();
+
+        //get last productId in database
+        $em = $this->getDoctrine()->getManager();
+            
+        $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Product');
+        
+        $query = $entityRepository->createQueryBuilder('alias')
+                ->select('alias.productId')
+                ->setMaxResults(1)
+                ->orderBy('alias.productId','DESC')
+                ->getQuery();
+        $result = $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        if($result == ""){
+            $result = [];
+        }
+        // Create new id for product
+        $currDate = date('Y-m-d');
+        
+        $lastIdProduct = implode(" ",$result);
+        $lastIndexProduct = substr($lastIdProduct, 4);
+        
+        echo $lastIdProduct." ";
+        $valIndexProduct = "";
+        for($x=0;$x<4;$x++){
+            if($lastIndexProduct[$x] != 0 ){
+                $valIndexProduct = $valIndexProduct.$lastIndexProduct[$x];
+            }
+        }
+        echo $valIndexProduct.' ';
+        
+        $currIndexProductNull = "";
+        if( substr($currDate,5,2)  == substr($lastIdProduct,2,2)){  
+            
+            $currIndexProductPartial = $valIndexProduct+1;
+            $currIndexProductNull;
+            
+            for($x=0;$x<4-strlen($currIndexProductPartial);$x++){
+                $currIndexProductNull = $currIndexProductNull."0";
+            }   
+            
+            $currIndexProduct = $currIndexProductNull.$currIndexProductPartial;
+        }else{
+            $currIndexProduct = "0001";
+        }
+
+        // get current type of product and set the status
+        $listProductType = ["Dress"=>"01","Long Dress"=>"02","Mini Dress"=>"03","Short Pants"=>"04","Pants"=>"05"];
+        $idStatusProduct = $listProductType[$productString[1]];
+        
+        $newProductId = substr($currDate,2,2).substr($currDate,5,2).$idStatusProduct.$currIndexProduct;
+        
+        $product->setName($productString[0]);
+        $product->setProductId($newProductId);
+        $product->setTransactionId("0");
+        $product->setTransId("0");
+        $product->setPrice($productString[3]);       
+        $product->setCustomerid('000');
+
+        $product->setSellPrice('0');       
+
+        $product->setCapital($productString[2]);
+        $product->setStatus($productString[4]);
+        $product->setType($productString[1]);
+        $product->setSellDate(new \DateTime($currDate));
+        $product->setDate(new \DateTime($currDate));
+
+        $em->persist($product);
+        $em->flush($product);
+
+
+    	return new JsonResponse(array('message' =>  $newProductId), 200);
+    	
+    }
+
+    public function editFormNewProductJsAction(Request $request)
+    {
+        //get string from product form json
+        $productId = $request->query->get('productId');
+        $product = new Product();
+        
+        $em = $this->getDoctrine()->getManager();
+
+
+        $products = $em->getRepository('AppApplicationBundle:Product')->find($productId);
+
+        $produtFieldEdit = [$products->getProductId(), $products->getName(), $products->getType(), $products->getCapital(), $products->getPrice(), $products->getStatus()];
+        
+        return new JsonResponse(array('message' => $produtFieldEdit ), 200);
+
+    }
+
+    public function editSubmitFormProductJsAction(Request $request)
+    {
+        //get string from product form json
+        $productListField = $request->query->get('productListField');
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $products = $em->getRepository('AppApplicationBundle:Product')->findOneBy(['productId' => $productListField[0]] );
+        $products->setName($productListField[1]);
+        $products->setType($productListField[2]);
+        $products->setCapital($productListField[3]);
+        $products->setPrice(900000);
+        $products->setStatus($productListField[5]);
+
+        $em->persist($products);
+        $em->flush($products); 
+
+
+        return new JsonResponse(array('message' =>  $productListField), 200);
+
+    }
+
     
 }

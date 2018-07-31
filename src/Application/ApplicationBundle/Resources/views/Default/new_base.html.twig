@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html>
   {% block header %}
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bootstrap Dashboard by Bootstrapious.com</title>
+    <title>Market Place</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -26,12 +25,20 @@
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('plugins/css_new/style.default.css') }}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="{{ asset('plugins/css_new/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/css_new/custom.css') }}">  <!-- Bootstrap Select CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-select/css/bootstrap-select.min.css">
+    <!-- Bootstrap Touchspin CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css">
+    <!-- Bootstrap Datepicker CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css">
+
+    <!-- DataTables CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.ico">
-
-
-
+    
+    
   </head>
   {% endblock %}
   <div>
@@ -76,12 +83,7 @@
                 <!-- Messages dropdown-->
       
                 <!-- Languages dropdown    -->
-                <li class="nav-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt="English"><span class="d-none d-sm-inline-block">English</span></a>
-                  <ul aria-labelledby="languages" class="dropdown-menu">
-                    <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="English" class="mr-2"><span>German</span></a></li>
-                    <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French                                                         </span></a></li>
-                  </ul>
-                </li>
+                
                 <!-- Log out-->
                 <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a></li>
               </ul>
@@ -99,20 +101,5 @@
 
   </div>
 
-    {% block javascript %}
-    <!-- JavaScript files-->
-    <script src="{{ asset('plugins/vendor_new/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('plugins/vendor_new/popper.js/umd/popper.min.js') }}"> </script>
-    <script src="{{ asset('plugins/vendor_new/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('plugins/js_new/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
-    <script src="{{ asset('plugins/vendor_new/jquery.cookie/jquery.cookie.js') }}"> </script>
-    <script src="{{ asset('plugins/vendor_new/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('plugins/vendor_new/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('plugins/vendor_new/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <script src="{{ asset('plugins/js_new/charts-custom.js') }}"></script>
-
-    
-    <!-- Main File-->
-    <script src="{{ asset('plugins/js_new/front.js') }}"></script>
-    {% endblock %}
+    {% block javascript %}{% endblock %}
 </html>

@@ -7,12 +7,6 @@ product_index_new:
     path:     /new
     defaults: { _controller: "AppApplicationBundle:Product:indexNew" }
     methods:  GET
-
-
-product_test:
-    path:     /test
-    defaults: { _controller: "AppApplicationBundle:Product:test" }
-    methods:  GET
     
 product_show:
     path:     /{id}/show
@@ -38,10 +32,9 @@ product_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppApplicationBundle:Product:delete" }
     methods:  DELETE
-product_form:
-    path:     /product_form
-    defaults: { _controller: "AppApplicationBundle:Product:productForm" }
-    methods:  [GET, POST]
+
+
+
 login_form:
     path:     /login
     defaults: { _controller: "AppApplicationBundle:Security:login" }
@@ -54,4 +47,16 @@ product_exportDataProduct:
     path:     /exportDataProduct
     defaults: { _controller: "AppApplicationBundle:Product:exportDataProduct", _format: xlsx }
     methods:  [GET]
-  
+
+product_add_newjs:
+    path:     /addNewProductJS
+    defaults: { _controller: "AppApplicationBundle:Product:addNewProductJS" }
+    methods:  [GET, POST]
+product_edit_form_newjs:
+    path:     /editFormNewProductJS
+    defaults: { _controller: "AppApplicationBundle:Product:editFormNewProductJS" }
+    methods:  [GET, POST]
+product_edit_submit_form_newjs:
+    path:     /editSubmitFormProductJs
+    defaults: { _controller: "AppApplicationBundle:Product:editSubmitFormProductJs" }
+    methods:  [GET, POST]
