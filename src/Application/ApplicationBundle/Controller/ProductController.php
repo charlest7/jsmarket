@@ -387,5 +387,22 @@ class ProductController extends Controller
 
     }
 
+    public function deleteProductJsAction(Request $request)
+    {
+        $productId = $request->query->get('productId');
+
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->getRepository('AppApplicationBundle:Product')->find($productId);
+
+        
+        $em->remove($products);
+        $em->flush();
+        
+        return new JsonResponse(array('message' =>  'sucess'), 200);
+
+
+
+    }
+
     
 }

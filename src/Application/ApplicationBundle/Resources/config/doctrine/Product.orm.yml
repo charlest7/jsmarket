@@ -35,10 +35,10 @@ Application\ApplicationBundle\Entity\Product:
             type: string
             unique: false
         date:
-            type: datetime
+            type: date
             unique: false
         sellDate:
-            type: datetime
+            type: date
             unique: false
         details:
             type: string

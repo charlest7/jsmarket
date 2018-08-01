@@ -61,11 +61,11 @@
                           <div class="dataTables_length" id="datatable1_length">
                             <table id="datatable1" style="width: 100%;" class="table dataTable no-footer" role="grid" aria-describedby="datatable1_info">
                               <thead>
-                                <th style="width:15%">Product Id</th>
-                                <th style="width:20%">Name</th>
-                                <th style="width:15%">Equity</th>
-                                <th style="width:10%">Price</th>
-                                <th style="width:15%">Date</th>
+                                <th style="width:13%">Product Id</th>
+                                <th style="width:15%">Name</th>
+                                <th style="width:14%">Equity</th>
+                                <th style="width:13%">Price</th>
+                                <th style="width:20%">Date</th>
                                 <th style="width:15%">Status</th>
                                 <th style="width:20%"></th>
                                
@@ -79,8 +79,8 @@
                                         <td id="price">Rp. {{ product.price|number_format }}</script></td>
                                         <td>{{ product.date|date('Y-m-d H:i:s') }}</td>
                                         <td>{{ product.status }}</td>
-                                        <td><i class="fa fa-pencil edit_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#editView""><i class="fa fa-trash-o delete_new" aria-hidden="true" style="margin-left:20px;"></i></a></td>
-                                    </tr>{% include 'AppApplicationBundle::product/edit_new_pl.html.twig'  %}
+                                        <td><i class="fa fa-pencil edit_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#editView"></i><i class="fa fa-trash-o delete_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#deleteView"style="margin-left:20px;"></i></a></td>
+                                    </tr>{% include 'AppApplicationBundle::product/edit_new_pl.html.twig'  %}{% include 'AppApplicationBundle::product/delete_new_pl.html.twig'  %}
                                 {% endfor %}
                               </tbody>
                             </table>
@@ -181,7 +181,7 @@
 
         $(".fa.fa-pencil.edit_new").click(function(){
           
-          var productId = $(this).attr('id');
+          var productId = $(this).attr('name');
 
           $.ajax({
    		    	url: "{{ path('product_edit_form_newjs') }}",
@@ -205,7 +205,6 @@
         });
 
         $("#editProductNewJS").click(function(){
-
           var productId = $("input#productId")[1].value;
           var productName = $("input#productName")[1].value;
           var productType = $("select[name='productType']").val();
@@ -222,10 +221,26 @@
    		    		data: { "productListField": productListField },	
    		    		contentType: "application/json"               
    		    }).done(function (data) {
-              console.log("success")
-
+            console.log("success")
             window.location.href = "{{ path('product_index_new') }}";         
+   			  }).fail(function (jqXHR, textStatus, errorThrown) {
 
+   		    });        
+        });
+
+        $("#deleteProductJs").click(function(){
+          
+          var productId = $(this).attr('name');
+          console.log(productId);
+          $.ajax({
+   		    	url: "{{ path('product_delete_submit_form_newjs') }}",
+   		    		async: true,
+   		    		type: "GET",
+   		    		data: { "productId": productId },	
+   		    		contentType: "application/json"               
+   		    }).done(function (data) {
+               window.location.href = "{{ path('product_index_new') }}";    
+               
    			  }).fail(function (jqXHR, textStatus, errorThrown) {
 
    		    });
