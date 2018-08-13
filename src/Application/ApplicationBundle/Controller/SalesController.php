@@ -304,4 +304,29 @@ class SalesController extends Controller
     		return new JsonResponse(array('message' =>  $results), 400);
     	}
     }
+
+    public function indexSalesNewJsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+		
+        $productRepository = $em->getRepository('AppApplicationBundle:Product');
+        
+        $query = $productRepository->createQueryBuilder('p')
+        ->where('p.status = :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $listSales = $query->getResult();
+
+        $query = $productRepository->createQueryBuilder('p')
+        ->where('p.status != :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $listProductsVal = $query->getResult();
+
+        return $this->render('AppApplicationBundle:Sales:index_sales_new_js.html.twig', array(
+            'listProducts' => $listProductsVal,
+            'sales' => $listSales,
+        ));
+
+    }
 }

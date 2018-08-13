@@ -148,14 +148,18 @@ class CustomerController extends Controller
 		    	->setMaxResults(1)
 		    	->orderBy('alias.id','DESC')
 		    	->getQuery();
-    	$result = $query->getSingleResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
-    	
-    	$lastEntityTransaction = $entityTransaction->findOneBy(array('id' => $result));
-    	$valTransactionId = substr($lastEntityTransaction->getTransactionId(),2)+1;
-    	$newTransactionId = $paymentMethod[$transactionDetails[4]].$valTransactionId;
-    	
-    	
-    	
+        $result = $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        
+        $newTransactionId = "0";
+        if($result == null){
+
+            $newTransactionId = $paymentMethod[$transactionDetails[4]]."1";
+        }else{
+            $lastEntityTransaction = $entityTransaction->findOneBy(array('id' => $result));
+    	    $valTransactionId = substr($lastEntityTransaction->getTransactionId(),2)+1;
+    	    $newTransactionId = $paymentMethod[$transactionDetails[4]].$valTransactionId;
+        }
+        
     	for($x=0;$x<count($transactionDetails[0]);$x++)
     	{
     		$productTransaction = $transactionDetails[0][$x];
@@ -163,10 +167,10 @@ class CustomerController extends Controller
     		
     		
     		
-    		$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction[0]));
+    		$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction));
     		
     		
-    		$product->setTransId($newTransactionId);
+    	    $product->setTransId($newTransactionId);
     		$product->setStatus("sell");
     		$product->setSellDate(new \DateTime($currDate));
     		
@@ -187,8 +191,7 @@ class CustomerController extends Controller
     	}
     	
     	$transaction = new Transaction();
-    	
-    	
+    	    	
     	$transaction->setTransactionId($newTransactionId);
     	$transaction->setTransactionDate(new \DateTime($currDate));
     	$transaction->setTransactionStoreId("01");
@@ -202,13 +205,8 @@ class CustomerController extends Controller
     	$em->persist($transaction);
     	$em->flush();
     	
-    	
-    	
-    	
-    	
-    	
     	if(!empty($productSell)){
-    		return new JsonResponse(array('message' =>  $lastEntityTransaction->getTransactionId()), 200);
+    		return new JsonResponse(array('message' => 'success'), 200);
     	}else{
     	}
     	

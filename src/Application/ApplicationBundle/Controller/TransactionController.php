@@ -157,14 +157,12 @@ class TransactionController extends Controller
     	
     	$productId = $request->query->get('productId');
     	
-    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productId));
+    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> '1807010002'));
     	
     	
-    	if(!empty($entityRepo)){
+    	
     		return new JsonResponse(array('message' =>  $entityRepo), 200);
-    	}else{
-    		return new JsonResponse(array('message' =>  $entityRepo), 400);
-    	}
+    	
     	
     }
     
@@ -180,21 +178,18 @@ class TransactionController extends Controller
     	$currDate = date('Y-m-d H:i:s');
     	
     	
-    	$paymentMethod = array("Cash"=>"CS","Debit"=>"DB","Credit card"=>"CC" );
-    	$lastTransactionId = $entityProduct->getRepository('AppApplicationBundle:Transaction')->findOneBy(array('transactionId'=> 'DESC'));
-    	$valTransactionId = substr($lastTransactionId->getTransactionId(),2);
+        $paymentMethod = array("Cash"=>"CS","Debit"=>"DB","Credit card"=>"CC" );
+        $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Transaction');
+            
+      
+       
+        $result = 0;
+    /*	$valTransactionId = substr($lastTransactionId->getTransactionId(),2);
     	$newTransactionId = $paymentMethod[$transactionDetails[4]].$valTransactionId;
-    	
-    	
-    
-    	
+    		
     	for($x=0;$x<count($transactionDetails[0]);$x++)
     	{
     		$productTransaction = $transactionDetails[0][$x];
-    		
-    		
-    		
-    		
     		$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction[0]));
     		
     		$product->setTransactionId($newTransactionId);
@@ -204,9 +199,7 @@ class TransactionController extends Controller
     		
     		$entityProduct->persist($product);
     		$entityProduct->flush();    		
-    		
-    		
-    		
+    	 		
     		array_push($productSell,$product->getStatus());
     	}
     	
@@ -226,14 +219,15 @@ class TransactionController extends Controller
     	
     	$em->persist($transaction);
     	$em->flush();
-    	
+        
+        */
     	
     	
     
     	
     	
     	if(!empty($productSell)){
-    		return new JsonResponse(array('message' =>  $lastTransactionId->getTransactionId()), 200);
+    		return new JsonResponse(array('message' =>  $result->getTransactionId()), 200);
     	}else{
     	}
     	
