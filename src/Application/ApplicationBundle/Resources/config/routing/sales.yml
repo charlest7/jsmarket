@@ -32,3 +32,15 @@ sales_showListSalesByDateRange:
     defaults: { _controller: "AppApplicationBundle:Sales:showListSalesByDateRange" }
     methods:  GET
 
+seles_indexSalesNewJs:
+    path:     /indexSalesNewJs
+    defaults: { _controller: "AppApplicationBundle:Sales:indexSalesNewJs" }
+    methods:  GET
+seles_editSalesNewJs:
+    path:     /editSalesNewJs
+    defaults: { _controller: "AppApplicationBundle:Sales:editSalesNewJs" }
+    methods:  GET
+sales_editSalesTemplateNewJs:
+    path: / editSalesTemplateNewJs
+    defaults: {_controller: "AppApplicationBundle:Sales:editSalesTemplateNewJs"}
+    methods:  GET

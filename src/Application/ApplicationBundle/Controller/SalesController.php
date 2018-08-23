@@ -329,4 +329,33 @@ class SalesController extends Controller
         ));
 
     }
+
+    public function editSalesTemplateNewJsAction(Request $request)
+    {
+        $productId = $request->query->get('productId');
+    	
+    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productId));
+    
+    	if(!empty($entityRepo)){
+    		return new JsonResponse(array('message' =>  $entityRepo), 200);
+    	}else{
+    		return new JsonResponse(array('message' =>  $entityRepo), 400);
+    	}
+
+    }
+
+    public function editSalesNewJsAction(Request $request)
+    {
+        $customerId = $request->query->get('customerId');
+    	
+    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Customer')->findOneBy(array('customerId'=> $customerId));
+    	
+    	
+    	if(!empty($entityRepo)){
+    		return new JsonResponse(array('message' =>  $entityRepo), 200);
+    	}else{
+    		return new JsonResponse(array('message' =>  $customerId), 400);
+    	}
+    	
+    }
 }

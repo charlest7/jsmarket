@@ -1,0 +1,66 @@
+<div id="sales_new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade text-left" style="display: none;" aria-hidden="true">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="exampleModalLabel" class="modal-title">Sales Form</h5>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <p>Date Range</p>
+                <form>
+                    <div class="form-group">
+                        <label>Product Id</label>
+                        <div>
+                            <select id="listProducts" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id">
+                                 {% for listProduct in listProducts %}
+                                    <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
+                                 {% endfor %}
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="form-group" id="paymentMethod">
+                        <label>Payment Method</label>
+                        <div>
+                            <select id="paymentMethodField" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id">
+                                 <option value='Credit Card'>Credit Card</option>
+                                 <option value='Cash'>Cash</option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="form-group" id="productPrice" style="display:none" >
+                        <label>Price</label>
+                        <input type="text" class="form-control"  autocomplete="off" disabled/>
+                    </div>     
+                    <div class="form-group" id="productSell" style="display:none">
+                        <label>Price Sell</label>
+                        <input type="text" class="form-control"  autocomplete="off" id="priceSellField" />
+                    </div>
+                    <div class="form-group" id="totalPay" style="display:none">
+                        <label>Total Pay</label>
+                        <input type="text" class="form-control"  autocomplete="off" id="totalPayField" />
+                    </div>  
+
+                </form>
+            </div>
+            <div class="detail-transaction" style="display:none;">
+                <div class="layout-print">
+                     <p>Product Id</p>
+                     <p>Total Pay</p>
+                     <p>Product Sell Price</p>
+                     <p>Exchange</p>
+                </div>
+                <div class="layout-print">
+                    <p id="productIdR">: 67373</p>
+                    <p id="totalPayR">: 67373</p>
+                    <p id="sellPriceR">: 67373</p>
+                    <p id="exchangeR">: i</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                <button id="payNow" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+               
