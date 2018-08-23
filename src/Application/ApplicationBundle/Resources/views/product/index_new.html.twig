@@ -79,7 +79,7 @@
                                         <td id="price">Rp. {{ product.price|number_format }}</script></td>
                                         <td>{{ product.date|date('Y-m-d H:i:s') }}</td>
                                         <td>{{ product.status }}</td>
-                                        <td><i class="fa fa-pencil edit_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#editView"></i><i class="fa fa-trash-o delete_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#deleteView"style="margin-left:20px;"></i></a></td>
+                                        <td><i class="fas fa-pencil-alt edit_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#editView"></i><i class="far fa-trash-alt delete_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#deleteView"style="margin-left:20px;"></i></a></td>
                                     </tr>{% include 'AppApplicationBundle::product/edit_new_pl.html.twig'  %}{% include 'AppApplicationBundle::product/delete_new_pl.html.twig'  %}
                                 {% endfor %}
                               </tbody>
@@ -179,9 +179,9 @@
    		    });
         });
 
-        $(".fa.fa-pencil.edit_new").click(function(){
+        $(".fas.fa-pencil-alt.edit_new").click(function(){
           
-          var productId = $(this).attr('name');
+          var productId = $(this).attr('id');
 
           $.ajax({
    		    	url: "{{ path('product_edit_form_newjs') }}",

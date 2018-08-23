@@ -235,7 +235,7 @@ class ProductController extends Controller
     	
     	$customerId = $request->query->get('customerId');
     	
-    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> '170410006'));
+    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $customerId));
     
     	if(!empty($entityRepo)){
     		return new JsonResponse(array('message' =>  $entityRepo), 200);
