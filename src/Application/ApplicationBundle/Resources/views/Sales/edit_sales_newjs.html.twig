@@ -10,16 +10,16 @@
                 <form>
                     <div class="form-group">
                         <label>Product Id</label>
-                        <input type="text" class="form-control" id="{{sale.productId}}" value="{{sale.productId}}" disabled/>
+                        <input type="text" class="form-control" id="productId" value="{{sale.productId}}" disabled/>
                     </div>                    
                     <div class="form-group">
                         <label>Product Name</label>
-                        <input type="text" class="form-control" id="productName" value=""/>
+                        <input type="text" class="form-control" id="productName" value="" disabled/>
                     </div>
                     <div class="form-group row" style="display:block;">
                       <label class="col-sm-2 form-control-label">Product Type</label>
                       <div class="col-sm-12 mb-3">
-                        <select name="productType" class="form-control" id="productType" style="width:100%">
+                        <select name="productType" class="form-control" id="productType" style="width:100%" disabled>
                           <option>Dress</option>
                           <option>Long Dress</option> 
                           <option>Mini Dress</option>
@@ -48,7 +48,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                <button id="editProductNewJS" type="button" class="btn btn-primary">Save changes</button>
+                <button id="editSalesNewJS" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

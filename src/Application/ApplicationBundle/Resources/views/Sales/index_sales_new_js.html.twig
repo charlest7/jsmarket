@@ -165,20 +165,46 @@
        console.log('%c Log Lovers 2018 \u2665 ', 'font-size: 45px; color: #bada55');
 
         $('.fas.fa-pencil-alt').click(function(){
-          console.log($(this).attr('id'));
-          var productId = $(this).attr('id');
-          $('input#1807010002').val($(this).attr('id'));
-          $.ajax({
-          url: "{{ path('transaction_addProductToCart') }}",
-          async: true,
-          type: "GET",
-          data: { "productId": productId },	
-          contentType: "application/json"                                                     
-          }).done(function (data) {
-          console.log(data.message); 
-          }).fail(function (jqXHR, textStatus, errorThrown) {
-          console.log("fail");
-          });
+            console.log($(this).attr('id'));
+            var productId = $(this).attr('id');
+            $.ajax({
+            url: "{{ path('sales_editSalesTemplateNewJs') }}",
+            async: true,
+            type: "GET",
+            data: { "productId": productId },	
+            contentType: "application/json"                                                     
+            }).done(function (data) {
+            console.log(data.message); 
+            console.log('tes');
+                           $("input#productId").val(data.message[0]);
+               $("input#productName").val(data.message[1]);
+               $("select#productType").val(data.message[2]);
+               $("input#productEquity").val(data.message[3]);
+               $("input#productPrice").val(data.message[4]);
+               $("input#productStatus").val(data.message[5]);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("fail");
+            });
+        });
+
+        $('#editSalesNewJS').click(function(){
+          
+            var productId = $('#productId').val()
+            var status = 'Not Available'
+            var price = 35000;
+            var sellPrice = 90000;
+  console.log(productId);
+            var listEditFields = [productId, status, price, sellPrice]
+            $.ajax({
+            url: "{{ path('seles_editSalesNewJs') }}",
+            async: true,
+            type: "GET",
+            data: { "listEditFields": listEditFields },	
+            contentType: "application/json"                                                     
+            }).done(function (data) {
+              console.log(listEditFields);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+            });
         });
 
         $('#listProducts').on('change',function(e){

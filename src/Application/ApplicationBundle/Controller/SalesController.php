@@ -334,28 +334,32 @@ class SalesController extends Controller
     {
         $productId = $request->query->get('productId');
     	
-    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productId));
-    
-    	if(!empty($entityRepo)){
-    		return new JsonResponse(array('message' =>  $entityRepo), 200);
+    	$products = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productId));
+        $produtFieldEdit = [$products->getProductId(), $products->getName(), $products->getType(), $products->getCapital(), $products->getPrice(), $products->getStatus()];
+        
+        if(!empty($produtFieldEdit)){
+    		return new JsonResponse(array('message' =>  $produtFieldEdit), 200);
     	}else{
-    		return new JsonResponse(array('message' =>  $entityRepo), 400);
+    		return new JsonResponse(array('message' =>  $produtFieldEdit), 400);
     	}
 
     }
 
     public function editSalesNewJsAction(Request $request)
     {
-        $customerId = $request->query->get('customerId');
+        $productListField = $request->query->get('listEditFields');
     	
-    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Customer')->findOneBy(array('customerId'=> $customerId));
+        $em = $this->getDoctrine()->getManager();
+
+    	$products = $em->getRepository('AppApplicationBundle:Product')->findOneBy(['productId' => $productListField[0]] );
+        
+        $products->setStatus('avail');
+        $products->setPrice(900000);
+        $products->setSellPrice(100000);
+        $em->persist($products);
+        $em->flush($products); 
+    	return new JsonResponse(array('message' => $productListField), 400);
     	
-    	
-    	if(!empty($entityRepo)){
-    		return new JsonResponse(array('message' =>  $entityRepo), 200);
-    	}else{
-    		return new JsonResponse(array('message' =>  $customerId), 400);
-    	}
     	
     }
 }

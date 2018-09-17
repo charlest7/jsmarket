@@ -8,11 +8,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
+     		
+    
+     		
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="{{ asset('plugins/vendor_new/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <!-- Font Awesome CSS-->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">    <!-- Font Awesome CSS-->
     <link rel="stylesheet" href="{{ asset('plugins/vendor_new/font-awesome/css/font-awesome.min.css') }}">
     <!-- Fontastic Custom icon font-->
     <link rel="stylesheet" href="{{ asset('plugins/css_new/fontastic.css') }}">
@@ -26,15 +28,24 @@
     <link rel="stylesheet" href="{{ asset('plugins/css_new/style.default.css') }}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{{ asset('plugins/css_new/custom.css') }}">  <!-- Bootstrap Select CSS-->
-    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-select/css/bootstrap-select.min.css">
     <!-- Bootstrap Touchspin CSS-->
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css">
     <!-- Bootstrap Datepicker CSS-->
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css">
-
+ <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{{ asset('plugins/css_new/bootstrap-select.css') }}">
     <!-- DataTables CSS-->
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
+
+<!-- Latest compiled and minified JavaScript -->
+
+
+
+
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.ico">
     
@@ -42,6 +53,20 @@
      .edit_new,.delete_new{
        color: #33b35a;
      }
+
+     .detail-transaction{
+       text-align:right;
+       padding:20px;
+
+     }
+
+     .layout-print{
+        display: inline-block;
+        width: 30%;
+        text-align: left;
+     }
+
+  
     </style>
   </head>
   {% endblock %}
@@ -67,7 +92,7 @@
           <ul id="side-main-menu" class="side-menu list-unstyled">                  
             <li><a href="{{ path('default_view') }}"> <i class="fas fa-home"></i>Home                             </a></li>
             <li><a href="{{ path('product_index_new') }}"> <i class="fas fa-file-alt"></i>Product                             </a></li>
-            <li><a href="charts.html"> <i class="fas fa-shopping-cart"></i>Sales                             </a></li>
+            <li><a href="{{ path('seles_indexSalesNewJs') }}"> <i class="fas fa-shopping-cart"></i>Sales                             </a></li>
             <li><a href="tables.html"> <i class="fas fa-money-check-alt"></i>Transaction                             </a></li>
             
           </ul>

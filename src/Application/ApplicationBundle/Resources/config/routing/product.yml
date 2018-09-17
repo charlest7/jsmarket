@@ -60,3 +60,7 @@ product_edit_submit_form_newjs:
     path:     /editSubmitFormProductJs
     defaults: { _controller: "AppApplicationBundle:Product:editSubmitFormProductJs" }
     methods:  [GET, POST]
+product_delete_submit_form_newjs:
+    path:     /deleteProductJs
+    defaults: { _controller: "AppApplicationBundle:Product:deleteProductJs" }
+    methods:  [GET, POST]

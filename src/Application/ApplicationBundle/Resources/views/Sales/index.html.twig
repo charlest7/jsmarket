@@ -2,8 +2,7 @@
 {% block stylesheets %}
 <meta charset="UTF-8" />
 <title>{% block title %}Welcome!{% endblock %}</title>
-<link
-	href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}"
+<link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}"
 	rel="stylesheet" />
 <link href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}"
 	rel="stylesheet" />
@@ -17,8 +16,7 @@
 	" rel="stylesheet" />
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"
 	src="{{ asset('plugins/jQuery/select2-4.0.3.js') }}"></script>
 {% block stylesheet %}
@@ -293,18 +291,33 @@
 
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('plugins/jquery.min.js2.13/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/jQuery/commonTask.js') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('public/pages/scripts/AppApplicationbundle/index.js') }}"></script>
-<!-- DataTables -->
-<script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+<!-- JavaScript files-->
+    <script src="{{ asset('plugins/vendor_new/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/popper.js/umd/popper.min.js') }}"> </script>
+    <script src="{{ asset('plugins/vendor_new/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/jquery.cookie/jquery.cookie.js') }}"> </script>
+    <script src="{{ asset('plugins/vendor_new/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/charts-custom.js') }}"></script>
 
-<!-- Datepicker -->
-<script type="text/javascript" src="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/jQuery/bootbox-4-4.0.js') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/jQuery/select2-4.0.3.js') }}"></script>
+
+ <!-- Bootstrap Touchspin-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Bootstrap No UI Slider-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/nouislider/nouislider.min.js"></script>
+    <!-- Bootstrap DatePicker-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+     <!-- Data Tables-->
+     <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/js/tables-datatable.js"></script>
+
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <!-- Main File-->
+    <script src="{{ asset('plugins/js_new/front.js') }}"></script>
 
 <script type="text/javascript">
 
