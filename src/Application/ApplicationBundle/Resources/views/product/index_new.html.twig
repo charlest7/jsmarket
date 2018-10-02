@@ -64,8 +64,8 @@
                                 <th style="width:13%">Product Id</th>
                                 <th style="width:15%">Name</th>
                                 <th style="width:14%">Equity</th>
-                                <th style="width:13%">Price</th>
-                                <th style="width:20%">Date</th>
+                                <th style="width:16%">Price</th>
+                                <th style="width:17%">Date</th>
                                 <th style="width:15%">Status</th>
                                 <th style="width:20%"></th>
                                
@@ -157,13 +157,16 @@
     <script>
       $('document').ready(function(){
 
-        $("#addProductNewJS").click(function(){
+    /*    $("#addProductNewJS").click(function(){
 
          
-       $("input#productName").val("da");
+          var productName = $("input#productName").val();
+          var productType = $("select#productType").val();
+          var productEquity = $("input#productEquity").val();
+          var productPrice = $("input#productPrice").val();
+          var productStatus = $("select#productStatus").val();
 
           var productString = [productName,productType,productEquity,productPrice,productStatus];
-          console.log(productString);
           $.ajax({
    		    	url: "{{ path('product_add_newjs') }}",
    		    		async: true,
@@ -171,14 +174,15 @@
    		    		data: { "purchaseDetails": productString },	
    		    		contentType: "application/json"               
    		    }).done(function (data) {
-               console.log(data);
+               console.log('dfsaf');
+              window.location = "{{ path('product_index_new') }}";
 
 
    			  }).fail(function (jqXHR, textStatus, errorThrown) {
-
+              console.log("dfasafds");window.location = "{{ path('product_index_new') }}";
    		    });
         });
-
+*/
         $(".fas.fa-pencil-alt.edit_new").click(function(){
           
           var productId = $(this).attr('id');

@@ -315,6 +315,9 @@ class ProductController extends Controller
             }   
             
             $currIndexProduct = $currIndexProductNull.$currIndexProductPartial;
+
+            echo $currIndexProductPartial;
+            exit;
         }else{
             $currIndexProduct = "0001";
         }
@@ -343,8 +346,11 @@ class ProductController extends Controller
         $em->persist($product);
         $em->flush($product);
 
-
-    	return new JsonResponse(array('message' =>  $newProductId), 200);
+        if(!empty($newProductId)){
+    		return new JsonResponse(array('message' =>  $newProductId), 200);
+    	}else{
+    		return new JsonResponse(array('message' =>  $newProductId), 400);
+    	}
     	
     }
 
