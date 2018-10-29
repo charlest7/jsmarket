@@ -144,6 +144,7 @@
     <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/nouislider/nouislider.min.js"></script>
     <!-- Bootstrap DatePicker-->
     <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
 
      <!-- Data Tables-->
      <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/js/tables-datatable.js"></script>
@@ -156,10 +157,9 @@
     <script src="{{ asset('plugins/js_new/front.js') }}"></script>
     <script>
       $('document').ready(function(){
-
-    /*    $("#addProductNewJS").click(function(){
-
-         
+        var productString = [];
+        $("#addProductNewJS").click(function(){
+         console.log('test')
           var productName = $("input#productName").val();
           var productType = $("select#productType").val();
           var productEquity = $("input#productEquity").val();
@@ -167,22 +167,9 @@
           var productStatus = $("select#productStatus").val();
 
           var productString = [productName,productType,productEquity,productPrice,productStatus];
-          $.ajax({
-   		    	url: "{{ path('product_add_newjs') }}",
-   		    		async: true,
-   		    		type: "GET",
-   		    		data: { "purchaseDetails": productString },	
-   		    		contentType: "application/json"               
-   		    }).done(function (data) {
-               console.log('dfsaf');
-              window.location = "{{ path('product_index_new') }}";
-
-
-   			  }).fail(function (jqXHR, textStatus, errorThrown) {
-              console.log("dfasafds");window.location = "{{ path('product_index_new') }}";
-   		    });
+          addProductData(productString);
         });
-*/
+
         $(".fas.fa-pencil-alt.edit_new").click(function(){
           
           var productId = $(this).attr('id');
@@ -251,7 +238,28 @@
           
         });
 
+           function addProductData(productString){
+             console.log(productString)
+                $.ajax({
+                    url: "{{ path('product_behaviourTestJs') }}",
+                    async: true,
+                    type: "GET",
+                    data: { "purchaseDetails": productString },	
+                    contentType: "application/json"               
+                }).done(function (data) {
+                  console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                   
+                    bootbox.confirm("Are you sure?", function(result) {
+                      if(result == true){
+                           productString[5] ='true' 
+                          addProductData(productString);
 
+                      }
+                       
+                    }); 
+                });    
+            }
       });
     </script>
     {% endblock %}

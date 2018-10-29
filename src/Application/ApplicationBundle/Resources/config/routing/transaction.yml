@@ -34,3 +34,7 @@ transaction_completePurchase:
     path:     /completePurchase
     defaults: { _controller: "AppApplicationBundle:Transaction:completePurchase" }
     methods:  [GET]
+transaction_jsmarket_index:
+    path:     /indexJs
+    defaults: { _controller: "AppApplicationBundle:Transaction:indexJs" }
+    methods:  [GET]

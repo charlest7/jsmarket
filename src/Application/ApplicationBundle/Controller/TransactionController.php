@@ -232,4 +232,21 @@ class TransactionController extends Controller
     	}
     	
     }
+
+    /**
+     * Lists all transaction entities.
+     *
+     */
+    public function indexJsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $transactions = $em->getRepository('AppApplicationBundle:Transaction')->findAll();
+        
+
+        return $this->render('AppApplicationBundle:Transaction:indexJs.html.twig', array(
+            'transactions' => $transactions,
+        ));
+    }
+
 }

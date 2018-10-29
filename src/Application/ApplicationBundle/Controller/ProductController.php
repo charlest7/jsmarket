@@ -62,7 +62,7 @@ class ProductController extends Controller
      * Creates a new product entity.
      *
      */
-    public function newAction(Request $request)
+  /*  public function newAction(Request $request)
     {
         $product = new Product();
         $form = $this->createForm('Application\ApplicationBundle\Form\ProductType', $product);
@@ -85,9 +85,8 @@ class ProductController extends Controller
             //set date
             $currDate = date('Y-m-d');
             $product->setDate(new \DateTime($currDate));
-            
-            $lastIdProduct = implode(" ",$result);
-            $lastIndexProduct = substr($lastIdProduct, 4);
+                        
+            $lastIndexProduct = substr($result, 4);
             
             echo $lastIdProduct." ";
             $valIndexProduct = "";
@@ -142,7 +141,7 @@ class ProductController extends Controller
     }
 
 
-
+*/
     /**
      * Finds and displays a product entity.
      *
@@ -271,87 +270,79 @@ class ProductController extends Controller
      */
     public function addNewProductJSAction(Request $request)
     {
-        //get string from product form json
-        $productString = $request->query->get('purchaseDetails');
-        $product = new Product();
+       //get string from product form json
+       $productString = $request->query->get('purchaseDetails');
+       $product = new Product();
 
-        //get last productId in database
-        $em = $this->getDoctrine()->getManager();
-            
-        $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Product');
-        
-        $query = $entityRepository->createQueryBuilder('alias')
-                ->select('alias.productId')
-                ->setMaxResults(1)
-                ->orderBy('alias.productId','DESC')
-                ->getQuery();
-        $result = $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
-        if($result == ""){
-            $result = [];
-        }
-        // Create new id for product
-        $currDate = date('Y-m-d');
-        
-        $lastIdProduct = implode(" ",$result);
-        $lastIndexProduct = substr($lastIdProduct, 4);
-        
-        echo $lastIdProduct." ";
-        $valIndexProduct = "";
-        for($x=0;$x<4;$x++){
-            if($lastIndexProduct[$x] != 0 ){
-                $valIndexProduct = $valIndexProduct.$lastIndexProduct[$x];
-            }
-        }
-        echo $valIndexProduct.' ';
-        
-        $currIndexProductNull = "";
-        if( substr($currDate,5,2)  == substr($lastIdProduct,2,2)){  
-            
-            $currIndexProductPartial = $valIndexProduct+1;
-            $currIndexProductNull;
-            
-            for($x=0;$x<4-strlen($currIndexProductPartial);$x++){
-                $currIndexProductNull = $currIndexProductNull."0";
-            }   
-            
-            $currIndexProduct = $currIndexProductNull.$currIndexProductPartial;
+       //get last productId in database
+       $em = $this->getDoctrine()->getManager();
+           
+       $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Product');
+       
+       $query = $entityRepository->createQueryBuilder('alias')
+               ->select('alias.id')
+               ->setMaxResults(1)
+               ->orderBy('alias.id','DESC')
+               ->getQuery();
+       $result = $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+       $currDate = date('Y-m-d');
+       $entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('id'=> $result));
 
-            echo $currIndexProductPartial;
-            exit;
-        }else{
-            $currIndexProduct = "0001";
-        }
+       if($entityRepo->getName() == $productString[0] && $entityRepo->getCapital() == $productString[2] &&
+       $entityRepo->getPrice() == $productString[3] && $productString[5] == 'fail' ){
+           return new JsonResponse(array('message' =>  'fail'), 400);
+       }else{
+           if($result == ""){
+               $result = '';
+           }
+           
 
-        // get current type of product and set the status
-        $listProductType = ["Dress"=>"01","Long Dress"=>"02","Mini Dress"=>"03","Short Pants"=>"04","Pants"=>"05"];
-        $idStatusProduct = $listProductType[$productString[1]];
-        
-        $newProductId = substr($currDate,2,2).substr($currDate,5,2).$idStatusProduct.$currIndexProduct;
-        
-        $product->setName($productString[0]);
-        $product->setProductId($newProductId);
-        $product->setTransactionId("0");
-        $product->setTransId("0");
-        $product->setPrice($productString[3]);       
-        $product->setCustomerid('000');
+           if($result != ''){
+              //to get last index product 
+              $lastIndexProductNo = substr($entityRepo->getProductId(),6);
 
-        $product->setSellPrice('0');       
+              //* get number result id
+              $numberValueId = '';
+              for($no=0;$no<4;$no++){
+               if($lastIndexProductNo[$no] != 0){
+                   $numberValueId = $numberValueId.$lastIndexProductNo;
+               } 
+              }
+              $numberValueId++;
+              $nullValueId = '';
+              for($x=0;$x<(4-strlen($numberValueId));$x++){
+                   $nullValueId = $nullValueId.'0';
+              };
+              $newIdProduct = $nullValueId.$numberValueId;
+           }else{
+             $newIdProduct = '0031';
+           }
 
-        $product->setCapital($productString[2]);
-        $product->setStatus($productString[4]);
-        $product->setType($productString[1]);
-        $product->setSellDate(new \DateTime($currDate));
-        $product->setDate(new \DateTime($currDate));
+           //get current type of product and set the status
+           $listProductType = ["Dress"=>"01","Long Dress"=>"02","Mini Dress"=>"03","Short Pants"=>"04","Pants"=>"05"];
+           $idStatusProduct = $listProductType[$productString[1]];
+           $newProductId = substr($currDate,2,2).substr($currDate,5,2).$idStatusProduct.$newIdProduct;
+           
+           $product->setName($productString[0]);
+           $product->setProductId($newProductId);
+           $product->setTransactionId("0");
+           $product->setTransId("0");
+           $product->setPrice($productString[3]);       
+           $product->setCustomerid('000');
+   
+           $product->setSellPrice('0');       
+   
+           $product->setCapital($productString[2]);
+           $product->setStatus($productString[4]);
+           $product->setType($productString[1]);
+           $product->setSellDate(new \DateTime($currDate));
+           $product->setDate(new \DateTime($currDate));
+   
+           $em->persist($product);
+           $em->flush($product);
 
-        $em->persist($product);
-        $em->flush($product);
-
-        if(!empty($newProductId)){
-    		return new JsonResponse(array('message' =>  $newProductId), 200);
-    	}else{
-    		return new JsonResponse(array('message' =>  $newProductId), 400);
-    	}
-    	
+              return new JsonResponse(array('message' =>  $numberValueId), 200);
+       }
     }
 
     public function editFormNewProductJsAction(Request $request)
@@ -405,10 +396,162 @@ class ProductController extends Controller
         $em->flush();
         
         return new JsonResponse(array('message' =>  'sucess'), 200);
-
-
-
     }
 
+     /**
+     * Lists all product entities.
+     *
+     */
+    public function testJsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $products = $em->getRepository('AppApplicationBundle:Product')->findAll();
+        
+        return $this->render('AppApplicationBundle:Product:testJs.html.twig', array(
+            'products' => $products,
+        ));
+    }
+
+    public function behaviourTestJSAction(Request $request)
+    {
+        //get string from product form json
+        $productString = $request->query->get('purchaseDetails');
+        $product = new Product();
+
+        //get last productId in database
+        $em = $this->getDoctrine()->getManager();
+            
+        $entityRepository = $this->getDoctrine()->getRepository('AppApplicationBundle:Product');
+        
+        $query = $entityRepository->createQueryBuilder('alias')
+                ->select('alias.id')
+                ->setMaxResults(1)
+                ->orderBy('alias.id','DESC')
+                ->getQuery();
+        $result = $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        $currDate = date('Y-m-d');
+        $entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('id'=> $result));
+
+        if($entityRepo->getName() == $productString[0] && $entityRepo->getCapital() == $productString[2] &&
+        $entityRepo->getPrice() == $productString[3] && $productString[5] == 'fail' ){
+            return new JsonResponse(array('message' =>  'fail'), 400);
+        }else{
+            if($result == ""){
+                $result = '';
+            }
+            
+
+            if($result != ''){
+               //to get last index product 
+               $lastIndexProductNo = substr($entityRepo->getProductId(),6);
+
+               //* get number result id
+               $numberValueId = '';
+               for($no=0;$no<4;$no++){
+                if($lastIndexProductNo[$no] != 0){
+                    $numberValueId = $numberValueId.$lastIndexProductNo;
+                } 
+               }
+               $numberValueId++;
+               $nullValueId = '';
+               for($x=0;$x<(4-strlen($numberValueId));$x++){
+                    $nullValueId = $nullValueId.'0';
+               };
+               $newIdProduct = $nullValueId.$numberValueId;
+            }else{
+              $newIdProduct = '0031';
+            }
+
+            //get current type of product and set the status
+            $listProductType = ["Dress"=>"01","Long Dress"=>"02","Mini Dress"=>"03","Short Pants"=>"04","Pants"=>"05"];
+            $idStatusProduct = $listProductType[$productString[1]];
+            $newProductId = substr($currDate,2,2).substr($currDate,5,2).$idStatusProduct.$newIdProduct;
+            
+            $product->setName($productString[0]);
+            $product->setProductId($newProductId);
+            $product->setTransactionId("0");
+            $product->setTransId("0");
+            $product->setPrice($productString[3]);       
+            $product->setCustomerid('000');
     
+            $product->setSellPrice('0');       
+    
+            $product->setCapital($productString[2]);
+            $product->setStatus($productString[4]);
+            $product->setType($productString[1]);
+            $product->setSellDate(new \DateTime($currDate));
+            $product->setDate(new \DateTime($currDate));
+    
+            $em->persist($product);
+            $em->flush($product);
+
+               return new JsonResponse(array('message' =>  $numberValueId), 200);
+        }
+       /* if($result == ""){
+            $result = '';
+        }
+        
+        
+
+        $currDate = date('Y-m-d');
+        
+        $lastIdProduct = implode(" ",$result);
+        $lastIndexProduct = substr($lastIdProduct, 6);
+      
+        $valIndexProduct = "";
+        for($x=0;$x<4;$x++){
+            if($lastIndexProduct[$x] != 0 ){
+                $valIndexProduct = $valIndexProduct.$lastIndexProduct[$x];
+            }
+        }
+        
+        $currIndexProductNull = "";
+        if( substr($currDate,5,2)  == substr($lastIdProduct,2,2)){  
+            
+            $currIndexProductPartial = $valIndexProduct+1;
+            $currIndexProductNull;
+            
+            for($x=0;$x<4-strlen($currIndexProductPartial);$x++){
+                $currIndexProductNull = $currIndexProductNull."0";
+            }   
+            
+            $currIndexProduct = $currIndexProductNull.$currIndexProductPartial;
+
+        }else{
+            $currIndexProduct = "0001";
+        }
+
+        
+
+        // get current type of product and set the status
+        $listProductType = ["Dress"=>"01","Long Dress"=>"02","Mini Dress"=>"03","Short Pants"=>"04","Pants"=>"05"];
+        $idStatusProduct = $listProductType[$productString[1]];
+        $newProductId = substr($currDate,2,2).substr($currDate,5,2).$idStatusProduct.$currIndexProduct;
+        $newProductId = substr($currDate,2,2).substr($currDate,5,2).$idStatusProduct.$currIndexProduct;
+        
+        $product->setName($productString[0]);
+        $product->setProductId($newProductId);
+        $product->setTransactionId("0");
+        $product->setTransId("0");
+        $product->setPrice($productString[3]);       
+        $product->setCustomerid('000');
+
+        $product->setSellPrice('0');       
+
+        $product->setCapital($productString[2]);
+        $product->setStatus($productString[4]);
+        $product->setType($productString[1]);
+        $product->setSellDate(new \DateTime($currDate));
+        $product->setDate(new \DateTime($currDate));
+
+        $em->persist($product);
+        $em->flush($product);
+        */
+
+        
+    	
+    	
+    }
+
 }

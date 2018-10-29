@@ -64,3 +64,11 @@ product_delete_submit_form_newjs:
     path:     /deleteProductJs
     defaults: { _controller: "AppApplicationBundle:Product:deleteProductJs" }
     methods:  [GET, POST]
+product_testJs:
+    path:     /testJs
+    defaults: { _controller: "AppApplicationBundle:Product:testJs" }
+    methods:  [GET, POST]
+product_behaviourTestJs:
+    path:     /behaviourTestJs
+    defaults: { _controller: "AppApplicationBundle:Product:behaviourTestJs"}
+    methods:  [GET, POST]
