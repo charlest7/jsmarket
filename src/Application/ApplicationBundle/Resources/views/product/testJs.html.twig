@@ -1,0 +1,100 @@
+{% extends 'AppApplicationBundle:Default:new_base.html.twig'%}
+
+{% block stylesheet %}	
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- Bootstrap Select CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-select/css/bootstrap-select.min.css">
+    <!-- Bootstrap Touchspin CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css">
+    <!-- Bootstrap Datepicker CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css">
+    <!-- Bootstrap Tags input CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css">
+    <!-- No UI Slider-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/nouislider/nouislider.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/style.default.premium.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/img/favicon.ico">
+
+{% endblock %}
+
+{% block body %} 
+{% include 'AppApplicationBundle::product/product_new_pl.html.twig'  %}
+
+  <button id="testJs" type="button" class="btn btn-primary">Save changes</button>
+
+{% endblock %}
+{% block javascript %}
+    <!-- JavaScript files-->
+    <script src="{{ asset('plugins/vendor_new/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/popper.js/umd/popper.min.js') }}"> </script>
+    <script src="{{ asset('plugins/vendor_new/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/jquery.cookie/jquery.cookie.js') }}"> </script>
+    <script src="{{ asset('plugins/vendor_new/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/charts-custom.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
+
+ <!-- Bootstrap Touchspin-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Bootstrap No UI Slider-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/nouislider/nouislider.min.js"></script>
+    <!-- Bootstrap DatePicker-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+     <!-- Data Tables-->
+     <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/js/tables-datatable.js"></script>
+
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <!-- Main File-->
+    <script src="{{ asset('plugins/js_new/front.js') }}"></script>
+    <script>
+    var productString = [];
+      $('document').ready(function(){
+        $("#testJs").click(function(){
+            var productString = ['dsf','Dress','90','100','available','fail'];
+            addProductData(productString);
+
+            
+          
+        });
+
+        function addProductData(productString){
+                $.ajax({
+                    url: "{{ path('product_behaviourTestJs') }}",
+                    async: true,
+                    type: "GET",
+                    data: { "purchaseDetails": productString },	
+                    contentType: "application/json"               
+                }).done(function (data) {
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    productString[5] ='true' 
+                    bootbox.confirm("Are you sure?", function(result) {
+                        addProductData(productString);
+                    }); 
+                });    
+            }
+      });
+    </script>
+    {% endblock %}
+

@@ -242,10 +242,18 @@ class TransactionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $transactions = $em->getRepository('AppApplicationBundle:Transaction')->findAll();
+
+        $listProducts = $em->getRepository('AppApplicationBundle:Product');
+        $query = $listProducts->createQueryBuilder('p')
+        ->where('p.status != :status')
+        ->setParameter('status', 'sell')
+        ->getQuery();
+        $listProductsVal = $query->getResult();
         
 
         return $this->render('AppApplicationBundle:Transaction:indexJs.html.twig', array(
             'transactions' => $transactions,
+            'listProducts' => $listProductsVal
         ));
     }
 

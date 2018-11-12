@@ -1,0 +1,75 @@
+<div id="transaction_new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade text-left" style="display: none;" aria-hidden="true">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="exampleModalLabel" class="modal-title">Add New Transaction</h5>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-customer" id='form-customer'>
+                        <h3>Customer Information</h3>
+                        <div class="form-group row" style="display:block;" id='customerType'>
+                            <label class="col-sm-12 form-control-label">Customer Type</label>
+                            <div class="col-sm-12 mb-3">
+                                <select name="customerType" class="form-control" id="customerTypeField">
+                                <option>Member</option>
+                                <option>Non Member</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="display:none;" id='customerId'>
+                            <label class="col-sm-12 form-control-label">Cusotmer Id</label>
+                            <div class="col-sm-12 mb-3">
+                                <select name="customerId" class="form-control" id="customerIdField">
+                                <option>Available</option>
+                                <option>Not Available</option>     
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-product-list" id='form-product-list' style="display:none;">
+                        <h3>Product Information</h3>
+                        <p>Customer Type <i style="display:inline-block;">:None</i></p>
+                        <p>Customer Id<i style="display:inline-block;">:None</i></p>
+                        <div class="form-group">
+                            <label>Product Id</label>
+                            <div>
+                                <select id="listProducts" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
+                                    {% for listProduct in listProducts %}
+                                        <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="productPrice">
+                            <label>Price</label>
+                            <input type="number" class="form-control"  autocomplete="off"/>
+                        </div>  
+                        <div class="dataTables_length" id="datatable1_length">
+                            <table id="datatableSales" style="width: 100%;" class="table dataTable no-footer" role="grid" aria-describedby="datatable1_info">
+                                <thead>
+                                <tr>
+                                    <th style="width:40%">Product Id</th>
+                                    <th style="width:60%">Price</th>
+                                </tr>
+                                </thead>
+                                <tbody id="fieldProduct">
+                                    <tr>
+                                        <td><a >Product Id</a></td>
+                                        <td>Price</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                          </div>
+                           <button id="addProduct" type="button" class="btn btn-primary">Add Product</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                <button id="saveCustomer" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
