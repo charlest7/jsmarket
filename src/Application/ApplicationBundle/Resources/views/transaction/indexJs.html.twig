@@ -168,6 +168,7 @@
         $('document').ready(function(){
           var listProductId = [];
           var listItemElement = '';
+          var saveProductList = '';
           //to navigate customer type that arrived to make transaction
           $('#customerTypeField').on('change',function(e){
             if($(this).val() == 'Member'){
@@ -184,31 +185,48 @@
             $(this).attr('id','saveProductList');
             $('#form-customer').css({'display':'none'});
             $('#form-product-list').css({'display':'block'});
+            saveProductList = 'saveProductList'
+          })
+
+          //to display price
+          $('#listProducts').on('change',function(){
+            productData = getProductData($(this).val(),listProductId,0);
+            console.log(productData);
           })
 
           //to add the product
           $('#addProduct').click(function(){
 
-            if($('#productPrice>input').val() != ''){
+            if($('#productSellPrice>input').val() != ''){
               console.log('press');
               var productId = $('#listProducts').val();
-              getProductData(productId,listProductId);
+              getProductData(productId,listProductId,1);
             }else{
               bootbox.alert("Hello world!");
             }
             
           })
 
+          //continue to payment method page
+          $('#saveProductList').click(function(){
+            console.log('test');
+              $('#productId').css('display','none');
+              $('#productPrice').css('display','none');
+              $('#productSellPrice').css('display','none');
+               $('#addProduct').css('display','none');
+
+              $('#form-payment-method').css('display','block');
+          });
+
           //to remove product from the cart
           $('#fieldProduct').append('tr>td>button').click(function(){
             var rowIdElement = $(this).attr('id');
-
             console.log(rowIdElement);
           })
           $('#fieldProduct').empty()
           //to record list of the product that added to the cart
 
-          function getProductData(productIdValue){
+          function getProductData(productIdValue,listProductId,typeOfAction){
                 var productId = productIdValue;
                 $.ajax({
                 url: "{{ path('sales_editSalesTemplateNewJs') }}",
@@ -217,19 +235,30 @@
                 data: { "productId": productId },	
                 contentType: "application/json"                                                     
                 }).done(function (data) {
-                  if($('#productPrice>input').val() < data.message[4]){
-                    bootbox.alert("The price should be added, can not sell in this price");
+                  if(typeOfAction == 0){
+                    console.log(data);
+                    $('#sellPrice').css({'display':'inline-block'});
+                    $('#productPrice').css({'display':'inline-block'});
+                    $('#productPriceField').val(data.message[4]);
+                    console.log(data.message[4]);
+                    return data.message
                   }else{
+                    console.log('tes')
+                     if($('#productSellPrice>input').val() < data.message[4]){
+                         bootbox.alert("The price should be added, can not sell in this price");
+                    }else{
                     var noProduct = checkAvailiblityProductInTheCart(productIdValue,listProductId);
                     console.log(noProduct);
                     if(noProduct == false){
-                      console.log('fs');
+                      console.log($('#sellPriceField').val());
                         
-                        $('#fieldProduct').append('<tr class="productAdd" id="'+productId+'"><td><a>'+productId+'</a></td><td>'+$('#productPrice>input').val()+'</td><td><button class="deleteProduct" type="button">x</button></td></tr>');
-                        listProductId.push([productId,$('#productPrice>input').val()]);
+                        $('#fieldProduct').append('<tr class="productAdd" id="'+productId+'"><td><a>'+productId+'</a></td><td>'+$('#sellPriceField').val()+'</td><td><button class="deleteProduct" type="button">x</button></td></tr>');
+                        listProductId.push([productId,$('#sellPriceField').val()]);
                     }else{
                          bootbox.alert("Can not be added same product in the cart");
-                    }
+                    } 
+                  }
+                  
                     
                   }
                 }).fail(function (jqXHR, textStatus, errorThrown) {

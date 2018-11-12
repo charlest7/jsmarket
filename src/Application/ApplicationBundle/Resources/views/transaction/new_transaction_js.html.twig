@@ -42,9 +42,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" id="productPrice">
+                        <div class="form-group" id="sellPrice" style="max-width:50%;display:none">
+                            <label>Sell Price</label>
+                            <input type="number" id="sellPriceField" class="form-control"  autocomplete="off"/>
+                        </div> 
+                        <div class="form-group" id="productPrice" style="max-width:50%;display:none">
                             <label>Price</label>
-                            <input type="number" class="form-control"  autocomplete="off"/>
+                            <input type="number" id="productPriceField" class="form-control"  autocomplete="off" disabled/>
                         </div>  
                         <div class="dataTables_length" id="datatable1_length">
                             <table id="datatableSales" style="width: 100%;" class="table dataTable no-footer" role="grid" aria-describedby="datatable1_info">
@@ -63,6 +67,28 @@
                             </table>
                           </div>
                            <button id="addProduct" type="button" class="btn btn-primary">Add Product</button>
+                    </div>
+                    <div class="form-payment-method" id='form-product-list' style="display:none;">
+                        <div class="form-group">
+                            <label>Payment Method</label>
+                            <div>
+                                <select id="peymentMethod" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
+                                        <option value="Cash">Cash</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="Debit Card">Debit Card</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="totalCash" style="max-width:50%;display:none">
+                            <label>Total Cash</label>
+                            <input type="number" id="totalCashField" class="form-control"  autocomplete="off"/>
+                        </div> 
+                        <div class="form-group" id="totalChangeDue" style="max-width:50%;display:none">
+                            <label>Change Due</label>
+                            <input type="number" id="totalChangeDue" class="form-control"  autocomplete="off" disabled/>
+                        </div> 
+                    </div>
+                    <div class="form-product-list" id='form-product-list' style="display:none;">
                     </div>
                 </form>
             </div>
