@@ -6,7 +6,7 @@
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form style="max-height:500px;overflow-x:hidden;overflow-y:auto">
                     <div class="form-customer" id='form-customer'>
                         <h3>Customer Information</h3>
                         <div class="form-group row" style="display:block;" id='customerType'>
@@ -22,34 +22,38 @@
                             <label class="col-sm-12 form-control-label">Cusotmer Id</label>
                             <div class="col-sm-12 mb-3">
                                 <select name="customerId" class="form-control" id="customerIdField">
-                                <option>Available</option>
-                                <option>Not Available</option>     
+                                <option>Select Value<option>
+                                <option>123</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-product-list" id='form-product-list' style="display:none;">
                         <h3>Product Information</h3>
-                        <p>Customer Type <i style="display:inline-block;">:None</i></p>
-                        <p>Customer Id<i style="display:inline-block;">:None</i></p>
-                        <div class="form-group">
-                            <label>Product Id</label>
-                            <div>
-                                <select id="listProducts" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
-                                    {% for listProduct in listProducts %}
-                                        <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
-                                    {% endfor %}
-                                </select>
+                            <p>Customer Type <i id="custTypeVal" style="display:inline-block;">:None</i></p>
+                            <p>Customer Id<i id="custIdVal" style="display:inline-block;">:None</i></p> 
+                       <div id="productAdded">                
+                            <div class="form-group">
+                                <label style="display:inline-block;">Product Id</label>
+                                <div style="display:inline-block;">
+                                    <select id="listProducts" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
+                                        {% for listProduct in listProducts %}
+                                            <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" id="sellPrice" style="max-width:50%;display:none">
-                            <label>Sell Price</label>
-                            <input type="number" id="sellPriceField" class="form-control"  autocomplete="off"/>
-                        </div> 
-                        <div class="form-group" id="productPrice" style="max-width:50%;display:none">
-                            <label>Price</label>
-                            <input type="number" id="productPriceField" class="form-control"  autocomplete="off" disabled/>
-                        </div>  
+                            <div class="form-group" id="sellPrice" style="max-width:50%;display:none">
+                                <label>Sell Price</label>
+                                <input type="number" id="sellPriceField" class="form-control"  autocomplete="off"/>
+                            </div> 
+                            <div class="form-group" id="productPrice" style="max-width:50%;display:none">
+                                <label>Price</label>
+                                <input type="number" id="productPriceField" class="form-control"  autocomplete="off" disabled/>
+                            </div>  
+                            <button id="addProduct" type="button" class="btn btn-primary">Add Product</button>
+                       </div>
+                       
                         <div class="dataTables_length" id="datatable1_length">
                             <table id="datatableSales" style="width: 100%;" class="table dataTable no-footer" role="grid" aria-describedby="datatable1_info">
                                 <thead>
@@ -66,26 +70,33 @@
                                 </tbody>
                             </table>
                           </div>
-                           <button id="addProduct" type="button" class="btn btn-primary">Add Product</button>
+                           
                     </div>
-                    <div class="form-payment-method" id='form-product-list' style="display:none;">
+                    <div class="form-payment-method" id='form-payment-method' style="display:none;">
                         <div class="form-group">
-                            <label>Payment Method</label>
-                            <div>
-                                <select id="peymentMethod" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
+                            <label style="display:inline-block;">Payment Method</label>
+                            <div style="display:inline-block;float:right;">
+                                <select id="paymentMethod" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
                                         <option value="Cash">Cash</option>
                                         <option value="Credit Card">Credit Card</option>
                                         <option value="Debit Card">Debit Card</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" id="totalCash" style="max-width:50%;display:none">
-                            <label>Total Cash</label>
-                            <input type="number" id="totalCashField" class="form-control"  autocomplete="off"/>
+                        <div class="form-group" id="totalCash" style="max-width:100%;display:none;margin:20px 0">
+                            <label style="display:inline-block;max-width:50%;" >Total Cash</label>
+                            <input style="display:inline-block;max-width:50%;float:right;" type="number" id="totalCashField" class="form-control"  autocomplete="off"/>
+                        </div>
+
+                       <div class="form-group" id="totalPayment" style="max-width:100%;display:none;margin:20px 0;">
+                            <label style="display:inline-block;max-width:50%;">Total Payment</label>
+                            <input type="number" id="totalPaymentField" class="form-control"  autocomplete="off" style="display:inline-block;max-width:50%;float:right;" disabled/>
                         </div> 
-                        <div class="form-group" id="totalChangeDue" style="max-width:50%;display:none">
-                            <label>Change Due</label>
-                            <input type="number" id="totalChangeDue" class="form-control"  autocomplete="off" disabled/>
+                        
+                         
+                        <div class="form-group" id="totalChangeDue" style="max-width:100%;display:none;margin:20px 0">
+                            <label style="display:inline-block;max-width:50%;">Change Due</label>
+                            <input style="display:inline-block;max-width:50%;float:right;" type="number" id="totalChangeDueField" class="form-control"  autocomplete="off" disabled/>
                         </div> 
                     </div>
                     <div class="form-product-list" id='form-product-list' style="display:none;">
@@ -94,7 +105,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                <button id="saveCustomer" type="button" class="btn btn-primary">Save changes</button>
+                <button id="saveCustomer" name="saveButton" type="button" class="btn btn-primary">Save changes</button>
+                <button id="payNow" name="payNow" type="button" class="btn btn-primary" style="display:none;">Pay Now</button>
             </div>
         </div>
     </div>

@@ -219,6 +219,21 @@
 
    		    });        
         });
+        
+        $('#payNow').click(function(){
+          var itemTransaction =  [$("#listProducts").val()];
+          var customerId = 0;
+          var totalItem = 1;
+          var totalAmountPurchase = $('#priceSellField').val();
+          var paymentType = $('#paymentMethodField').val();
+          var purchaseDetails = [itemTransaction,customerId,totalItem,totalAmountPurchase, paymentType];
+
+
+          console.log(purchaseDetails)
+          purchaseAction(purchaseDetails)
+        })
+
+
 
         $("#deleteProductJs").click(function(){
           

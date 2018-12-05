@@ -167,8 +167,12 @@
     <script>
         $('document').ready(function(){
           var listProductId = [];
+          var listProduct = [];
           var listItemElement = '';
           var saveProductList = '';
+          var totalPayment = 0;
+          var customerType = ''
+          var customerId = ''
           //to navigate customer type that arrived to make transaction
           $('#customerTypeField').on('change',function(e){
             if($(this).val() == 'Member'){
@@ -178,15 +182,39 @@
             }
           })
 
+          $('#transaction_new').click(function(){
+            console.log("close");
+          })
+
           //to select customer id when user select customer type as member
 
           //to save customer data
           $('#saveCustomer').click(function(){
-            $(this).attr('id','saveProductList');
-            $('#form-customer').css({'display':'none'});
-            $('#form-product-list').css({'display':'block'});
-            saveProductList = 'saveProductList'
+            var custType = $('#customerTypeField').val();
+            var custId = $('customerIdField').val();
+
+            if(custType == 'Member' &&
+             ($("#customerIdField").val() == '' || typeof $("#customerIdField").val() == 'undefined' || $("#customerIdField").val() == 'Select Value')){
+                bootbox.alert('You should fill the customer Id')
+            }else{
+                $(this).attr('id','saveProductList');
+                $('#form-customer').css({'display':'none'});
+                $('#form-product-list').css({'display':'block'});
+                customerType = custType;
+                customerId = $('#customerIdField').val(); 
+                $('#custTypeVal').text(': '+customerType);
+                
+                $("#custIdVal").text(': '+getValueCustomerId(customerId));
+                saveProductList = 'saveProductList'
+                
+                customerType = custType;
+                customerId = $('#customerIdField').val(); 
+
+                
+            }
+
           })
+
 
           //to display price
           $('#listProducts').on('change',function(){
@@ -197,12 +225,13 @@
           //to add the product
           $('#addProduct').click(function(){
 
-            if($('#productSellPrice>input').val() != ''){
+            if($('#sellPriceField').val() != '' ){
               console.log('press');
               var productId = $('#listProducts').val();
+              listProduct.push([productId, $('#sellPriceField').val()]);
               getProductData(productId,listProductId,1);
             }else{
-              bootbox.alert("Hello world!");
+              bootbox.alert("The price Should be fill");
             }
             
           })
@@ -219,10 +248,102 @@
           });
 
           //to remove product from the cart
-          $('#fieldProduct').append('tr>td>button').click(function(){
+          $('[name="saveButton"]').click(function(){
             var rowIdElement = $(this).attr('id');
             console.log(rowIdElement);
+            if(rowIdElement == 'saveProductList' && totalPayment != 0){
+              console.log(listProductId);
+              $('#productAdded').css('display','none');
+              $('#form-payment-method').css('display','block');
+              $('#totalPayment').css('display','block');
+              $('#totalPaymentField').val(totalPayment);
+              $('#addProduct').css('display','none');
+
+              $("#payNow").css('display','block');
+              $(this).css('display','none');
+
+            }else if(rowIdElement == 'payNow'){
+              var itemTransaction =  '';
+              var customerId = 0;
+              var totalItem = 1;
+              var totalAmountPurchase = $('#totalPaymentField').val();
+              var paymentType = $('#paymentMethod').val();
+              var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
+
+            console.log('Test Purchase')
+            console.log(purchaseDetails)
+            }
           })
+
+          $('#payNow').click(function(){
+              var itemTransaction =  '';
+              var customerId = 0;
+              var totalItem = 1;
+              var totalAmountPurchase = $('#totalPaymentField').val();
+              var paymentType = $('#paymentMethod').val();
+
+              if(totalAmountPurchase == ''){
+                  alert.bootbox('T')
+              }else if(paymentType == ''){
+                  alert.bootbox('payment method could not be empty')
+              }else{
+                
+              }
+
+              var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
+
+            console.log('Test Purchase')
+            console.log(purchaseDetails)
+          });
+
+          $('#paymentMethod').on('change',function(){
+              if($(this).val() == 'Cash')
+              {
+                console.log('tes123')
+                $('#totalCash').css('display','block');
+                $('#totalChangeDue').css('display','block');
+              }else{
+                $('#totalCash').css('display','none');
+                $('#totalChangeDue').css('display','none');
+              }
+          })
+
+          $('#totalCashField').focusout(function(){
+
+          });
+
+          $('#payNow').click(function(){
+            var itemTransaction =  '';
+            var customerId = 0;
+            var totalItem = 1;
+            var totalAmountPurchase = $('#totalPaymentField').val();
+            var paymentType = $('#paymentMethod').val();
+            var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
+
+
+            console.log(purchaseDetails)
+            purchaseAction(purchaseDetails)
+          })
+
+
+          $('#totalCashField').focusout(function(){
+            console.log("work")
+            var totalCashField = $(this).val();
+            var totalPaymentField = $('#totalPaymentField').val();
+            parseInt(totalCashField);
+            parseInt(totalPaymentField);
+            console.log(totalCashField+" df "+totalPaymentField);
+            var totalChangeDue = 0;
+            if(parseInt(totalCashField) > parseInt(totalPaymentField)){
+              totalChangeDue = parseInt(totalCashField) - parseInt(totalPaymentField);
+              parseInt(totalChangeDue);
+              console.log(totalChangeDue);
+              $("#totalChangeDueField").val(totalChangeDue);
+            }else if( parseInt(totalCashField) < parseInt(totalPaymentField) ){
+              bootbox.alert("Total cash should be more than total payment or equal");
+            }
+          })
+
           $('#fieldProduct').empty()
           //to record list of the product that added to the cart
 
@@ -254,6 +375,8 @@
                         
                         $('#fieldProduct').append('<tr class="productAdd" id="'+productId+'"><td><a>'+productId+'</a></td><td>'+$('#sellPriceField').val()+'</td><td><button class="deleteProduct" type="button">x</button></td></tr>');
                         listProductId.push([productId,$('#sellPriceField').val()]);
+                        parseInt(totalPayment)
+                        totalPayment += parseInt($('#sellPriceField').val());
                     }else{
                          bootbox.alert("Can not be added same product in the cart");
                     } 
@@ -263,6 +386,13 @@
                   }
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                 });
+          }
+
+          function getValueCustomerId(customerId){
+            if(customerId == 'Select Value'){
+              customerId == "Non Member"
+            }
+            return customerId;
           }
 
           function checkAvailiblityProductInTheCart(productIdValue,listProductId)
@@ -279,9 +409,27 @@
             }else{
               return true;
             }
-
-
           }
+
+         function purchaseAction(purchaseDetails){
+	    	$.ajax({
+    			url: "{{ path('customer_completePurchase') }}",
+    		    async: true,
+    		    type: "GET",
+    		    data: { "purchaseDetails": purchaseDetails },	
+    		    contentType: "application/json"               
+                	                
+            })
+            .done(function (data) {
+            	console.log(data)
+	            window.location.href = "{{ path('seles_indexSalesNewJs') }}";
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+           
+     		   console.log("failed")
+            });
+		} 
+
 
            
         
