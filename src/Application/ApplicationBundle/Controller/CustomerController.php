@@ -163,17 +163,12 @@ class CustomerController extends Controller
     	for($x=0;$x<count($transactionDetails[0]);$x++)
     	{
     		$productTransaction = $transactionDetails[0][$x];
-    		
-    		
-    		
-    		
     		$product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction));
     		
     		
     	    $product->setTransId($newTransactionId);
     		$product->setStatus("sell");
     		$product->setSellDate(new \DateTime($currDate));
-    		
     		if($productTransaction[1] == 0)
     		{
     			$product->setSellPrice($product->getPrice());
@@ -201,12 +196,12 @@ class CustomerController extends Controller
     	$transaction->setTransactionTotalPayment("N/a");
     	$transaction->setTransactionTotalChangeDue("N/A");
     	
-    	
+    	/*
     	$em->persist($transaction);
-    	$em->flush();
+    	$em->flush();*/
     	
     	if(!empty($productSell)){
-    		return new JsonResponse(array('message' => 'success'), 200);
+    		return new JsonResponse(array('message' => $newTransactionId), 200);
     	}else{
     	}
     	

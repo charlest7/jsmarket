@@ -63,7 +63,7 @@
                                 <thead>
                                 <tr>
                                     <th style="width:5%">Transaction Id</th>
-                                    <th style="width:20%%">Transaction Date</th>
+                                    <th style="width:20%">Transaction Date</th>
                                     <th>Total Item</th>
                                     <th>Payment Type</th>
                                     <th>Total Transaction</th>
@@ -183,7 +183,6 @@
           })
 
           $('#transaction_new').click(function(){
-            console.log("close");
           })
 
           //to select customer id when user select customer type as member
@@ -203,7 +202,6 @@
                 customerType = custType;
                 customerId = $('#customerIdField').val(); 
                 $('#custTypeVal').text(': '+customerType);
-                
                 $("#custIdVal").text(': '+getValueCustomerId(customerId));
                 saveProductList = 'saveProductList'
                 
@@ -219,14 +217,12 @@
           //to display price
           $('#listProducts').on('change',function(){
             productData = getProductData($(this).val(),listProductId,0);
-            console.log(productData);
           })
 
           //to add the product
           $('#addProduct').click(function(){
 
             if($('#sellPriceField').val() != '' ){
-              console.log('press');
               var productId = $('#listProducts').val();
               listProduct.push([productId, $('#sellPriceField').val()]);
               getProductData(productId,listProductId,1);
@@ -251,7 +247,12 @@
           $('[name="saveButton"]').click(function(){
             var rowIdElement = $(this).attr('id');
             console.log(rowIdElement);
+
+
             if(rowIdElement == 'saveProductList' && totalPayment != 0){
+
+             
+
               console.log(listProductId);
               $('#productAdded').css('display','none');
               $('#form-payment-method').css('display','block');
@@ -270,8 +271,6 @@
               var paymentType = $('#paymentMethod').val();
               var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
 
-            console.log('Test Purchase')
-            console.log(purchaseDetails)
             }
           })
 
@@ -422,7 +421,8 @@
             })
             .done(function (data) {
             	console.log(data)
-	            window.location.href = "{{ path('seles_indexSalesNewJs') }}";
+              $('#printReceipt').css({'display':'block'});
+	            //window.location.href = "{{ path('seles_indexSalesNewJs') }}";
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
            

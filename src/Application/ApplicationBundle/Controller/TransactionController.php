@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Application\ApplicationBundle\Entity\Customer;
 use Application\ApplicationBundle\Entity\Product;
-
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Transaction controller.
  *
@@ -157,7 +158,7 @@ class TransactionController extends Controller
     	
     	$productId = $request->query->get('productId');
     	
-    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> '1807010002'));
+    	$entityRepo = $this->getDoctrine()->getManager()->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productId));
     	
     	
     	
@@ -250,11 +251,61 @@ class TransactionController extends Controller
         ->getQuery();
         $listProductsVal = $query->getResult();
         
-
         return $this->render('AppApplicationBundle:Transaction:indexJs.html.twig', array(
             'transactions' => $transactions,
             'listProducts' => $listProductsVal
         ));
+    }
+
+    public function transactionReceiptDownloadPDFaction(){
+       $snappy = $this->get('knp_snappy.pdf');
+ 
+       $html = $this->render('AppApplicationBundle:Transaction:transactionReceipt.html.twig', [
+          'title' => 'Transaction Receipt',
+          'email' => 'shahroze.nawaz@cloudways.com'
+       ]);
+ 
+       $filename = 'SnappyPDF';
+       return new Response(
+           $snappy->getOutputFromHtml($html),200,array(
+               'Content-Type'          => 'application/pdf',
+               'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
+           )
+       );
+    }
+
+    
+    public function printTransactionReceiptAction(Request $request, $id){
+        $snappy = $this->get('knp_snappy.pdf');
+        $em = $this->getDoctrine()->getManager();
+        $transactionsList = $em->getRepository('AppApplicationBundle:Product')->findBy(['transId' => 'CS11']);
+        $entityTransaction = $em->getRepository('AppApplicationBundle:Transaction');
+        $queryQb = $entityTransaction->createQueryBuilder('alias')
+                           ->andWhere('alias.transactionId =: transId')
+                           ->setParameter('transId', 'CS10')
+                           ->getQuery();
+        $resultSelectedTransaction = $queryQb->getResult();
+        $transactionDateJsonEc = json_encode($resultSelectedTransaction);
+        $transactionDateJson = json_decode($transactionDateJsonEc);
+        var_dump($transactionDateJson);exit;
+        //$entityTransactionJson = json_decode($entityTransaction);
+        
+        $transDate = $transactionDateJson->transactionDate->date;
+        $html = $this->render('AppApplicationBundle:Transaction:transactionReceiptPrint.html.twig', array(
+            'transactions' => $transactionsList,
+            'title' => 'Transaction Receipt',
+            'transactionDate' => $transDate
+        ));
+
+        $filename = 'Transaction Receipt'." ".$id;
+        return new Response(
+            $snappy->getOutputFromHtml($html),200,array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
+            )
+        );
+
+
     }
 
 }

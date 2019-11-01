@@ -38,3 +38,11 @@ transaction_jsmarket_index:
     path:     /indexJs
     defaults: { _controller: "AppApplicationBundle:Transaction:indexJs" }
     methods:  [GET]
+transaction_jsmarket_transactionReceipt:
+    path:     /transactionReceipt
+    defaults: { _controller: "AppApplicationBundle:Transaction:transactionReceiptDownloadPDF" }
+    methods:  [GET]
+transaction_jsmarket_printTransactionReceipt:
+    path:     /printTransactionReceipt/{id}
+    defaults: { _controller: "AppApplicationBundle:Transaction:printTransactionReceipt" }
+    methods:  [GET]

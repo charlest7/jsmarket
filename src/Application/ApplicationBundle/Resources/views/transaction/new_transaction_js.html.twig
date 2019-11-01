@@ -2,7 +2,7 @@
     <div role="document" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="exampleModalLabel" class="modal-title">Add New Transaction</h5>
+                <h2 id="exampleModalLabel" class="modal-title">Add New Transaction</h2>
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
@@ -30,12 +30,12 @@
                     </div>
                     <div class="form-product-list" id='form-product-list' style="display:none;">
                         <h3>Product Information</h3>
-                            <p>Customer Type <i id="custTypeVal" style="display:inline-block;">:None</i></p>
-                            <p>Customer Id<i id="custIdVal" style="display:inline-block;">:None</i></p> 
+                            <div><p style="display:inline-block;width:30%;">Customer Type</p><p id="custTypeVal" style="display:inline-block;">:None</p></div>
+                            <div><p style="display:inline-block;width:30%;">Customer Id</p><p id="custTypeVal" style="display:inline-block;">:None</p> </div>
                        <div id="productAdded">                
                             <div class="form-group">
-                                <label style="display:inline-block;">Product Id</label>
-                                <div style="display:inline-block;">
+                                <label>Product Id</label>
+                                <div>
                                     <select id="listProducts" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
                                         {% for listProduct in listProducts %}
                                             <option value="{{  listProduct.productId }}">{{ listProduct.productId }}</option>
@@ -85,18 +85,18 @@
                         </div>
                         <div class="form-group" id="totalCash" style="max-width:100%;display:none;margin:20px 0">
                             <label style="display:inline-block;max-width:50%;" >Total Cash</label>
-                            <input style="display:inline-block;max-width:50%;float:right;" type="number" id="totalCashField" class="form-control"  autocomplete="off"/>
+                            <input style="display:inline-block;max-width:47.3%;float:right;" type="number" id="totalCashField" class="form-control"  autocomplete="off"/>
                         </div>
 
                        <div class="form-group" id="totalPayment" style="max-width:100%;display:none;margin:20px 0;">
                             <label style="display:inline-block;max-width:50%;">Total Payment</label>
-                            <input type="number" id="totalPaymentField" class="form-control"  autocomplete="off" style="display:inline-block;max-width:50%;float:right;" disabled/>
+                            <input type="number" id="totalPaymentField" class="form-control"  autocomplete="off" style="display:inline-block;max-width:47.3%;float:right;" disabled/>
                         </div> 
                         
                          
                         <div class="form-group" id="totalChangeDue" style="max-width:100%;display:none;margin:20px 0">
-                            <label style="display:inline-block;max-width:50%;">Change Due</label>
-                            <input style="display:inline-block;max-width:50%;float:right;" type="number" id="totalChangeDueField" class="form-control"  autocomplete="off" disabled/>
+                            <label style="display:inline-block;max-width:50%;">Total Change Due</label>                            
+                            <input type="number" id="totalChangeDueField" class="form-control"  autocomplete="off" style="display:inline-block;max-width:47.3%;float:right;" disabled/>
                         </div> 
                     </div>
                     <div class="form-product-list" id='form-product-list' style="display:none;">
@@ -104,6 +104,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button id='printReceipt' type="button" data-dismiss="modal" class="btn btn-secondary" style="display:none;">Print Receipt</button>
                 <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
                 <button id="saveCustomer" name="saveButton" type="button" class="btn btn-primary">Save changes</button>
                 <button id="payNow" name="payNow" type="button" class="btn btn-primary" style="display:none;">Pay Now</button>

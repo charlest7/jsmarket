@@ -174,9 +174,8 @@
             data: { "productId": productId },	
             contentType: "application/json"                                                     
             }).done(function (data) {
-            console.log(data.message); 
-            console.log('tes');
-                           $("input#productId").val(data.message[0]);
+
+               $("input#productId").val(data.message[0]);
                $("input#productName").val(data.message[1]);
                $("select#productType").val(data.message[2]);
                $("input#productEquity").val(data.message[3]);

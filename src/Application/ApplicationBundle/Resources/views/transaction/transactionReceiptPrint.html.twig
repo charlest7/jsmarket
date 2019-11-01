@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Transaction Receipt</title>
+        <style>
+         body{
+           font-family:arial;
+           font-style:normal;
+         }
+
+         tr:nth-child(even) {
+          background-color: #f2f2f2
+        }
+
+        .rotate {
+
+          /* Safari */
+          -webkit-transform: rotate(-45deg);
+
+          /* Firefox */
+          -moz-transform: rotate(-45deg);
+
+          /* IE */
+          -ms-transform: rotate(-45deg);
+
+          /* Opera */
+          -o-transform: rotate(-45deg);
+
+          /* Internet Explorer */
+          filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+          }
+        </style>
+    </head>
+    <body>
+        <h4 style="text-align:center;font-size:36px;">{{ title }}</h4>
+        <hr style="width:100%;background-color:#33b35a;height:2px;"></hr>
+        <p class="rotate" style="margin-left:40%;font-size:80px;margin-top:160px;width: 150px;height: 80px;transform: rotate(70deg);position: absolute;opacity: 0.5;">PAID</p>
+        <div>
+         <p>Customer Id : 000</p>
+         <p>Date :{{transactionDate}}</p>
+         <p>Store ID : 11</p>
+        </div>
+        <div>
+          <table style="border:none;width:100%;">
+            <thead style="background-color:#33b35a;height:50px;color:white;line-height:30px;width:60%">
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+               <tbody>
+                                    {% for transaction in transactions %}
+                                    <tr>
+                                        <td>{{ transaction.name }}</td>
+                                        <td>{{ transaction.price }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="container-footer" style="line-height:5px;">
+            <div class="nav-left" style="display:inline-block;width:30%;margin-right:0px;margin-left:30%"><p>Subtotal</p></div>
+            <div class="nav-right" style="display:inline-block;width:30%;margin-left:0px;"><P>Rp. 120.000</p></div>
+          </div>
+          <div class="container-footer"  style="line-height:5px;">
+            <div class="nav-left" style="display:inline-block;width:30%;margin-right:0px;margin-left:30%"><p>Tax</p></div>
+            <div class="nav-right" style="display:inline-block;width:30%;margin-left:0px;"><P>Rp. 0</p></div>
+          </div>
+          <div class="container-footer"  style="line-height:5px;">
+            <div class="nav-left" style="display:inline-block;width:30%;margin-right:0px;margin-left:30%"><p>Disount</p></div>
+            <div class="nav-right" style="display:inline-block;width:30%;margin-left:0px;"><P>Rp. 0</p></div>
+          </div>
+        </div>
+        <hr style="background-color:#33b35a;height:3px;float:right;width:70%"></hr>
+        <div>
+          <div class="container-footer" style="line-height:5px;">
+            <div class="nav-left" style="display:inline-block;width:30%;margin-right:0px;margin-left:30%"><p>Total</p></div>
+            <div class="nav-right" style="display:inline-block;width:30%;margin-left:0px;"><P>Rp. 120.000</p></div>
+          </div>
+        </div>  
+    </body>
+</html>
