@@ -275,7 +275,7 @@ class TransactionController extends Controller
     }
 
     
-    public function printTransactionReceiptAction(Request $request, $id){
+    public function printTransactionReceiptAction($id){
         $snappy = $this->get('knp_snappy.pdf');
         $em = $this->getDoctrine()->getManager();
         $transactionsList = $em->getRepository('AppApplicationBundle:Product')->findBy(['transId' => 'CS11']);
@@ -305,7 +305,38 @@ class TransactionController extends Controller
             )
         );
 
-
     }
+
+    public function sendEmailAction()
+{
+    $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('charlestendeanz@gmail.com')
+        ->setTo('charlestendeanz@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                'AppApplicationBundle:Transaction:transactionReceipt.html.twig',
+                array('title' => 'Transaction Receipt',
+                'email' => 'shahroze.nawaz@cloudways.com')
+            ),
+            'text/html'
+        )
+        /*
+         * If you also want to include a plaintext version of the message
+        ->addPart(
+            $this->renderView(
+                'Emails/registration.txt.twig',
+                array('name' => $name)
+            ),
+            'text/plain'
+        )
+        */
+    ;
+
+    $this->get('mailer')->send($message);
+    return $this->render('AppApplicationBundle:Transaction:sendEmail.html.twig', array(
+        'transactions' => 'transaction'
+    ));
+}
 
 }

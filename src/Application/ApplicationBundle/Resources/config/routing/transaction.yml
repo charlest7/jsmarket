@@ -46,3 +46,8 @@ transaction_jsmarket_printTransactionReceipt:
     path:     /printTransactionReceipt/{id}
     defaults: { _controller: "AppApplicationBundle:Transaction:printTransactionReceipt" }
     methods:  [GET]
+    
+transaction_jsmarket_sendEmail:
+    path:     /sendEmail
+    defaults: { _controller: "AppApplicationBundle:Transaction:sendEmail" }
+    methods:  [GET]

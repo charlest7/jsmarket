@@ -196,9 +196,9 @@ class CustomerController extends Controller
     	$transaction->setTransactionTotalPayment("N/a");
     	$transaction->setTransactionTotalChangeDue("N/A");
     	
-    	/*
+    	
     	$em->persist($transaction);
-    	$em->flush();*/
+    	$em->flush();
     	
     	if(!empty($productSell)){
     		return new JsonResponse(array('message' => $newTransactionId), 200);
