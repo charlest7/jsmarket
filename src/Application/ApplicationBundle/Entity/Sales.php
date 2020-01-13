@@ -198,4 +198,3 @@ class Sales
         return $this->dateSales;
     }
 }
-

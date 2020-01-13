@@ -29,7 +29,7 @@ class CustomerController extends Controller
 
         $customers = $em->getRepository('AppApplicationBundle:Customer')->findAll();
 
-        return $this->render('customer/index.html.twig', array(
+        return $this->render('AppApplicationBundle:Customer:index.html.twig', array(
             'customers' => $customers,
         ));
     }
@@ -136,9 +136,22 @@ class CustomerController extends Controller
     	
     	$entityProduct = $this->getDoctrine()->getManager();
     	$productSell = [];
-    	$em = $this->getDoctrine()->getManager();
-    	
-    	$currDate = date('Y-m-d');
+        $em = $this->getDoctrine()->getManager();
+        $statusTransaction = true;
+        
+        for($x=0;$x<count($transactionDetails[0]);$x++)
+    	{
+    		$productTransaction = $transactionDetails[0][$x];
+            $product = $entityProduct->getRepository('AppApplicationBundle:Product')->findOneBy(array('productId'=> $productTransaction));
+
+            if($product->getStatus() == "sell"){
+                $statusTransaction = false;
+            }
+
+        }
+
+        if($statusTransaction == true){
+            $currDate = date('Y-m-d');
     	
     	
     	$paymentMethod = array("Cash"=>"CS","Debit"=>"DB","Credit Card"=>"CC" );
@@ -194,16 +207,29 @@ class CustomerController extends Controller
     	$transaction->setTransactionTotalTransaction($transactionDetails[3]);
     	$transaction->setTransactionPaymentType($transactionDetails[4]);
     	$transaction->setTransactionTotalPayment("N/a");
-    	$transaction->setTransactionTotalChangeDue("N/A");
+        $transaction->setTransactionTotalChangeDue("N/A");
+        $transaction->setTransactionCustomerId($transactionDetails[1]);
+
+
     	
     	
     	$em->persist($transaction);
+        $em->flush();
+        
+        $customer = $entityProduct->getRepository('AppApplicationBundle:Customer')->findOneBy(array('customerId'=> $transactionDetails[1]));
+        $totalPointsTransaction = round($transactionDetails[3]/1000);
+        $adjustmentPoints = $totalPointsTransaction+$customer->getCustomerPoints();
+        $customer->setCustomerPoints($adjustmentPoints);
+
+        $em->persist($customer);
     	$em->flush();
-    	
-    	if(!empty($productSell)){
-    		return new JsonResponse(array('message' => $newTransactionId), 200);
-    	}else{
-    	}
+
+
+        }
+        
+        
+    	return new JsonResponse(array('message' => $customer), 200);
+    
     	
     }
     

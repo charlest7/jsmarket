@@ -23,6 +23,11 @@ class Customer
     public $customerName;
 
     /**
+     * @var string
+     */
+    public $customerPoints;
+
+    /**
      * @var \DateTime
      */
     private $customerBirthdate;
@@ -92,6 +97,30 @@ class Customer
     }
 
     /**
+     * Set customerPoints
+     *
+     * @param string $customerPoints
+     *
+     * @return Customer
+     */
+    public function setCustomerPoints($customerPoints)
+    {
+        $this->customerPoints = $customerPoints;
+
+        return $this;
+    }
+
+    /**
+     * Get customerName
+     *
+     * @return string
+     */
+    public function getCustomerPoints()
+    {
+        return $this->customerPoints;
+    }
+
+    /**
      * Set customerBirthdate
      *
      * @param \DateTime $customerBirthdate
@@ -139,4 +168,3 @@ class Customer
         return $this->customerJoinDate;
     }
 }
-

@@ -48,6 +48,6 @@ transaction_jsmarket_printTransactionReceipt:
     methods:  [GET]
     
 transaction_jsmarket_sendEmail:
-    path:     /sendEmail
+    path:     /sendEmail/{mailer}
     defaults: { _controller: "AppApplicationBundle:Transaction:sendEmail" }
     methods:  [GET]

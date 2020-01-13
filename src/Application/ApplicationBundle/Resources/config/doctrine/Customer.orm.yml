@@ -15,6 +15,9 @@ Application\ApplicationBundle\Entity\Customer:
         customerName:
             type: string
             length: '255'
+        customerPoints:
+            type: string
+            length: '255'
         customerBirthdate:
             type: datetime
         customerJoinDate:

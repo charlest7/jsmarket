@@ -36,4 +36,8 @@ Application\ApplicationBundle\Entity\Transaction:
             type: string
             length: '255'
             column: TransactionTotalChangeDue
+        transactionCustomerId:
+            type: string
+            length: '255'
+            column: TransactionCustomerId
     lifecycleCallbacks: {  }

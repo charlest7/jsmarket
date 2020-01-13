@@ -16,4 +16,13 @@ Application\ApplicationBundle\Entity\User:
             type: string
             length: '255'
             unique: true
+        type:
+            type: string
+            length: '255'
+            unique: true
+        email:
+            type: string
+            length: '255'
+            unique: true
+        
     lifecycleCallbacks: {  }

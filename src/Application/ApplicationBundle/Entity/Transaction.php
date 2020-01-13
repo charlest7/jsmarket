@@ -17,6 +17,12 @@ class Transaction
      */
     private $transactionId;
 
+
+    /**
+     * @var string
+     */
+    private $transactionCustomerId;
+
     /**
      * @var \DateTime
      */
@@ -88,6 +94,30 @@ class Transaction
     public function getTransactionId()
     {
         return $this->transactionId;
+    }
+
+    /**
+     * Set transactionCustomerId
+     *
+     * @param string $transactionCustomerId
+     *
+     * @return Transaction
+     */
+    public function setTransactionCustomerId($transactionCustomerId)
+    {
+        $this->transactionCustomerId = $transactionCustomerId;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionCustomerId
+     *
+     * @return string
+     */
+    public function getTransactionCustomerId()
+    {
+        return $this->transactionCustomderId;
     }
 
     /**
@@ -258,4 +288,3 @@ class Transaction
     	return $this->transactionTotalChangeDue;
     }
 }
-

@@ -10,20 +10,16 @@
                 <td>{{ customer.id }}</td>
             </tr>
             <tr>
-                <th>Customerid</th>
-                <td>{{ customer.customerId }}</td>
+                <th>Name</th>
+                <td>{{ customer.name }}</td>
             </tr>
             <tr>
-                <th>Customername</th>
-                <td>{{ customer.customerName }}</td>
+                <th>Email</th>
+                <td>{{ customer.email }}</td>
             </tr>
             <tr>
-                <th>Customerbirthdate</th>
-                <td>{% if customer.customerBirthdate %}{{ customer.customerBirthdate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Customerjoindate</th>
-                <td>{% if customer.customerJoinDate %}{{ customer.customerJoinDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <th>Password</th>
+                <td>{{ customer.password }}</td>
             </tr>
         </tbody>
     </table>
@@ -31,14 +27,6 @@
     <ul>
         <li>
             <a href="{{ path('customer_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('customer_edit', { 'id': customer.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}

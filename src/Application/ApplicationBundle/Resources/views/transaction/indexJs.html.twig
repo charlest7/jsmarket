@@ -41,7 +41,7 @@
         <div class="container-fluid">
           <!-- Page Header-->
           <header> 
-            <h1 class="h3 display">Product Data</h1>
+            <h1 class="h3 display">Transaction Data</h1>
           </header>
           <div class="row">
             <div class="col-lg-12">
@@ -52,7 +52,7 @@
                 <div class="card-body">
                   <div>
                    <button id="testj" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Export Product Data</button>
-                   <button type="button" data-toggle="modal" data-target="#transaction_new" class="btn btn-primary">Add Product</button>
+                   <button type="button" data-toggle="modal" data-target="#transaction_new" class="btn btn-primary">Add Transaction</button>
                   </div>
                   <div class="table-responsive" style="margin-top:35px;">
                     <div id="datatable1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="padding-left:0px;padding-right:0px;">
@@ -190,23 +190,26 @@
           //to save customer data
           $('#saveCustomer').click(function(){
             var custType = $('#customerTypeField').val();
-            var custId = $('customerIdField').val();
+            var custId = $('#customerIdField').val();
 
             if(custType == 'Member' &&
-             ($("#customerIdField").val() == '' || typeof $("#customerIdField").val() == 'undefined' || $("#customerIdField").val() == 'Select Value')){
+             (custId == "" || custId == 'Select Value')){
                 bootbox.alert('You should fill the customer Id')
             }else{
                 $(this).attr('id','saveProductList');
                 $('#form-customer').css({'display':'none'});
                 $('#form-product-list').css({'display':'block'});
                 customerType = custType;
-                customerId = $('#customerIdField').val(); 
+                customerId = getValueCustomerId(customerId); 
                 $('#custTypeVal').text(': '+customerType);
-                $("#custIdVal").text(': '+getValueCustomerId(customerId));
-                saveProductList = 'saveProductList'
+                $("#custIdVal").text(': '+customerId);
+                saveProductList = 'saveProductList';
+
+                 console.log("Customer Id "+customerId);
+
+
                 
-                customerType = custType;
-                customerId = $('#customerIdField').val(); 
+ 
 
                 
             }
@@ -388,8 +391,9 @@
           }
 
           function getValueCustomerId(customerId){
-            if(customerId == 'Select Value'){
-              customerId == "Non Member"
+            if(customerId == 'Select Value' || customerId == ""){
+              console.log("0 customer Id is running")
+              customerId = "0"
             }
             return customerId;
           }
@@ -420,7 +424,11 @@
                 	                
             })
             .done(function (data) {
-            	console.log(data)
+            	console.log(data.message)
+
+              if(data.message == false){
+                bootbox.alert('One or more items have already sold, Cound not make transaction')
+              }
               $('#printReceipt').css({'display':'block'});
 	            //window.location.href = "{{ path('seles_indexSalesNewJs') }}";
             })

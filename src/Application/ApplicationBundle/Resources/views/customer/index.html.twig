@@ -1,45 +1,407 @@
-{% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Customers list</h1>
+{% extends 'AppApplicationBundle:Default:new_base.html.twig'%}
 
-    <table>
-        <thead>
+{% block stylesheet %}	
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link href="{{ asset('public/pages/css/AppApplicationBundle/index.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('plugins/flat-admin-bootstrap-templates-master/dist/html/assets/css/vendor.css') }}" rel="stylesheet"/>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- Bootstrap Select CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-select/css/bootstrap-select.min.css">
+    <!-- Bootstrap Touchspin CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css">
+    <!-- Bootstrap Datepicker CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css">
+    <!-- Bootstrap Tags input CSS-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css">
+    <!-- No UI Slider-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/nouislider/nouislider.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/style.default.premium.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/img/favicon.ico">
+
+{% endblock %}
+
+{% block body %} 
+
+
+    <section class="forms">
+        <div class="container-fluid">
+          <!-- Page Header-->
+          <header> 
+            <h1 class="h3 display">Customer Data</h1>
+          </header>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header d-flex align-items-center">
+                  <h4>Customer</h4>
+                </div>
+                <div class="card-body">
+                  <div>
+                   <button id="testj" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Export Product Data</button>
+                   <button type="button" data-toggle="modal" data-target="#transaction_new" class="btn btn-primary">Add Transaction</button>
+                  </div>
+                  <div class="table-responsive" style="margin-top:35px;">
+                    <div id="datatable1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="padding-left:0px;padding-right:0px;">
+                      <div class="row">
+                        <div class="col-md-12 col-md-6">
+                          <div class="dataTables_length" id="datatable1_length">
+                            <table id="datatable1" style="width: 100%;" class="table dataTable no-footer" role="grid" aria-describedby="datatable1_info">
+                                <thead>
+                                <tr>
+                                    <th style="width:15%">Customer Id</th>
+                                    <th style="width:20%">Username</th>
+                                    <th>Points</th>
+                                    <th>Join Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                   {% for customer in customers %}
             <tr>
-                <th>Id</th>
-                <th>Customerid</th>
-                <th>Customername</th>
-                <th>Customerbirthdate</th>
-                <th>Customerjoindate</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for customer in customers %}
-            <tr>
-                <td><a href="{{ path('customer_show', { 'id': customer.id }) }}">{{ customer.id }}</a></td>
                 <td>{{ customer.customerId }}</td>
                 <td>{{ customer.customerName }}</td>
-                <td>{% if customer.customerBirthdate %}{{ customer.customerBirthdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ customer.customerPoints }}</td>
                 <td>{% if customer.customerJoinDate %}{{ customer.customerJoinDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('customer_show', { 'id': customer.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('customer_edit', { 'id': customer.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+                
+                                            <td><i class="fas fa-pencil-alt edit_new" aria-hidden="true" id="{{customer.id}}" data-toggle="modal" data-target="#editView"></i><i class="far fa-trash-alt delete_new" aria-hidden="true" id="{{customer.id}}" data-toggle="modal" data-target="#deleteView"style="margin-left:20px;"></i></a></td>
+
+                    
+                
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+                                </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               </div>
+              </div>
+        </div>
+      </section>
 
-    <ul>
-        <li>
-            <a href="{{ path('customer_new') }}">Create a new customer</a>
-        </li>
-    </ul>
 {% endblock %}
+{% block javascript %}
+    <!-- JavaScript files-->
+    <script src="{{ asset('plugins/vendor_new/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/popper.js/umd/popper.min.js') }}"> </script>
+    <script src="{{ asset('plugins/vendor_new/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/jquery.cookie/jquery.cookie.js') }}"> </script>
+    <script src="{{ asset('plugins/vendor_new/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('plugins/vendor_new/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/charts-custom.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/bootstrap-select.min.js') }}"></script>
+
+
+ <!-- Bootstrap Touchspin-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Bootstrap No UI Slider-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/nouislider/nouislider.min.js"></script>
+    <!-- Bootstrap DatePicker-->
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
+
+     <!-- Data Tables-->
+     <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/js/tables-datatable.js"></script>
+
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <!-- Main File-->
+    <script src="{{ asset('plugins/js_new/front.js') }}"></script>
+    <script>
+        $('document').ready(function(){
+          var listProductId = [];
+          var listProduct = [];
+          var listItemElement = '';
+          var saveProductList = '';
+          var totalPayment = 0;
+          var customerType = ''
+          var customerId = ''
+          //to navigate customer type that arrived to make transaction
+          $('#customerTypeField').on('change',function(e){
+            if($(this).val() == 'Member'){
+              $('#customerId').css("display","block");
+            }else{
+              $('#customerId').css("display","none");  
+            }
+          })
+
+          $('#transaction_new').click(function(){
+          })
+
+          //to select customer id when user select customer type as member
+
+          //to save customer data
+          $('#saveCustomer').click(function(){
+            var custType = $('#customerTypeField').val();
+            var custId = $('customerIdField').val();
+
+            if(custType == 'Member' &&
+             ($("#customerIdField").val() == '' || typeof $("#customerIdField").val() == 'undefined' || $("#customerIdField").val() == 'Select Value')){
+                bootbox.alert('You should fill the customer Id')
+            }else{
+                $(this).attr('id','saveProductList');
+                $('#form-customer').css({'display':'none'});
+                $('#form-product-list').css({'display':'block'});
+                customerType = custType;
+                customerId = $('#customerIdField').val(); 
+                $('#custTypeVal').text(': '+customerType);
+                $("#custIdVal").text(': '+getValueCustomerId(customerId));
+                saveProductList = 'saveProductList'
+                
+                customerType = custType;
+                customerId = $('#customerIdField').val(); 
+
+                
+            }
+
+          })
+
+
+          //to display price
+          $('#listProducts').on('change',function(){
+            productData = getProductData($(this).val(),listProductId,0);
+          })
+
+          //to add the product
+          $('#addProduct').click(function(){
+
+            if($('#sellPriceField').val() != '' ){
+              var productId = $('#listProducts').val();
+              listProduct.push([productId, $('#sellPriceField').val()]);
+              getProductData(productId,listProductId,1);
+            }else{
+              bootbox.alert("The price Should be fill");
+            }
+            
+          })
+
+          //continue to payment method page
+          $('#saveProductList').click(function(){
+            console.log('test');
+              $('#productId').css('display','none');
+              $('#productPrice').css('display','none');
+              $('#productSellPrice').css('display','none');
+               $('#addProduct').css('display','none');
+
+              $('#form-payment-method').css('display','block');
+          });
+
+          //to remove product from the cart
+          $('[name="saveButton"]').click(function(){
+            var rowIdElement = $(this).attr('id');
+            console.log(rowIdElement);
+
+
+            if(rowIdElement == 'saveProductList' && totalPayment != 0){
+
+             
+
+              console.log(listProductId);
+              $('#productAdded').css('display','none');
+              $('#form-payment-method').css('display','block');
+              $('#totalPayment').css('display','block');
+              $('#totalPaymentField').val(totalPayment);
+              $('#addProduct').css('display','none');
+
+              $("#payNow").css('display','block');
+              $(this).css('display','none');
+
+            }else if(rowIdElement == 'payNow'){
+              var itemTransaction =  '';
+              var customerId = 0;
+              var totalItem = 1;
+              var totalAmountPurchase = $('#totalPaymentField').val();
+              var paymentType = $('#paymentMethod').val();
+              var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
+
+            }
+          })
+
+          $('#payNow').click(function(){
+              var itemTransaction =  '';
+              var customerId = 0;
+              var totalItem = 1;
+              var totalAmountPurchase = $('#totalPaymentField').val();
+              var paymentType = $('#paymentMethod').val();
+
+              if(totalAmountPurchase == ''){
+                  alert.bootbox('T')
+              }else if(paymentType == ''){
+                  alert.bootbox('payment method could not be empty')
+              }else{
+                
+              }
+
+              var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
+
+            console.log('Test Purchase')
+            console.log(purchaseDetails)
+          });
+
+          $('#paymentMethod').on('change',function(){
+              if($(this).val() == 'Cash')
+              {
+                console.log('tes123')
+                $('#totalCash').css('display','block');
+                $('#totalChangeDue').css('display','block');
+              }else{
+                $('#totalCash').css('display','none');
+                $('#totalChangeDue').css('display','none');
+              }
+          })
+
+          $('#totalCashField').focusout(function(){
+
+          });
+
+          $('#payNow').click(function(){
+            var itemTransaction =  '';
+            var customerId = 0;
+            var totalItem = 1;
+            var totalAmountPurchase = $('#totalPaymentField').val();
+            var paymentType = $('#paymentMethod').val();
+            var purchaseDetails = [listProduct,customerId,totalItem,totalAmountPurchase, paymentType];
+
+
+            console.log(purchaseDetails)
+            purchaseAction(purchaseDetails)
+          })
+
+
+          $('#totalCashField').focusout(function(){
+            console.log("work")
+            var totalCashField = $(this).val();
+            var totalPaymentField = $('#totalPaymentField').val();
+            parseInt(totalCashField);
+            parseInt(totalPaymentField);
+            console.log(totalCashField+" df "+totalPaymentField);
+            var totalChangeDue = 0;
+            if(parseInt(totalCashField) > parseInt(totalPaymentField)){
+              totalChangeDue = parseInt(totalCashField) - parseInt(totalPaymentField);
+              parseInt(totalChangeDue);
+              console.log(totalChangeDue);
+              $("#totalChangeDueField").val(totalChangeDue);
+            }else if( parseInt(totalCashField) < parseInt(totalPaymentField) ){
+              bootbox.alert("Total cash should be more than total payment or equal");
+            }
+          })
+
+          $('#fieldProduct').empty()
+          //to record list of the product that added to the cart
+
+          function getProductData(productIdValue,listProductId,typeOfAction){
+                var productId = productIdValue;
+                $.ajax({
+                url: "{{ path('sales_editSalesTemplateNewJs') }}",
+                async: true,
+                type: "GET",
+                data: { "productId": productId },	
+                contentType: "application/json"                                                     
+                }).done(function (data) {
+                  if(typeOfAction == 0){
+                    console.log(data);
+                    $('#sellPrice').css({'display':'inline-block'});
+                    $('#productPrice').css({'display':'inline-block'});
+                    $('#productPriceField').val(data.message[4]);
+                    console.log(data.message[4]);
+                    return data.message
+                  }else{
+                    console.log('tes')
+                     if($('#productSellPrice>input').val() < data.message[4]){
+                         bootbox.alert("The price should be added, can not sell in this price");
+                    }else{
+                    var noProduct = checkAvailiblityProductInTheCart(productIdValue,listProductId);
+                    console.log(noProduct);
+                    if(noProduct == false){
+                      console.log($('#sellPriceField').val());
+                        
+                        $('#fieldProduct').append('<tr class="productAdd" id="'+productId+'"><td><a>'+productId+'</a></td><td>'+$('#sellPriceField').val()+'</td><td><button class="deleteProduct" type="button">x</button></td></tr>');
+                        listProductId.push([productId,$('#sellPriceField').val()]);
+                        parseInt(totalPayment)
+                        totalPayment += parseInt($('#sellPriceField').val());
+                    }else{
+                         bootbox.alert("Can not be added same product in the cart");
+                    } 
+                  }
+                  
+                    
+                  }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                });
+          }
+
+          function getValueCustomerId(customerId){
+            if(customerId == 'Select Value'){
+              customerId == "Non Member"
+            }
+            return customerId;
+          }
+
+          function checkAvailiblityProductInTheCart(productIdValue,listProductId)
+          {
+            var noProduct = 0;
+            for(var i=0;i<listProductId.length;i++){
+              if(listProductId[i][0] == productIdValue){
+                noProduct++;
+              }
+            }
+
+            if(noProduct == 0){
+              return false;
+            }else{
+              return true;
+            }
+          }
+
+         function purchaseAction(purchaseDetails){
+	    	$.ajax({
+    			url: "{{ path('customer_completePurchase') }}",
+    		    async: true,
+    		    type: "GET",
+    		    data: { "purchaseDetails": purchaseDetails },	
+    		    contentType: "application/json"               
+                	                
+            })
+            .done(function (data) {
+            	console.log(data.message)
+
+              if(data.message == false){
+                bootbox.alert('One or more items have already sold, Cound not make transaction')
+              }
+              $('#printReceipt').css({'display':'block'});
+	            //window.location.href = "{{ path('seles_indexSalesNewJs') }}";
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+           
+     		   console.log("failed")
+            });
+		} 
+
+
+           
+        
+        });
+      
+    </script>
+    {% endblock %}
+

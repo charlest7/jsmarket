@@ -60,7 +60,10 @@ class TransactionController extends Controller
             return $this->redirectToRoute('transaction_show', array('id' => $transaction->getId()));
         }
 
+        $customerId = $em->getRepository('AppApplicationBundle:Customer')->findAll();
+
         return $this->render('AppApplicationBundle:Transaction:new.html.twig', array(
+            'customerIds' => $customerId,
         		'listProducts' => $listProductsVal,
             'transaction' => $transaction,
             'form' => $form->createView(),
@@ -250,8 +253,12 @@ class TransactionController extends Controller
         ->setParameter('status', 'sell')
         ->getQuery();
         $listProductsVal = $query->getResult();
+
+        $customerId = $em->getRepository('AppApplicationBundle:Customer')->findAll();
+
         
         return $this->render('AppApplicationBundle:Transaction:indexJs.html.twig', array(
+            'customerIds' => $customerId,
             'transactions' => $transactions,
             'listProducts' => $listProductsVal
         ));
@@ -309,28 +316,30 @@ class TransactionController extends Controller
 
     public function sendEmailAction()
 {
-    $message = (new \Swift_Message('Hello Email'))
-        ->setFrom('charlestendeanz@gmail.com')
+    $message = (new \Swift_Message('Transaction Receipt'))
+        ->setFrom('admtrimatics@gmail.com')
         ->setTo('charlestendeanz@gmail.com')
         ->setBody(
             $this->renderView(
                 // app/Resources/views/Emails/registration.html.twig
                 'AppApplicationBundle:Transaction:transactionReceipt.html.twig',
-                array('title' => 'Transaction Receipt',
-                'email' => 'shahroze.nawaz@cloudways.com')
+                ['title' => 'Transaction Receipt',
+                'email' => 'shahroze.nawaz@cloudways.com'
+                ]
             ),
             'text/html'
         )
-        /*
-         * If you also want to include a plaintext version of the message
+
+        // you can remove the following code if you don't define a text version for your emails
         ->addPart(
             $this->renderView(
-                'Emails/registration.txt.twig',
-                array('name' => $name)
+                'AppApplicationBundle:Transaction:transactionReceipt.html.twig',
+                ['title' => 'Transaction Receipt',
+                'email' => 'shahroze.nawaz@cloudways.com'
+                ]
             ),
             'text/plain'
         )
-        */
     ;
 
     $this->get('mailer')->send($message);

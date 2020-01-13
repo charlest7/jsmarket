@@ -25,6 +25,16 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string
+     */
+    private $type;
+
+    /**
+     * @var string
+     */
+    private $email;
+
 
     /**
      * Get id
@@ -49,6 +59,8 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 
     /**
      * Get username
@@ -83,7 +95,55 @@ class User implements UserInterface
     {
         return $this->password;
     }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return User
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
     
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
     public function getRoles()
     {
     	return array('ROLE_USER');
@@ -96,4 +156,3 @@ class User implements UserInterface
     {
     }
 }
-

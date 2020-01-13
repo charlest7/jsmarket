@@ -21,17 +21,18 @@
                         <div class="form-group row" style="display:none;" id='customerId'>
                             <label class="col-sm-12 form-control-label">Cusotmer Id</label>
                             <div class="col-sm-12 mb-3">
-                                <select name="customerId" class="form-control" id="customerIdField">
-                                <option>Select Value<option>
-                                <option>123</option>
-                                </select>
+                                <select id="customerIdField" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Product Id" style="display:block!important;">
+                                        {% for customerId in customerIds %}
+                                            <option value="{{  customerId.customerId }}">{{ customerId.customerId }} - {{ customerId.customerName }}</option>
+                                        {% endfor %}
+                                    </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-product-list" id='form-product-list' style="display:none;">
                         <h3>Product Information</h3>
                             <div><p style="display:inline-block;width:30%;">Customer Type</p><p id="custTypeVal" style="display:inline-block;">:None</p></div>
-                            <div><p style="display:inline-block;width:30%;">Customer Id</p><p id="custTypeVal" style="display:inline-block;">:None</p> </div>
+                            <div><p style="display:inline-block;width:30%;">Customer Id</p><p id="custIdVal" style="display:inline-block;">:None</p> </div>
                        <div id="productAdded">                
                             <div class="form-group">
                                 <label>Product Id</label>
@@ -104,6 +105,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button id='sendReceipt' type="button" data-dismiss="modal" class="btn btn-secondary" style="display:none;">Send Receipt</button>
                 <button id='printReceipt' type="button" data-dismiss="modal" class="btn btn-secondary" style="display:none;">Print Receipt</button>
                 <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
                 <button id="saveCustomer" name="saveButton" type="button" class="btn btn-primary">Save changes</button>
