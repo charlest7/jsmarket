@@ -1,0 +1,24 @@
+customerdata_index:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Customerdata:index" }
+    methods:  GET
+customerdata_collect_customer_data:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Customerdata:collectCustomerData" }
+    methods:  GET
+customerdata_collectCustData:
+    path:     /collectCustData
+    defaults: { _controller: "AppApplicationBundle:Customerdata:collectCustData" }
+    methods:  GET
+customerdata_getPublicEntity:
+    path:     /getPublicEntity
+    defaults: { _controller: "AppApplicationBundle:Customerdata:getPublicEntity" }
+    methods:  GET
+customerdata_getUserIdHash:
+    path:     /getUserIdHash
+    defaults: { _controller: "AppApplicationBundle:Customerdata:getUserIdHash" }
+    methods:  GET
+customerdata_getDetailsEntity:
+    path:     /getDetailsEntity
+    defaults: { _controller: "AppApplicationBundle:Customerdata:getDetailsEntity" }
+    methods:  GET

@@ -30,3 +30,19 @@ user_login:
     path:     /login
     defaults: { _controller: "AppApplicationBundle:Customer:login" }
     methods:  GET
+customer_jsmarket_sendEmail:
+    path:     /sendEmail/{mailer}
+    defaults: { _controller: "AppApplicationBundle:Customer:sendEmail" }
+    methods:  [GET]
+customer_getPoints:
+    path:     /getPoints
+    defaults: { _controller: "AppApplicationBundle:Customer:getPoints" }
+    methods:  GET
+customer_loginCustomerApps:
+    path:     /loginCustomerApps
+    defaults: { _controller: "AppApplicationBundle:Customer:loginCustomerApps" }
+    methods:  GET
+customer_sendEmailConfirmationToNewUser:
+    path:     /sendEmailConfirmationToNewUser
+    defaults: { _controller: "AppApplicationBundle:Customer:sendEmailConfirmationToNewUser" }
+    methods:  GET

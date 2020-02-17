@@ -343,9 +343,10 @@ class TransactionController extends Controller
     ;
 
     $this->get('mailer')->send($message);
-    return $this->render('AppApplicationBundle:Transaction:sendEmail.html.twig', array(
-        'transactions' => 'transaction'
-    ));
+   // return $this->render('AppApplicationBundle:Transaction:sendEmail.html.twig', array(
+       // 'transactions' => 'transaction'
+   // ));
+   return true;
 }
 
 }

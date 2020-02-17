@@ -30,29 +30,29 @@
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-3/img/favicon.ico">
-    
+
 {% endblock %}
 
 {% block body %} 
-{% include 'AppApplicationBundle::product/product_new_pl.html.twig'  %}
+{% include 'AppApplicationBundle::customerdata/ipdetails.html.twig'  %}
 
 
     <section class="forms">
         <div class="container-fluid">
           <!-- Page Header-->
           <header> 
-            <h1 class="h3 display">Product Data</h1>
+            <h1 class="h3 display">Customer Data Entity</h1>
           </header>
           <div class="row">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-header d-flex align-items-center">
-                  <h4>Product</h4>
+                  <h4>Customer Data Entity</h4>
                 </div>
                 <div class="card-body">
                   <div>
-                   <button id="testj" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Export Product Data</button>
-                   <button type="button" data-toggle="modal" data-target="#product_new" class="btn btn-primary">Add Product</button>
+                   <button id="testCustDataCollection" type="button"  class="btn btn-primary">Export Data</button>
+                   <button type="button" data-toggle="modal" data-target="#product_new" class="btn btn-primary" disabled>Add Data</button>
                   </div>
                   <div class="table-responsive" style="margin-top:35px;">
                     <div id="datatable1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="padding-left:0px;padding-right:0px;">
@@ -61,26 +61,21 @@
                           <div class="dataTables_length" id="datatable1_length">
                             <table id="datatable1" style="width: 100%;" class="table dataTable no-footer" role="grid" aria-describedby="datatable1_info">
                               <thead>
-                                <th style="width:13%">Product Id</th>
-                                <th style="width:15%">Name</th>
-                                <th style="width:14%">Equity</th>
-                                <th style="width:16%">Price</th>
-                                <th style="width:17%">Date</th>
-                                <th style="width:15%">Status</th>
+                                <th style="width:15%">Customer Email</th>
+                                <th style="width:15%">IP Addres</th>
+                                <th style="width:25%">Cookie Id</th>
+                                <th style="width:25%">Action</th>
                                 <th style="width:20%"></th>
                                
                               </thead>
                               <tbody>
-                                {% for product in products %}
+                                {% for customer in customers %}
                                     <tr>
-                                        <td><a href="{{ path('product_show', { 'id': product.productId }) }}">{{ product.productId }}</a></td>
-                                        <td>{{ product.name }}</td>
-                                        <td>Rp. {{ product.capital|number_format }}</td>
-                                        <td id="price">Rp. {{ product.price|number_format }}</script></td>
-                                        <td>{{ product.date|date('Y-m-d H:i:s') }}</td>
-                                        <td>{{ product.status }}</td>
-                                        <td><i class="fas fa-pencil-alt edit_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#editView"></i><i class="far fa-trash-alt delete_new" aria-hidden="true" id="{{product.id}}" data-toggle="modal" data-target="#deleteView"style="margin-left:20px;"></i></a></td>
-                                    </tr>{% include 'AppApplicationBundle::product/edit_new_pl.html.twig'  %}{% include 'AppApplicationBundle::product/delete_new_pl.html.twig'  %}
+                                        <td style="width:15%"><a>{{ customer.email  }}</a></td>
+                                        <td style="width:15%">{{ customer.ipAddress }}</td>
+                                        <td style="width:25%">{{ customer.CookieId}}</script></td>
+                                        <td style="width:25%">{{ customer.action}}</td>
+                                        <td style="width:20%"><i class="fas fa-database" aria-hidden="true" id="{{customer.id}}" data-toggle="modal" data-target="#ipdetails"></i><i class="fas fa-table delete_new" aria-hidden="true" id="{{customer.id}}" data-toggle="modal" data-target="#enDetails" style="margin-left:20px;"></i></a></td>
                                 {% endfor %}
                               </tbody>
                             </table>
@@ -136,6 +131,7 @@
     <script src="{{ asset('plugins/vendor_new/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('plugins/vendor_new/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="{{ asset('plugins/js_new/charts-custom.js') }}"></script>
+    <script src="{{ asset('plugins/js_new/entityJs.js') }}"></script>
 
 
  <!-- Bootstrap Touchspin-->
@@ -157,128 +153,133 @@
     <script src="{{ asset('plugins/js_new/front.js') }}"></script>
     <script>
       $('document').ready(function(){
-        analytics.track('Logged In');
-        var productString = [];
-        $("#addProductNewJS").click(function(){
-         console.log('test')
-          var productName = $("input#productName").val();
-          var productType = $("select#productType").val();
-          var productEquity = $("input#productEquity").val();
-          var productPrice = $("input#productPrice").val();
-          var productStatus = $("select#productStatus").val();
+        console.log("Test data")
+
+        $('#testCustDataCollection').click(function(){
+          console.log("Test data successfull");
+          var custEntity = {'email':'charlesaz@gmail.com','cookie':'947845','ipAddress':'yr7434989'};
+          getIP();
+        });
+
         
-          var productString = [productName,productType,productEquity,productPrice,productStatus];
-          productString[5] = false;
-          addProductData(productString);
-        });
-
-        $(".fas.fa-pencil-alt.edit_new").click(function(){
-          
-          var productId = $(this).attr('id');
-
-          $.ajax({
-   		    	url: "{{ path('product_edit_form_newjs') }}",
-   		    		async: true,
-   		    		type: "GET",
-   		    		data: { "productId": productId },	
-   		    		contentType: "application/json"               
-   		    }).done(function (data) {
-               console.log(data.message);
-               var dataProduct = data;               
-               $("input#productId").val(data.message[0]);
-               $("input#productName").val(data.message[1]);
-               $("select#productType").val(data.message[2]);
-               $("input#productEquity").val(data.message[3]);
-               $("input#productPrice").val(data.message[4]);
-               $("input#productStatus").val(data.message[5]);
-   			  }).fail(function (jqXHR, textStatus, errorThrown) {
-
-   		    });
-          
-        });
-
-        $("#editProductNewJS").click(function(){
-          var productId = $("input#productId")[1].value;
-          var productName = $("input#productName")[1].value;
-          var productType = $("select[name='productType']").val();
-          var productEquity = parseInt($("input#productEquity")[1].value);
-          var productPrice = parseInt($("input#productPrice")[1].value);
-          var productStatus = $("select[name='productStatus']").val();
-
-          var productListField = [productId, productName, productType, productEquity, productPrice, productStatus];
-           console.log(productListField);
-          $.ajax({
-   		    	url: "{{ path('product_edit_submit_form_newjs') }}",
-   		    		async: true,
-   		    		type: "GET",
-   		    		data: { "productListField": productListField },	
-   		    		contentType: "application/json"               
-   		    }).done(function (data) {
-            console.log("success")
-            window.location.href = "{{ path('product_index_new') }}";         
-   			  }).fail(function (jqXHR, textStatus, errorThrown) {
-
-   		    });        
-        });
         
-        $('#payNow').click(function(){
-          var itemTransaction =  [$("#listProducts").val()];
-          var customerId = 0;
-          var totalItem = 1;
-          var totalAmountPurchase = $('#priceSellField').val();
-          var paymentType = $('#paymentMethodField').val();
-          var purchaseDetails = [itemTransaction,customerId,totalItem,totalAmountPurchase, paymentType];
-
-
-          console.log(purchaseDetails)
-          purchaseAction(purchaseDetails)
-        })
-
-
-
-        $("#deleteProductJs").click(function(){
-          
-          var productId = $(this).attr('name');
-          console.log(productId);
-          $.ajax({
-   		    	url: "{{ path('product_delete_submit_form_newjs') }}",
-   		    		async: true,
-   		    		type: "GET",
-   		    		data: { "productId": productId },	
-   		    		contentType: "application/json"               
-   		    }).done(function (data) {
-               window.location.href = "{{ path('product_index_new') }}";    
-               
-   			  }).fail(function (jqXHR, textStatus, errorThrown) {
-
-   		    });
-          
-        });
-
-           function addProductData(productString){
-             console.log(productString)
-                $.ajax({
-                    url: "{{ path('product_behaviourTestJs') }}",
-                    async: true,
-                    type: "GET",
-                    data: { "purchaseDetails": productString },	
-                    contentType: "application/json"               
-                }).done(function (data) {
-                  console.log(data);
-                   window.location.href = "{{ path('product_index_new') }}";    
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                   
-                    bootbox.confirm("Are you sure?", function(result) {
-                      if(result == true){
-                           productString[5] ='true' 
-                          addProductData(productString);
-
-                      }
-                       
-                    }); 
-                });    
-            }
       });
+
+      function getCustomerEntity(email,phone,data){
+       
+        console.log("ipV4"+ data.ip)
+        var clientId = '123';
+        var email = email;
+        var phone = phone;
+        var ipAddress = data.ip;
+        var provider = data.connection.organization;
+        var ipEntity = JSON.stringify(data)
+        var dataEntity = {
+          'email':email,
+          'phone':phone,
+          'ipAddress':ipAddress,
+          'cookie':clientId,
+          'provider': provider,
+          'ipEntity':ipEntity
+        }
+
+        console.log("data"+dataEntity);
+        retrieveCustomerDataCollection(dataEntity);
+        return dataEntity;
+      }
+
+      function getIP(){
+        $.getJSON('https://api.ipregistry.co/?key=xdgrgqz0uye9hr', function(data) {
+          data = data
+          return getCustomerEntity("","7482",data);
+        });
+      }
+
+      function getIPEntity(){
+        $.getJSON('https://api.ipregistry.co/?key=xdgrgqz0uye9hr', function(data) {
+          data = data
+          $("#modalclose").empty();
+          $("#modalclose").append('<code>'+JSON.stringify(data, null, 10)+'</code>');
+        });
+      }
+
+      $(".fas.fa-database").click(function(){
+        var idCustomerEntity = $(this).attr("id");
+        getIPEntityDetails(idCustomerEntity)
+      });
+
+      $(".fas.fa-table.delete_new").click(function(){
+        var idCustomerEntity = $(this).attr("id");
+        getDetailsEntity(idCustomerEntity)
+      });
+
+      function getDetailsEntity(idCustomerEntity){
+         	$.ajax({
+    			url: "{{ path('customerdata_getDetailsEntity') }}",
+    		    async: true,
+    		    type: "GET",
+            dataType: "json",
+    		    data: { "idCustomerEntity": idCustomerEntity },	
+    		    contentType: "application/json"               
+                	                
+            })
+            .done(function (data) {
+
+              $("#emailEntityValue").val(data.message[1]);
+              $("#phoneEntityValue").val(data.message[0]);
+              $("#cookieEntityValue").val(data.message[3]);
+              $("#userIdEntityValue").val(data.message[5]);
+              $("#deviceEntityValue").val(data.message[8]);
+
+				      console.log("details Entity "+data.message);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+            });
+      }
+
+      function retrieveCustomerDataCollection(customerData){
+          console.log(customerData.email);
+    		  	$.ajax({
+    			url: "{{ path('customerdata_collectCustData') }}",
+    		    async: true,
+    		    type: "GET",
+            dataType: "json",
+    		    data: { "customerData": JSON.stringify(customerData) },	
+    		    contentType: "application/json"               
+                	                
+            })
+            .done(function (data) {
+
+            
+				console.log("point "+data.message);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+				points = "fail";
+            });
+		} 
+
+    function getIPEntityDetails(idCustomerEntity){
+      console.log("fdaasdf")
+      $.ajax({
+    			url: "{{ path('customerdata_getPublicEntity') }}",
+    		    async: true,
+    		    type: "GET",
+            dataType: "json",
+    		    data: { "idCustomerEntity": idCustomerEntity },	
+    		    contentType: "application/json"               
+                	                
+            })
+            .done(function (data) {
+
+            $("#modalclose").empty();
+				 $("#modalclose").append('<code>'+data.message+'</code>');
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+				points = "fail";
+            });
+    }
+
+
     </script>
     {% endblock %}
 

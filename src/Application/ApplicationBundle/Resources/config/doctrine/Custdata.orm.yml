@@ -1,0 +1,42 @@
+Application\ApplicationBundle\Entity\Custdata:
+    type: entity
+    table: null
+    repositoryClass: Application\ApplicationBundle\Repository\CustdataRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        phone:
+            type: string
+            length: '255'
+        deviceId:
+            type: string
+            length: '255'
+        email:
+            type: string
+            length: '255'
+        ipAddress:
+            type: string
+            length: '255'
+        action:
+            type: string
+            length: '255'
+        cookieId:
+            type: string
+            length: '255'
+        googleAnalyticsUserId:
+            type: string
+            length: '255'
+        salesforceUserId:
+            type: string
+            length: '255'
+        ipEntity:
+            type: string
+            length: '255'
+        
+
+        
+    lifecycleCallbacks: {  }

@@ -17,3 +17,9 @@ app_application_transaction:
 app_application_customer:
     resource: "@AppApplicationBundle/Resources/config/routing/customer.yml"
     prefix:   /customer
+app_application_application:
+    resource: "@AppApplicationBundle/Resources/config/routing/application.yml"
+    prefix:   /application
+app_application_customerdata:
+    resource: "@AppApplicationBundle/Resources/config/routing/customerdata.yml"
+    prefix:   /customerdata

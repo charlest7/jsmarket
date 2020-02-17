@@ -18,8 +18,15 @@ Application\ApplicationBundle\Entity\Customer:
         customerPoints:
             type: string
             length: '255'
+        customerEmail:
+            type: string
+            length: '255'
+        customerPassword:
+            type: string
+            length: '255'
         customerBirthdate:
             type: datetime
         customerJoinDate:
             type: datetime
+        
     lifecycleCallbacks: {  }

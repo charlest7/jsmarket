@@ -166,6 +166,7 @@
     <script src="{{ asset('plugins/js_new/front.js') }}"></script>
     <script>
         $('document').ready(function(){
+          console.log("ffdsafds");
           var listProductId = [];
           var listProduct = [];
           var listItemElement = '';
@@ -200,17 +201,12 @@
                 $('#form-customer').css({'display':'none'});
                 $('#form-product-list').css({'display':'block'});
                 customerType = custType;
-                customerId = getValueCustomerId(customerId); 
+                customerId = getValueCustomerId(custId); 
                 $('#custTypeVal').text(': '+customerType);
                 $("#custIdVal").text(': '+customerId);
                 saveProductList = 'saveProductList';
 
                  console.log("Customer Id "+customerId);
-
-
-                
- 
-
                 
             }
 
@@ -224,7 +220,7 @@
 
           //to add the product
           $('#addProduct').click(function(){
-
+            console.log("Cust "+customerId);
             if($('#sellPriceField').val() != '' ){
               var productId = $('#listProducts').val();
               listProduct.push([productId, $('#sellPriceField').val()]);
@@ -235,24 +231,55 @@
             
           })
 
+          $('#test123').click(function(){
+            var emailCustomer = $('#emailNotMember').val();
+            console.log('black');
+
+            	$.ajax({
+    			        url: "{{ path('customer_sendEmailConfirmationToNewUser') }}",
+    		          async: true,
+    		          type: "GET",
+    		          data: { "emailCustomer": emailCustomer },	
+    		          contentType: "application/json"               
+              })
+              .done(function (data) {
+            	    console.log(data.message)
+
+              })
+              .fail(function (jqXHR, textStatus, errorThrown) {
+           
+              });
+
+          })
+
           //continue to payment method page
           $('#saveProductList').click(function(){
-            console.log('test');
+            console.log('test 99');
               $('#productId').css('display','none');
               $('#productPrice').css('display','none');
               $('#productSellPrice').css('display','none');
                $('#addProduct').css('display','none');
 
               $('#form-payment-method').css('display','block');
+
+              console.log("my"+customerId);
+              if(customerId == 0){
+                $('#customer-email').css('display','block');
+              }
           });
 
           //to remove product from the cart
           $('[name="saveButton"]').click(function(){
             var rowIdElement = $(this).attr('id');
+            var customerId = customerId;
             console.log(rowIdElement);
+            console.log("errgg "+customerId);
 
 
             if(rowIdElement == 'saveProductList' && totalPayment != 0){
+              console.log("customer id"+customerId);
+                $('#customer-email').css('display','block');
+              
 
              
 
@@ -279,7 +306,7 @@
 
           $('#payNow').click(function(){
               var itemTransaction =  '';
-              var customerId = 0;
+              var customerId = customerId;
               var totalItem = 1;
               var totalAmountPurchase = $('#totalPaymentField').val();
               var paymentType = $('#paymentMethod').val();
@@ -316,7 +343,9 @@
 
           $('#payNow').click(function(){
             var itemTransaction =  '';
-            var customerId = 0;
+            var customerId = $('#customerIdField').val();
+                        console.log("Customer Id is "+customerId);
+
             var totalItem = 1;
             var totalAmountPurchase = $('#totalPaymentField').val();
             var paymentType = $('#paymentMethod').val();
@@ -428,6 +457,8 @@
 
               if(data.message == false){
                 bootbox.alert('One or more items have already sold, Cound not make transaction')
+              }else{
+                pushPurchaseDataLayer(data.message, purchaseDetails);
               }
               $('#printReceipt').css({'display':'block'});
 	            //window.location.href = "{{ path('seles_indexSalesNewJs') }}";
@@ -438,7 +469,45 @@
             });
 		} 
 
-
+function pushPurchaseDataLayer(codeTransaction, purchaseDetails){
+  dataLayer.push({
+  'event':'Purchase',
+  'eventCategory':'Enhanced Ecommerce',
+  'eventAction':codeTransaction[0],
+  'userId':codeTransaction[1],
+  'ecommerce': {
+    'purchase': {
+      'actionField': {
+        'id': codeTransaction,                         
+        'affiliation': 'Online Store',
+        'revenue': purchaseDetails[3],                     
+        'tax':'4.90',
+        'shipping': '5.99',
+        'coupon': 'SUMMER_SALE'
+      },
+      'products': [{                            
+        'name': 'Triblend Android T-Shirt',    
+        'id': '12345',
+        'price': '15.25',
+        'brand': 'Google',
+        'category': 'Apparel',
+        'variant': 'Gray',
+        'quantity': 1,
+        'coupon': ''                            
+       },
+       {
+        'name': 'Donut Friday Scented T-Shirt',
+        'id': '67890',
+        'price': '33.75',
+        'brand': 'Google',
+        'category': 'Apparel',
+        'variant': 'Black',
+        'quantity': 1
+       }]
+    }
+  }
+});
+}
            
         
         });

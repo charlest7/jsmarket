@@ -1,0 +1,8 @@
+application_indexJs:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Application:index" }
+    methods:  GET
+application_getPoints:
+    path:     /
+    defaults: { _controller: "AppApplicationBundle:Application:getPoints" }
+    methods:  GET

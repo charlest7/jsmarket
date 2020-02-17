@@ -27,6 +27,16 @@ class Customer
      */
     public $customerPoints;
 
+     /**
+     * @var string
+     */
+    public $customerEmail;
+
+     /**
+     * @var string
+     */
+    public $customerPassword;
+
     /**
      * @var \DateTime
      */
@@ -36,6 +46,7 @@ class Customer
      * @var \DateTime
      */
     private $customerJoinDate;
+
 
 
     /**
@@ -71,6 +82,57 @@ class Customer
     {
         return $this->customerId;
     }
+
+   
+
+    /**
+     * Set customerEmail
+     *
+     * @param string $customerEmail
+     *
+     * @return Customer
+     */
+    public function setCustomerEmail($customerEmail)
+    {
+        $this->customerEmail = $customerEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get customerEmail
+     *
+     * @return string
+     */
+    public function getCustomerEmail()
+    {
+        return $this->customerEmail;
+    }
+
+     /**
+     * Set customerEmail
+     *
+     * @param string $customerPassword
+     *
+     * @return Customer
+     */
+    public function setCustomerPassword($customerPassword)
+    {
+        $this->customerPassword = $customerPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get customerPassword
+     *
+     * @return string
+     */
+    public function getCustomerPassword()
+    {
+        return $this->customerPassword;
+    }
+
 
     /**
      * Set customerName

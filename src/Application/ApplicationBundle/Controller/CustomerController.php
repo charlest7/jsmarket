@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Application\ApplicationBundle\Entity\Product;
 use Application\ApplicationBundle\Entity\Transaction;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Application\ApplicationBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -138,6 +139,7 @@ class CustomerController extends Controller
     	$productSell = [];
         $em = $this->getDoctrine()->getManager();
         $statusTransaction = true;
+        $transactionData = false;
         
         for($x=0;$x<count($transactionDetails[0]);$x++)
     	{
@@ -222,16 +224,60 @@ class CustomerController extends Controller
         $customer->setCustomerPoints($adjustmentPoints);
 
         $em->persist($customer);
-    	$em->flush();
+        $em->flush();
 
+        $this->sendEmailAction($customer->getCustomerId());
+        $transactionData  = [$transaction->getTransactionId($transactionDetails[1]),hash("sha256", $customer->getCustomerEmail())];
 
+      
+
+        }else{
+            $transactionData = false;
         }
         
         
-    	return new JsonResponse(array('message' => $customer), 200);
+    	return new JsonResponse(array('message' => $transactionData), 200);
     
     	
     }
+
+
+    public function sendEmailAction($customerId)
+    {
+    $message = (new \Swift_Message('Transaction Receipt'))
+        ->setFrom('admtrimatics@gmail.com')
+        ->setTo('charlestendeanz@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                'AppApplicationBundle:Transaction:transactionReceipt.html.twig',
+                ['title' => 'Transaction Receipt',
+                'customerId' => $customerId,
+                'email' => 'shahroze.nawaz@cloudways.com'
+                ]
+            ),
+            'text/html'
+        )
+
+        // you can remove the following code if you don't define a text version for your emails
+        ->addPart(
+            $this->renderView(
+                'AppApplicationBundle:Transaction:transactionReceipt.html.twig',
+                ['title' => 'Transaction Receipt',
+                'customerId' => $customerId,
+                'email' => 'shahroze.nawaz@cloudways.com'
+                ]
+            ),
+            'text/plain'
+        )
+    ;
+
+    $this->get('mailer')->send($message);
+   // return $this->render('AppApplicationBundle:Transaction:sendEmail.html.twig', array(
+       // 'transactions' => 'transaction'
+   // ));
+   return true;
+   }
     
     /**
      * login session
@@ -266,4 +312,67 @@ class CustomerController extends Controller
     	
     	return $user;
     }
+
+    public function getPointsAction(Request $request){
+        $session = new Session();
+        
+        $em = $this->getDoctrine()->getManager();
+        $customerEntity = $em->getRepository('AppApplicationBundle:Customer')->findOneBy(array('customerEmail'=> $session->get('username')));
+
+        if($customerEntity != null){
+            $serializer = $this->container->get('serializer');           
+            $customerEntity = $serializer->serialize($customerEntity, 'json');
+            return new JsonResponse(array('message' => $customerEntity, Response::HTTP_OK, ['content-type' => 'application/json']), 200);
+        }else{
+            return new JsonResponse(array('message' => $session->get('username')), 200);
+        }
+    }
+
+    public function loginCustomerAppsAction(Request $request){
+        $userData = $request->query->get('userData');
+
+        $em = $this->getDoctrine()->getManager();
+        $userEntity = $em->getRepository('AppApplicationBundle:User')->findOneBy(array('username'=> $userData[0],'password' => hash("sha256", $userData[1]) ));
+
+        $session = new Session();
+        $status = false;
+        if($userEntity != null && $session->get('username') == null){
+            $session->set('username', $userEntity->getUsername());
+            $session->set('timeout', time());
+            $session->set('typeUser', $userEntity->getType());
+        }else if( $userEntity != null && $session->get('username') != null){
+            $status = 'Already Log In';
+        }
+
+        //$em = $this->getDoctrine()->getManager();
+        //$customerEntity = $em->getRepository('AppApplicationBundle:Customer')->findOneBy(array('customerEmail'=> $userData[0],'customerPassword' =>hash("sha256", $userData[1]) ));
+        return new JsonResponse(array('message' => $session->get('username') ), 200);
+    }
+
+    public function sendEmailConfirmationToNewUserAction(Request $request)
+    {
+    	
+        $customerEmail = $request->query->get('customerEmail');
+        
+        $this->sendEmailInvitationNewUserAction("hah");
+    	
+    	return new JsonResponse(array('message' => 'ddfsd'), 200);	
+    }
+
+    public function sendEmailInvitationNewUserAction($customerEmail)
+    {
+        $value = "Thank You for coming, Please visit http://192.168.43.115/jsmarket/web/app_dev.php/application/?customerEmail=".$customerEmail;
+    $message = (new \Swift_Message('Email Invitation'))
+        ->setFrom('admtrimatics@gmail.com')
+        ->setTo('charlestendeanz@gmail.com')
+        ->setBody(
+           $value
+        );
+
+        
+
+        $this->get('mailer')->send($message);
+
+         return true;
+   }
 }

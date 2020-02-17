@@ -2,6 +2,12 @@
 <html>
   {% block header %}
   <head>
+  <script>
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+  analytics.load("gcNugobnb1CnmZdHUFDAwuZUoo2KXNj2");
+  analytics.page();
+  }}();
+</script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Market Place</title>
@@ -95,6 +101,7 @@
             <li><a href="{{ path('customer_index') }}"> <i class="fas fa-users"></i>Customer                             </a></li>
             <li><a href="{{ path('seles_indexSalesNewJs') }}"> <i class="fas fa-shopping-cart"></i>Sales                             </a></li>
             <li><a href="{{ path('transaction_jsmarket_index') }}"> <i class="fas fa-money-check-alt"></i>Transaction                             </a></li>
+             <li><a href="{{ path('customerdata_index') }}"> <i class="fas fa-users-cog"></i>Customer Entity                             </a></li>
             
           </ul>
         </div>
@@ -116,7 +123,7 @@
                 <!-- Languages dropdown    -->
                 
                 <!-- Log out-->
-                <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fas fa-sign-out-alt"></i></a></li>
               </ul>
             </div>
           </div>
